@@ -15,3 +15,17 @@ export interface IStudent{
   account: IAccount;
   group: IGroupAccount;
 }
+
+export class Student{
+  id: number;
+  name: string;
+  dateOfBirth: string;
+  address: string;
+  email: string;
+  avatar: string;
+  gender: boolean;
+
+  grade: IGrade;
+  account: IAccount;
+  group: IGroupAccount;
+}

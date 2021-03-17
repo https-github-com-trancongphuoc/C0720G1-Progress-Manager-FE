@@ -11,6 +11,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {StudentModule} from './component/student/student.module';
 import {TeacherModule} from './component/teacher/teacher.module';
+import {GroupModule} from './component/group-management/group.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {TeacherModule} from './component/teacher/teacher.module';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     StudentModule,
-    TeacherModule
+    TeacherModule,
+    GroupModule
   ],
   providers: [],
   bootstrap: [AppComponent]
