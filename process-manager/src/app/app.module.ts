@@ -12,8 +12,10 @@ import {ToastrModule} from 'ngx-toastr';
 import {StudentModule} from './component/student/student.module';
 import {TeacherModule} from './component/teacher/teacher.module';
 import {GroupModule} from './component/group-management/group.module';
+import {ProcessModule} from "./component/process/process.module";
 import {AngularFireModule} from "@angular/fire";
 import {imagePost} from "../environments/image-post";
+
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import {imagePost} from "../environments/image-post";
     StudentModule,
     TeacherModule,
     GroupModule,
-    AngularFireModule.initializeApp(imagePost.firebaseConfig),
+    ProcessModule,
+    AngularFireModule.initializeApp(imagePost.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

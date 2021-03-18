@@ -49,7 +49,9 @@ export class LoginComponent implements OnInit {
           this.storageService.saveUserSession(data.account);
         }
 
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('').then(data => {
+          window.location.reload();
+        });
       });
     }
   }
