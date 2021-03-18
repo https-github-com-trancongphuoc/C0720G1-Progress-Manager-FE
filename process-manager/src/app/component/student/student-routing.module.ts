@@ -8,7 +8,7 @@ import {RogressReportsComponent} from './rogress-reports/rogress-reports.compone
 const routes: Routes = [
   {path: 'edit-file' , component: EditFileComponent},
   {path: 'subscribe-topic' , component: SubscribeTopicComponent},
-  {path: 'progress-reports' , component: RogressReportsComponent}
+  {path: 'progress-reports/:id' , component: RogressReportsComponent}
 ];
 
 @NgModule({
