@@ -1,0 +1,47 @@
+<div class="breadcrumbs" data-aos="fade-in">
+  <div class="container">
+    <h2>Quản lí tiến độ đề tài sinh viên</h2>
+  </div>
+</div>
+<div id="main" class="container" style="height: 500px; margin-top: 50px">
+  <div class="">
+    <table class="table table-hover" >
+      <thead>
+      <tr class="">
+        <th>STT</th>
+        <th>Nhóm</th>
+        <th>Tên đề tài</th>
+        <th>Số thành viên</th>
+        <th>Quản lí tiến độ</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let e of processList; let i = index">
+        <td scope="row">{{i + 1}}</td>
+        <td> {{e.groupAccount.name}} </td>
+        <td>{{e.topic.name}}</td>
+        <td>{{e.groupAccount.studentList.length}}</td>
+        <td class=""><a href="progress_detail.html" class="btn btn-success" [routerLink]="'/process-detail/' + e.id">Chi tiết</a></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <nav class="d-flex justify-content-end" aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link text-dark" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
+        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
+        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link text-dark" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
