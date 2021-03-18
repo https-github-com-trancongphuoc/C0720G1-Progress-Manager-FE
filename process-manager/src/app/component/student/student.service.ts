@@ -18,11 +18,11 @@ export class StudentService {
     private http: HttpClient
   ) {}
   checkCreateReport(id): Observable<any>{
-    return this.http.get(this.url + '/CheckCreateReport/{id}=' + id);
+    return this.http.get(this.url + '/CheckCreateReport/' + id);
   }
 
   createReport(report: IReport): Observable<any>{
     // @ts-ignore
-    return this.http.post(this.url + '/CreateReport' + report);
+    return this.http.post(this.url + '/CreateReport/' + report);
   }
 }

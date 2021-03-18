@@ -12,6 +12,8 @@ import {ToastrModule} from 'ngx-toastr';
 import {StudentModule} from './component/student/student.module';
 import {TeacherModule} from './component/teacher/teacher.module';
 import {GroupModule} from './component/group-management/group.module';
+import {AngularFireModule} from "@angular/fire";
+import {imagePost} from "../environments/image-post";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {GroupModule} from './component/group-management/group.module';
     ToastrModule.forRoot(),
     StudentModule,
     TeacherModule,
-    GroupModule
+    GroupModule,
+    AngularFireModule.initializeApp(imagePost.firebaseConfig),
   ],
   providers: [],
   bootstrap: [AppComponent]
