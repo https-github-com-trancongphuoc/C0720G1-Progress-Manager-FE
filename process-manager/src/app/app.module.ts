@@ -12,6 +12,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {StudentModule} from './component/student/student.module';
 import {TeacherModule} from './component/teacher/teacher.module';
 import {GroupModule} from './component/group-management/group.module';
+import {ProcessModule} from "./component/process/process.module";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {GroupModule} from './component/group-management/group.module';
     ToastrModule.forRoot(),
     StudentModule,
     TeacherModule,
-    GroupModule
+    GroupModule,
+    ProcessModule
   ],
   providers: [],
   bootstrap: [AppComponent]

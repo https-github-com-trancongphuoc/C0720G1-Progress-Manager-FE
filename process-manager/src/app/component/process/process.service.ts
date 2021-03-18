@@ -31,11 +31,19 @@ export class ProcessService {
     return this.http.get(this.URL + '/process-detail/' + idProcessDetail);
   }
 
-  getListComment(idProcessDetail: number, page: number): Observable<ICommentDTO[]> {
+  getListComment(idProcessDetail: number, page: number): Observable<any> {
     return this.http.get<ICommentDTO[]>(this.URL + '/appreciate-list/' + idProcessDetail + '/?page=' + page);
   }
 
   getRepCommentList(idComment: number) {
     return this.http.get(this.URL + '/rep-comment-list/' + idComment);
+  }
+
+  teacherAppreciate(value: any) {
+    return this.http.post(this.URL + '/appreciate', value, this.httpOptions);
+  }
+
+  getProcessDetailByGroupId(id: any): Observable<any> {
+    return this.http.get(this.URL + '/process-by-group/' + id);
   }
 }

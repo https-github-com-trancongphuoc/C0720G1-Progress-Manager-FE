@@ -38,7 +38,6 @@
   </div>
   <div>
     <h3>Tiến độ</h3>
-    <input type="hidden">
     <div class="row mt-2 align-items-center" *ngFor="let e of processDetail.processList; let i = index">
       <div class="col-2">
         <button [value]="e.id"
@@ -47,7 +46,10 @@
       </div>
       <div class="col-10 px-0">
         <label for="" class="">Giai đoạn {{e.processNumber}}: {{e.dateStart}}
-          - {{e.dateEnd}} {{i > 0 ? (processDetail.processList[i - 1].status ? (processDetail.processList[i].status ? '(Hoàn thành) ' : '(Đang làm)') : '(Chưa mở)') : (processDetail.processList[i].status ? '(Hoàn thành)' : '(Đang làm)') }}</label>
+          - {{e.dateEnd}}
+          <mark style="font-weight: bold" class="rounded-3"
+                [style.background-color]="i > 0 ? (processDetail.processList[i - 1].status ? (processDetail.processList[i].status ? '#00ee00db' : '#9999ff') : '#8c8c8c') : (processDetail.processList[i].status ? '#00ee00db' : '#9999ff') ">{{i > 0 ? (processDetail.processList[i - 1].status ? (processDetail.processList[i].status ? 'Hoàn thành' : 'Đang làm') : 'Chưa mở') : (processDetail.processList[i].status ? 'Hoàn thành' : 'Đang làm') }}</mark>
+        </label>
         <div class="progress mb-2">
           <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" data-bs-toggle="tooltip"
                [style]="'width: ' + e.percentProcess +'%'" data-bs-placement="top" title="Giai đoạn 1">
@@ -73,7 +75,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="row d-flex justify-content-center mt-100 mb-100">
+        <div *ngIf="commentList.length > 0" class="row d-flex justify-content-center mt-100 mb-100">
           <div class="col-lg-8">
             <div class="card">
               <div class="card-body text-center">
@@ -87,17 +89,22 @@
                     alt="user"
                     width="50" class="rounded-circle"></div>
                   <div class="comment-text w-100">
-                    <form action="">
-                      <textarea rows="3" class="form-control"></textarea>
+                    <form [formGroup]="formAppreciate" (ngSubmit)="appreciate()">
+                      <textarea formControlName="content" rows="3" class="form-control"></textarea>
                       <div class="mt-2">
                         Đánh giá tiến độ:
-                        <input name="precent" type="radio" class="ms-3" checked> 0%
-                        <input name="precent" type="radio" class="ms-3"> 25%
-                        <input name="precent" type="radio" class="ms-3"> 50%
-                        <input name="precent" type="radio" class="ms-3"> 75%
-                        <input name="precent" type="radio" class="ms-3"> 100%
+                        <input formControlName="percentProcess" value="0"   type="radio" class="ms-3"> 0%
+                        <input formControlName="percentProcess" value="25"  type="radio" class="ms-3"> 25%
+                        <input formControlName="percentProcess" value="50"  type="radio" class="ms-3"> 50%
+                        <input formControlName="percentProcess" value="75"  type="radio" class="ms-3"> 75%
+                        <input formControlName="percentProcess" value="100" type="radio" class="ms-3"> 100%
                       </div>
-                      <a href="" class="get-started-btn float-end mt-2">Đánh giá</a>
+                      <button *ngIf="!checkLoading" style="border: 0" class="get-started-btn float-end mt-2">Đánh giá</button>
+                      <button *ngIf="checkLoading" disabled style="border: 0; width: 100px" class="get-started-btn float-end mt-2">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -108,7 +115,7 @@
                     height="50" width="50" class="rounded-circle"></div>
                   <div class="comment-text w-100">
                     <h6 class="font-medium">{{e.account.username}}</h6>
-                    <h6 class="font-medium">Tiến độ {{e.topicProcess.processNumber}}</h6>
+                    <h6 class="font-medium"><mark style="background-color: #5fa5be" class="rounded-3">Tiến độ {{e.topicProcess.processNumber}}</mark></h6>
                     <span class="m-b-15 d-block">{{e.content}} </span>
                     <div class="comment-footer">
                       <span class="text-muted float-end">{{e.timeComment}}</span>
@@ -120,7 +127,8 @@
                         </button>
                       </div>
                       <button *ngIf="!e.toggle && e.replyCommentList.length > 0" class="btn"
-                              style="position: absolute; left: 42%; color: #0a53be" (click)="e.toggle = true">Xem {{e.replyCommentList.length}} đánh giá
+                              style="position: absolute; left: 42%; color: #0a53be" (click)="e.toggle = true">
+                        Xem {{e.replyCommentList.length}} đánh giá
                       </button>
                     </div>
                     <!--Rep Comment-->
@@ -157,11 +165,16 @@
 
                 </div> <!-- Comment Row -->
               </div> <!-- Card -->
-              <button *ngIf="checkLoadComment" (click)="page = page + 1; loadListComment()" style="color: #0a53be" class="text-center btn">Xem thêm...</button>
-              <button *ngIf="!checkLoadComment" (click)="page = 0; getListComment(); checkLoadComment = true" style="color: #0a53be" class="text-center btn">Ẩn Đánh giá...</button>
+              <button *ngIf="checkLoadComment" (click)="page = page + 1; loadListComment()" style="color: #0a53be"
+                      class="text-center btn">Xem thêm...
+              </button>
+              <button *ngIf="!checkLoadComment" (click)="page = 0; getListComment(); checkLoadComment = true"
+                      style="color: #0a53be" class="text-center btn">Ẩn Đánh giá...
+              </button>
             </div>
           </div>
         </div>
+        <h1 *ngIf="commentList.length ==0" class="text-center mt-5 text-success"> Chưa có đánh giá nào</h1>
       </div>
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="row d-flex justify-content-center mt-100 mb-100">
@@ -178,10 +191,10 @@
                     alt="user"
                     width="50" class="rounded-circle"></div>
                   <div class="comment-text w-100">
-                    <form action="">
+                    <div>
                       <textarea rows="3" class="form-control"></textarea>
                       <button class="btn btn-primary float-end mt-2">Đánh giá</button>
-                    </form>
+                    </div>
                   </div>
                 </div>
                 <div class="d-flex flex-row comment-row m-t-0">
