@@ -5,11 +5,11 @@
 </div>
 
 <div style="margin-top: 110px" class="container">
-  <div class="row align-items-center" style="float: right">
-    <input type="text" style="width: 300px;border-radius: 30px; border: 1px solid #d6c9bb"
-           class="form-control col-4" placeholder="Tên sinh viên hoặc MSSV">
-    <button class="col-3 get-started-btn" style="width: 110px;height: 38px;margin-left: 20px;border: 0">Tìm kiếm
-    </button>
+    <div class="row" style="float: right">
+      <input type="text" style="width: 300px;border-radius: 30px; border: 1px solid #d6c9bb"
+             class="form-control" placeholder="Tên sinh viên hoặc MSSV" id="groups-search" [(ngModel)]="searchName" name="nameSearch" (keyup.enter)="onSubmit()">
+      <button class="get-started-btn" style="width: 100px;height: 38px;margin-left: 20px;border: 0" (click)="onSubmit()">Tìm kiếm
+      </button>
   </div>
   <div class="row" style="clear: both">
     <section id="courses" class="courses">
@@ -26,12 +26,12 @@
                 </div>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item email" style="background-color: #f5f5f5"><i
-                    class="bi bi-calendar-date"></i>{{student.dateOfBirth | date: 'dd/MM/yyyy'}}
+                    class="fa fa-birthday-cake"></i> Ngày sinh: {{student.dateOfBirth | date: 'dd/MM/yyyy'}}
                   </li>
                 </ul>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="card-body">
-                    <div style="float: right">
+                    <div class="align-items-center" style="margin-left: 15px">
                       <button class="get-started-btn" style="border: 0" (click)="addStudent(student,i)">+ Đăng ký
                       </button>
                     </div>
@@ -47,15 +47,15 @@
   <nav class="d-flex justify-content-center" aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item">
-        <a class="page-link text-dark" href="#" aria-label="Previous">
+        <a class="page-link text-dark"  aria-label="Previous" [hidden]="page==0"
+           (click)="page =page - 1; getListStudent()">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
       <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-      <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-      <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
       <li class="page-item">
-        <a class="page-link text-dark" href="#" aria-label="Next">
+        <a class="page-link text-dark"  aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
+           (click)="page= page +1; getListStudent()">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
@@ -69,7 +69,8 @@
         <h2>Đăng kí nhóm</h2>
       </div>
     </div>
-    <table style="margin-top: 50px" class="table table-hover">
+    <h1 *ngIf="listStudentAdded.length==0" class="text-danger text-center">Không có dữ liệu, cần đăng kí sinh viên</h1>
+    <table *ngIf="listStudentAdded.length != 0" style="margin-top: 50px" class="table table-hover">
       <thead>
       <tr>
         <th scope="col">STT</th>
@@ -130,7 +131,9 @@
       </div>
       <div style="margin: 0 30px 10px 300px">
         <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button style="margin-left: 7px" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteStudentAdded(this.studentId,this.student)" >Xóa</button>
+        <button style="margin-left: 7px" type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                (click)="deleteStudentAdded(this.studentId,this.student)">Xóa
+        </button>
       </div>
     </div>
   </div>

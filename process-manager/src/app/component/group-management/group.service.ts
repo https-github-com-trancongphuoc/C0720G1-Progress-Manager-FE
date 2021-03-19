@@ -23,4 +23,8 @@ export class GroupService {
   getListStudent(page: number): Observable<any> {
     return this.http.get(this.API + 'list-student?page=' + page);
   }
+
+  searchStudent(searchName: any, page: number) {
+    return this.http.get(this.API + 'search-student/' + searchName + '?page=' + page);
+  }
 }
