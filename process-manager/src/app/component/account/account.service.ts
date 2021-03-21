@@ -24,4 +24,8 @@ export class AccountService {
   login(account: any): Observable<any> {
     return this.http.post<any>(this.URL + '/login', account, this.httpOptions);
   }
+
+  getMemberInGroup(idGroup: number) {
+    return this.http.get(this.URL + '/group/' + idGroup);
+  }
 }

@@ -13,8 +13,8 @@ import {StudentModule} from './component/student/student.module';
 import {TeacherModule} from './component/teacher/teacher.module';
 import {GroupModule} from './component/group-management/group.module';
 import {ProcessModule} from "./component/process/process.module";
-import {AngularFireModule} from "@angular/fire";
 import {imagePost} from "../environments/image-post";
+import {AngularFireModule} from "@angular/fire";
 
 
 @NgModule({
