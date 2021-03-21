@@ -1,259 +1,322 @@
-<div class="breadcrumbs" data-aos="fade-in">
-  <div class="container">
-    <h3>Chi tiết tiến độ</h3>
-    <h2>Nhóm: {{processDetail.groupAccount.name}}</h2>
-    <h4>Đề tài: {{processDetail.topic.name}}</h4>
+<div *ngIf="check">
+  <div class="breadcrumbs" data-aos="fade-in">
+    <div class="container">
+      <h3>Chi tiết tiến độ</h3>
+      <h2>Nhóm: {{processDetail.groupAccount.name}}</h2>
+      <h4>Đề tài: {{processDetail.topic.name}}</h4>
+    </div>
   </div>
-</div>
-<div id="main" class="container" style="margin-top: 50px">
-  <div class="">
-    <h2 class="text-center mb-5">Các thành viên trong nhóm</h2>
-    <div id="trainers" class="trainers">
-      <div class="" data-aos="fade-up">
-        <div class="row" data-aos="zoom-in" data-aos-delay="100">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-               *ngFor="let e of processDetail.groupAccount.studentList">
-            <div class="member">
-              <img [src]="e.avatar" class="img-fluid" alt="" style="height: 300px">
-              <div class="member-content">
-                <h4>{{e.name}}</h4>
-                <span>{{e.grade.name}}</span>
-                <p>
-                  Vì nhu cầu vui thú của người mù. Trên chiếc ghế dài và tham gia vào toàn bộ thành
-                  quả đạt được của những người đã cho họ, một cách rõ ràng và </p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
+  <div id="main" class="container" style="margin-top: 50px">
+    <div class="">
+      <h2 class="text-center mb-5">Các thành viên trong nhóm</h2>
+      <div id="trainers" class="trainers">
+        <div class="" data-aos="fade-up">
+          <div class="row" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
+                 *ngFor="let e of processDetail.groupAccount.studentList">
+              <div class="member">
+                <img [src]="e.avatar" class="img-fluid" alt="" style="height: 300px">
+                <div class="member-content">
+                  <h4>{{e.name}}</h4>
+                  <span>{{e.grade.name}}</span>
+                  <p>
+                    Vì nhu cầu vui thú của người mù. Trên chiếc ghế dài và tham gia vào toàn bộ thành
+                    quả đạt được của những người đã cho họ, một cách rõ ràng và </p>
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
                 </div>
               </div>
             </div>
+
           </div>
 
         </div>
-
       </div>
     </div>
-  </div>
-  <div>
-    <h3>Tiến độ</h3>
-    <div class="row mt-2 align-items-center" *ngFor="let e of processDetail.processList; let i = index">
-      <div class="col-2">
-        <button [value]="e.id"
-                [disabled]="(i > 0 ? !processDetail.processList[i - 1].status : false) || processDetail.processList[i].status"
-                class="btn btn-success">Báo cáo giai đoạn {{e.processNumber}}</button>
-      </div>
-      <div class="col-10 px-0">
-        <label for="" class="">Giai đoạn {{e.processNumber}}: {{e.dateStart}}
-          - {{e.dateEnd}}
-          <mark style="font-weight: bold" class="rounded-3"
-                [style.background-color]="i > 0 ? (processDetail.processList[i - 1].status ? (processDetail.processList[i].status ? '#00ee00db' : '#9999ff') : '#8c8c8c') : (processDetail.processList[i].status ? '#00ee00db' : '#9999ff') ">{{i > 0 ? (processDetail.processList[i - 1].status ? (processDetail.processList[i].status ? 'Hoàn thành' : 'Đang làm') : 'Chưa mở') : (processDetail.processList[i].status ? 'Hoàn thành' : 'Đang làm') }}</mark>
-        </label>
-        <div class="progress mb-2">
-          <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" data-bs-toggle="tooltip"
-               [style]="'width: ' + e.percentProcess +'%'" data-bs-placement="top" title="Giai đoạn 1">
-            {{e.percentProcess}}%
+    <div>
+      <h3>Tiến độ</h3>
+      <div class="row mt-2 align-items-center" *ngFor="let e of processDetail.processList; let i = index">
+        <div class="col-2">
+          <button [value]="e.id"
+                  [disabled]="(i > 0 ? !processDetail.processList[i - 1].status : false) || processDetail.processList[i].status"
+                  class="btn btn-success">Báo cáo giai đoạn {{e.processNumber}}</button>
+        </div>
+        <div class="col-10 px-0">
+          <label for="" class="">Giai đoạn {{e.processNumber}}: {{e.dateStart}}
+            - {{e.dateEnd}}
+            <mark style="font-weight: bold" class="rounded-3"
+                  [style.background-color]="i > 0 ? (processDetail.processList[i - 1].status ? (processDetail.processList[i].status ? '#00ee00db' : '#9999ff') : '#8c8c8c') : (processDetail.processList[i].status ? '#00ee00db' : '#9999ff') ">{{i > 0 ? (processDetail.processList[i - 1].status ? (processDetail.processList[i].status ? 'Hoàn thành' : 'Đang làm') : 'Chưa mở') : (processDetail.processList[i].status ? 'Hoàn thành' : 'Đang làm') }}</mark>
+          </label>
+          <div class="progress mb-2">
+            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" data-bs-toggle="tooltip"
+                 [style]="'width: ' + e.percentProcess +'%'" data-bs-placement="top" title="Giai đoạn 1">
+              {{e.percentProcess}}%
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="mt-5">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="true">Đánh giá của giáo viên
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                role="tab" aria-controls="profile" aria-selected="false">Thắc mắc của sinh viên
-        </button>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div *ngIf="commentList.length > 0" class="row d-flex justify-content-center mt-100 mb-100">
-          <div class="col-lg-8">
-            <div class="card">
-              <div class="card-body text-center">
-                <h4 class="card-title">Đánh giá tiến độ của giáo viên</h4>
-              </div>
-              <div class="comment-widgets">
-                <!-- Comment Row -->
-                <div class="d-flex flex-row comment-row m-t-0" *ngIf="accountPresent.teacher != null">
-                  <div class="p-2"><img
-                    src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
-                    alt="user"
-                    width="50" class="rounded-circle"></div>
-                  <div class="comment-text w-100">
-                    <form [formGroup]="formAppreciate" (ngSubmit)="appreciate()">
-                      <textarea formControlName="content" rows="3" class="form-control"></textarea>
-                      <div class="mt-2">
-                        Đánh giá tiến độ:
-                        <input formControlName="percentProcess" value="0"   type="radio" class="ms-3"> 0%
-                        <input formControlName="percentProcess" value="25"  type="radio" class="ms-3"> 25%
-                        <input formControlName="percentProcess" value="50"  type="radio" class="ms-3"> 50%
-                        <input formControlName="percentProcess" value="75"  type="radio" class="ms-3"> 75%
-                        <input formControlName="percentProcess" value="100" type="radio" class="ms-3"> 100%
-                      </div>
-                      <button *ngIf="!checkLoading" style="border: 0" class="get-started-btn float-end mt-2">Đánh giá</button>
-                      <button *ngIf="checkLoading" disabled style="border: 0; width: 100px" class="get-started-btn float-end mt-2">
-                        <div class="spinner-border spinner-border-sm" role="status">
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      </button>
-                    </form>
-                  </div>
+    <div class="mt-5">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                  role="tab" aria-controls="home" aria-selected="true">Đánh giá của giáo viên
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                  role="tab" aria-controls="profile" aria-selected="false">Thắc mắc của sinh viên
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div *ngIf="commentList.length > 0" class="row d-flex justify-content-center mt-100 mb-100">
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h4 class="card-title">Đánh giá tiến độ của giáo viên</h4>
                 </div>
-                <div class="d-flex flex-row comment-row" *ngFor="let e of commentList">
-                  <div class="p-2"><img
-                    [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
-                    alt="user"
-                    height="50" width="50" class="rounded-circle"></div>
-                  <div class="comment-text w-100">
-                    <h6 class="font-medium">{{e.account.username}}</h6>
-                    <h6 class="font-medium"><mark style="background-color: #5fa5be" class="rounded-3">Tiến độ {{e.topicProcess.processNumber}}</mark></h6>
-                    <span class="m-b-15 d-block">{{e.content}} </span>
-                    <div class="comment-footer">
-                      <span class="text-muted float-end">{{e.timeComment}}</span>
-                      <div *ngIf="accountPresent.id == e.account.id">
+                <div class="comment-widgets">
+                  <!-- Comment Row -->
+                  <div class="d-flex flex-row comment-row m-t-0" *ngIf="accountPresent.teacher != null">
+                    <div class="p-2"><img
+                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
+                      alt="user"
+                      width="50" class="rounded-circle"></div>
+                    <div class="comment-text w-100">
+                      <form [formGroup]="formAppreciate" (ngSubmit)="appreciate()">
+                        <textarea formControlName="content" rows="3" class="form-control"></textarea>
+                        <div class="mt-2">
+                          Đánh giá tiến độ:
+                          <input formControlName="percentProcess" value="0" type="radio" class="ms-3"> 0%
+                          <input formControlName="percentProcess" value="25" type="radio" class="ms-3"> 25%
+                          <input formControlName="percentProcess" value="50" type="radio" class="ms-3"> 50%
+                          <input formControlName="percentProcess" value="75" type="radio" class="ms-3"> 75%
+                          <input formControlName="percentProcess" value="100" type="radio" class="ms-3"> 100%
+                        </div>
+                        <button *ngIf="!checkLoading" style="border: 0" class="get-started-btn float-end mt-2">Đánh
+                          giá
+                        </button>
+                        <button *ngIf="checkLoading" disabled style="border: 0; width: 100px"
+                                class="get-started-btn float-end mt-2">
+                          <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row comment-row" *ngFor="let e of commentList">
+                    <div class="p-2"><img
+                      [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
+                      alt="user"
+                      height="50" width="50" class="rounded-circle"></div>
+
+                    <!------------------------------------------------->
+
+                    <div *ngIf="toggleEditAppreciate && e.id == idAppreciate; else elseBlock  "
+                         class="comment-text w-100">
+                      <form [formGroup]="formEditAppreciate" (ngSubmit)="submitEditAppreciate()" action="">
+                        <textarea rows="3" formControlName="content" class="form-control"></textarea>
+                        <button style="border: 0" class="get-started-btn float-end mt-3">Lưu</button>
+                      </form>
+                    </div>
+                    <ng-template #elseBlock>
+                      <div class="comment-text w-100">
+                        <h6
+                          class="font-medium font-weight-bold">{{e.account.student == null ? e.account.teacher.name : e.account.student.name}}</h6>
+                        <h6 class="font-medium">
+                          <mark style="background-color: #5fa5be" class="">Tiến
+                            độ {{e.topicProcess.processNumber}}</mark>
+                        </h6>
+                        <span class="m-b-15 d-block">{{e.content}} </span>
+                        <div class="comment-footer">
+                          <span class="text-muted float-end">{{e.timeComment}}</span>
+                          <div >
+                            <button *ngIf="accountPresent.id == e.account.id" type="button" class="btn btn-cyan btn-sm" (click)="editAppreciate(e)">Sửa</button>
+                            <button type="button" class="btn btn-success btn-sm" (click)="e.toggle = !e.toggle">Trả lời</button>
+                            <button *ngIf="accountPresent.id == e.account.id" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
+                                    class="btn btn-danger btn-sm" (click)="toggleModalDeleteAppreciate(e)">Xóa
+                            </button>
+                          </div>
+                          <button *ngIf="!e.toggle && e.replyCommentList.length > 0" class="btn"
+                                  style="position: absolute; left: 42%; color: #0a53be" (click)="e.toggle = true">
+                            Xem {{e.replyCommentList.length}} đánh giá
+                          </button>
+                        </div>
+                        <!--Rep Comment-->
+
+                        <div *ngIf="e.toggle">
+                          <div class="d-flex flex-row comment-row-child"
+                               *ngFor="let replyComment of e.replyCommentList">
+                            <div class="p-2"><img
+                              [src]="replyComment.account.student ? replyComment.account.student.avatar : replyComment.account.teacher.avatar"
+                              alt="user"
+                              width="50" class="rounded-circle"></div>
+                            <div class="comment-text w-100">
+                              <h6
+                                class="font-medium font-weight-bold">{{replyComment.account.student == null ? replyComment.account.teacher.name : replyComment.account.student.name}}</h6>
+                              <!--                        <h6 class="font-medium">Tiến độ 3</h6>-->
+                              <span class="m-b-15 d-block">{{replyComment.content}} </span>
+                              <div class="comment-footer">
+                            <span class="text-muted float-end"
+                                  style="position: absolute; right: 15px">{{replyComment.timeComment}}</span>
+                                <div *ngIf="accountPresent.id == replyComment.account.id">
+                                  <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
+                                  <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
+                                          class="btn btn-danger btn-sm"  (click)="toggleModalDeleteAppreciate(replyComment)">Xóa
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div *ngIf="e.toggle" class="d-flex flex-row comment-row-child">
+                            <div class="p-2"><img
+                              [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
+                              alt="user"
+                              width="50" class="rounded-circle"></div>
+                            <div class="comment-text w-100">
+                              <form [formGroup]="formEditAppreciate" (ngSubmit)="replyAppreciate(e)">
+                                <textarea rows="3" formControlName="content" class="form-control"></textarea>
+                                <input type="hidden" formControlName="replyComment" >
+                                <button style="border: 0" class="get-started-btn float-end mt-3">Lưu</button>
+                              </form>
+                            </div>
+                          </div>
+
+
+                          <button class="btn" style="position: absolute; left: 50%; color: #0a53be"
+                                  (click)="e.toggle = false">Ẩn đánh giá
+                          </button>
+                        </div>
+                        <!--Rep Comment-->
+                      </div>
+                    </ng-template>
+                    <!------------------------------------------------->
+
+
+                  </div> <!-- Comment Row -->
+                </div> <!-- Card -->
+                <button *ngIf="checkLoadComment" (click)="page = page + 1; loadListComment()" style="color: #0a53be"
+                        class="text-center btn btn-success text-light mt-5 rounded-5">Xem thêm...
+                </button>
+                <button *ngIf="!checkLoadComment" (click)="page = 0; getListComment(); checkLoadComment = true"
+                        style="color: #0a53be" class="text-center btn btn-dark text-light mt-5 rounded-5">Thu hồi...
+                </button>
+              </div>
+            </div>
+          </div>
+          <h1 *ngIf="commentList.length ==0" class="text-center mt-5 text-success"> Chưa có đánh giá nào</h1>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="row d-flex justify-content-center mt-100 mb-100">
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h4 class="card-title">Thắc mắc sinh viên</h4>
+                </div>
+                <div class="comment-widgets">
+                  <!-- Comment Row -->
+                  <div class="d-flex flex-row comment-row m-t-0">
+                    <div class="p-2"><img
+                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
+                      alt="user"
+                      width="50" class="rounded-circle"></div>
+                    <div class="comment-text w-100">
+                      <div>
+                        <textarea rows="3" class="form-control"></textarea>
+                        <button class="btn btn-primary float-end mt-2">Đánh giá</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row comment-row m-t-0">
+                    <div class="p-2"><img
+                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
+                      alt="user"
+                      width="50" class="rounded-circle"></div>
+                    <div class="comment-text w-100">
+                      <h6 class="font-medium">Hoàng Tứ</h6> <span class="m-b-15 d-block">Em không làm được chức năng bán bom. Mong thầy giúp đỡ. </span>
+                      <div class="comment-footer"><span class="text-muted float-end">09/03/2021</span>
                         <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
                         <button type="button" class="btn btn-success btn-sm">Trả lời</button>
                         <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
                                 class="btn btn-danger btn-sm">Xóa
                         </button>
                       </div>
-                      <button *ngIf="!e.toggle && e.replyCommentList.length > 0" class="btn"
-                              style="position: absolute; left: 42%; color: #0a53be" (click)="e.toggle = true">
-                        Xem {{e.replyCommentList.length}} đánh giá
-                      </button>
                     </div>
-                    <!--Rep Comment-->
-
-                    <div *ngIf="e.toggle">
-                      <div class="d-flex flex-row comment-row-child" *ngFor="let replyComment of e.replyCommentList">
-                        <div class="p-2"><img
-                          [src]="replyComment.account.student ? replyComment.account.student.avatar : replyComment.account.teacher.avatar"
-                          alt="user"
-                          width="50" class="rounded-circle"></div>
-                        <div class="comment-text w-100">
-                          <h6 class="font-medium">{{replyComment.account.username}}</h6>
-                          <!--                        <h6 class="font-medium">Tiến độ 3</h6>-->
-                          <span class="m-b-15 d-block">{{replyComment.content}} </span>
-                          <div class="comment-footer">
-                            <span class="text-muted float-end"
-                                  style="position: absolute; right: 15px">{{replyComment.timeComment}}</span>
-                            <div *ngIf="accountPresent.id == replyComment.account.id">
-                              <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                              <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                                      class="btn btn-danger btn-sm">Xóa
-                              </button>
-                            </div>
-                          </div>
-                          <button class="btn" style="position: absolute; left: 42%; color: #0a53be"
-                                  (click)="e.toggle = false">Ẩn đánh giá
-                          </button>
-
-                        </div>
+                  </div> <!-- Comment Row -->
+                  <div class="d-flex flex-row comment-row">
+                    <div class="p-2"><img
+                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583319/AAA/3.jpg"
+                      alt="user"
+                      width="50" class="rounded-circle"></div>
+                    <div class="comment-text active w-100">
+                      <h6 class="font-medium">Michael Hussey</h6> <span class="m-b-15 d-block">Thanks bbbootstrap.com for providing such useful snippets. </span>
+                      <div class="comment-footer"><span class="text-muted float-end">22/02/2021</span>
+                        <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
+                        <button type="button" class="btn btn-success btn-sm">Trả lời</button>
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
+                                class="btn btn-danger btn-sm">Xóa
+                        </button>
                       </div>
                     </div>
-                    <!--Rep Comment-->
+                  </div> <!-- Comment Row -->
+                  <div class="d-flex flex-row comment-row">
+                    <div class="p-2"><img
+                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg"
+                      alt="user"
+                      width="50" class="rounded-circle"></div>
+                    <div class="comment-text w-100">
+                      <h6 class="font-medium">Johnathan Doeting</h6> <span class="m-b-15 d-block">Great industry leaders are not the real heroes of stock market. </span>
+                      <div class="comment-footer"><span class="text-muted float-end">26/02/2021</span>
+                        <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
+                        <button type="button" class="btn btn-success btn-sm">Trả lời</button>
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
+                                class="btn btn-danger btn-sm">Xóa
+                        </button>
+                      </div>
+                    </div>
                   </div>
+                </div> <!-- Card -->
+                <a href="" style="color: #0a53be" class="text-center">Xem thêm...</a>
 
-                </div> <!-- Comment Row -->
-              </div> <!-- Card -->
-              <button *ngIf="checkLoadComment" (click)="page = page + 1; loadListComment()" style="color: #0a53be"
-                      class="text-center btn">Xem thêm...
-              </button>
-              <button *ngIf="!checkLoadComment" (click)="page = 0; getListComment(); checkLoadComment = true"
-                      style="color: #0a53be" class="text-center btn">Ẩn Đánh giá...
-              </button>
-            </div>
-          </div>
-        </div>
-        <h1 *ngIf="commentList.length ==0" class="text-center mt-5 text-success"> Chưa có đánh giá nào</h1>
-      </div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row d-flex justify-content-center mt-100 mb-100">
-          <div class="col-lg-8">
-            <div class="card">
-              <div class="card-body text-center">
-                <h4 class="card-title">Thắc mắc sinh viên</h4>
               </div>
-              <div class="comment-widgets">
-                <!-- Comment Row -->
-                <div class="d-flex flex-row comment-row m-t-0">
-                  <div class="p-2"><img
-                    src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
-                    alt="user"
-                    width="50" class="rounded-circle"></div>
-                  <div class="comment-text w-100">
-                    <div>
-                      <textarea rows="3" class="form-control"></textarea>
-                      <button class="btn btn-primary float-end mt-2">Đánh giá</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex flex-row comment-row m-t-0">
-                  <div class="p-2"><img
-                    src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
-                    alt="user"
-                    width="50" class="rounded-circle"></div>
-                  <div class="comment-text w-100">
-                    <h6 class="font-medium">Hoàng Tứ</h6> <span class="m-b-15 d-block">Em không làm được chức năng bán bom. Mong thầy giúp đỡ. </span>
-                    <div class="comment-footer"><span class="text-muted float-end">09/03/2021</span>
-                      <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                      <button type="button" class="btn btn-success btn-sm">Trả lời</button>
-                      <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                              class="btn btn-danger btn-sm">Xóa
-                      </button>
-                    </div>
-                  </div>
-                </div> <!-- Comment Row -->
-                <div class="d-flex flex-row comment-row">
-                  <div class="p-2"><img
-                    src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583319/AAA/3.jpg"
-                    alt="user"
-                    width="50" class="rounded-circle"></div>
-                  <div class="comment-text active w-100">
-                    <h6 class="font-medium">Michael Hussey</h6> <span class="m-b-15 d-block">Thanks bbbootstrap.com for providing such useful snippets. </span>
-                    <div class="comment-footer"><span class="text-muted float-end">22/02/2021</span>
-                      <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                      <button type="button" class="btn btn-success btn-sm">Trả lời</button>
-                      <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                              class="btn btn-danger btn-sm">Xóa
-                      </button>
-                    </div>
-                  </div>
-                </div> <!-- Comment Row -->
-                <div class="d-flex flex-row comment-row">
-                  <div class="p-2"><img
-                    src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg"
-                    alt="user"
-                    width="50" class="rounded-circle"></div>
-                  <div class="comment-text w-100">
-                    <h6 class="font-medium">Johnathan Doeting</h6> <span class="m-b-15 d-block">Great industry leaders are not the real heroes of stock market. </span>
-                    <div class="comment-footer"><span class="text-muted float-end">26/02/2021</span>
-                      <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                      <button type="button" class="btn btn-success btn-sm">Trả lời</button>
-                      <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                              class="btn btn-danger btn-sm">Xóa
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div> <!-- Card -->
-              <a href="" style="color: #0a53be" class="text-center">Xem thêm...</a>
-
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
+<!--&lt;!&ndash; Button trigger modal &ndash;&gt;-->
+<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
+<!--  Launch demo modal-->
+<!--</button>-->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn muốn xóa bình luận này ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Trở lại</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteAppreciate()">Xóa</button>
+      </div>
+    </div>
+  </div>
 </div>

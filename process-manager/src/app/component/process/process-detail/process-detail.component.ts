@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {StorageService} from '../../account/storage.service';
 import {ICommentDTO} from '../../../dto/ICommentDTO';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {isEmpty} from "rxjs/operators";
 
 @Component({
   selector: 'app-process-detail',
@@ -18,6 +19,8 @@ export class ProcessDetailComponent implements OnInit {
 
   commentListTemp: any;
 
+  commentListTempTemp: any;
+
   idProcessDetail: number;
 
   accountPresent: any;
@@ -30,6 +33,18 @@ export class ProcessDetailComponent implements OnInit {
 
   checkLoading = false;
 
+  check = false;
+
+  toggleEditAppreciate = false;
+
+  idAppreciate : number;
+
+  appreciateWantDelete: any;
+
+  formEditAppreciate: FormGroup;
+
+  idProcessPersent: number;
+
 
   constructor(private processService: ProcessService,
               private route: ActivatedRoute,
@@ -39,6 +54,7 @@ export class ProcessDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkLoading = false;
+    this.toggleEditAppreciate = false;
     this.getAccountPresent();
     this.getProcessDetail();
 
@@ -50,12 +66,26 @@ export class ProcessDetailComponent implements OnInit {
       idAccount: [],
       studentList: []
     });
+
+
+    this.formEditAppreciate = this.fb.group({
+      id: [],
+      account: [],
+      content: [],
+      deleteFlag: [],
+      replyComment: [],
+      timeComment: [],
+      title: [],
+      status: [],
+      topicProcess: []
+    })
+
   }
 
   getIdProcessPresent() {
     for (let i = 0; i < this.processDetail.processList.length; i++) {
       if (!this.processDetail.processList[i].status) {
-        this.formAppreciate.value.idProcess = this.processDetail.processList[i].id;
+        this.idProcessPersent = this.processDetail.processList[i].id;
         break;
       }
     }
@@ -81,6 +111,8 @@ export class ProcessDetailComponent implements OnInit {
   getListComment() {
     this.processService.getListComment(this.idProcessDetail, this.page).subscribe(data => {
       this.commentList = data;
+
+      this.check = true;
 
       for (let i = 0; i < this.commentList.length; i++) {
         this.commentList[i].toggle = false;
@@ -125,12 +157,107 @@ export class ProcessDetailComponent implements OnInit {
       this.formAppreciate.value.idProcessDetail = this.idProcessDetail;
       this.formAppreciate.value.idAccount = this.accountPresent.id;
       this.formAppreciate.value.studentList = this.processDetail.groupAccount.studentList;
+      this.formAppreciate.value.idProcess = this.idProcessPersent;
 
       this.processService.teacherAppreciate(this.formAppreciate.value).subscribe(data => {
         this.ngOnInit();
+        // this.commentList.push(data);
+        // this.formAppreciate.reset();
+        // this.checkLoading = false;
       });
-      console.log(this.formAppreciate);
     }
 
+  }
+
+  editAppreciate(e: any) {
+    console.log(e);
+    this.formEditAppreciate.patchValue(e);
+    this.toggleEditAppreciate = true;
+    this.idAppreciate = e.id
+  }
+
+  submitEditAppreciate() {
+    console.log(this.formEditAppreciate);
+
+
+
+    if (this.formEditAppreciate.invalid) {
+
+    } else {
+
+      this.processService.editAppreciate(this.formEditAppreciate.value).subscribe(data => {
+        this.toggleEditAppreciate = false;
+        this.formEditAppreciate.reset();
+
+        for (let i = 0; i < this.commentList.length; i++) {
+          if (this.commentList[i].id == this.formEditAppreciate.value.id) {
+            this.formEditAppreciate.value.replyCommentList = this.commentList[i].replyCommentList;
+            this.commentList[i] = this.formEditAppreciate.value;
+          }
+        }
+        console.log(this.commentList);
+      }, error => {
+
+      })
+    }
+  }
+
+  toggleModalDeleteAppreciate(e: any) {
+    this.appreciateWantDelete = e;
+  }
+
+  deleteAppreciate() {
+
+    this.processService.deleteAppreciate(this.appreciateWantDelete).subscribe(data => {
+      console.log(this.commentList);
+      for (let i = 0; i < this.commentList.length; i++) {
+
+        if (this.commentList[i].replyCommentList != null) {
+          for (let j = 0; j < this.commentList[i].replyCommentList.length; j++) {
+            if (this.commentList[i].replyCommentList[j].id == this.appreciateWantDelete.id) {
+              this.commentList[i].replyCommentList.splice(i,1);
+            }
+          }
+        }
+
+        if (this.commentList[i].id == this.appreciateWantDelete.id) {
+          this.commentList.splice(i,1);
+        }
+      }
+    });
+  }
+
+  replyAppreciate(comment: any) {
+
+    if (this.formEditAppreciate.invalid) {
+
+    } else {
+      for (let i = 0; i < this.processDetail.processList.length; i++) {
+        if (!this.processDetail.processList[i].status) {
+          this.formEditAppreciate.value.topicProcess = this.processDetail.processList[i];
+          break;
+        }
+      }
+      this.formEditAppreciate.value.replyComment = comment;
+      this.formEditAppreciate.value.account = this.accountPresent;
+
+
+
+
+      this.processService.replyAppreciate(this.formEditAppreciate.value).subscribe(data => {
+        for (let i = 0; i < this.commentList.length; i++) {
+          if (this.commentList[i].id == comment.id) {
+            this.commentList[i].replyCommentList.push(data);
+          }
+        }
+
+
+        this.formEditAppreciate.reset();
+      })
+    }
+  }
+
+  checkIsEmpty(value: any) {
+    isEmpty()
   }
 }

@@ -1,0 +1,65 @@
+<main *ngIf="groupAccount != null" id="main" data-aos="fade-in">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="container">
+      <h2>{{groupAccount.name}}</h2>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- ======= Trainers Section ======= -->
+  <div id="trainers" class="trainers" style="margin-top: 50px">
+    <div class="container" data-aos="fade-up">
+      <h1 class="mb-4 text-center">Thành viên trong nhóm</h1>
+      <div class="row" data-aos="zoom-in" data-aos-delay="100">
+        <div *ngFor="let e of groupAccount.studentList" class="col-lg-4 col-md-6 d-flex align-items-stretch">
+          <div class="member">
+            <img style="height: 300px" [src]="e.avatar" class="img-fluid" alt="">
+            <div class="member-content">
+              <h4>Họ và tên: {{e.name}}</h4>
+              <span>Lớp: {{e.grade.name}}</span>
+              <span>Ngành: {{e.grade.faculty.name}}</span>
+              <p>
+                Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut
+              </p>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <h1 *ngIf="groupAccount.infoTopicRegisterList.length == 0" class="mb-4 text-center">Chưa có đề tài nào</h1>
+      <div *ngIf="groupAccount.infoTopicRegisterList.length == 0"  class="d-flex justify-content-center">
+      <button class=" btn btn-success text-center">Đăng ký đề tài</button>
+      </div>
+      <div *ngIf="groupAccount.infoTopicRegisterList.length > 0">
+        <h1 class="text-center mt-5 mb-3">Đề tài đã chọn</h1>
+        <button class="btn btn-success">Đăng ký đề tài</button>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên đề tài</th>
+            <th>Xem chi tiết</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let e of groupAccount.infoTopicRegisterList; let i = index">
+            <td scope="row">{{i + 1}}</td>
+            <td>{{e.topic.name}}</td>
+            <td class=""><button [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div><!-- End Trainers Section -->
+
+</main><!-- End #main -->

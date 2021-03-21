@@ -46,4 +46,16 @@ export class ProcessService {
   getProcessDetailByGroupId(id: any): Observable<any> {
     return this.http.get(this.URL + '/process-by-group/' + id);
   }
+
+  editAppreciate(value: any) {
+    return this.http.post(this.URL + '/edit-appreciate', value, this.httpOptions);
+  }
+
+  deleteAppreciate(value: any) {
+    return this.http.post(this.URL + '/delete-appreciate', value, this.httpOptions);
+  }
+
+  replyAppreciate(value: any) {
+    return this.http.post(this.URL + '/reply-appreciate', value, this.httpOptions);
+  }
 }

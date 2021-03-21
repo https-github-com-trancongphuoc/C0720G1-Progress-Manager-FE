@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   processDetail: any;
 
+  countNotification = 0;
+
   constructor(private storageService: StorageService,
               private processService: ProcessService,
               private toast: ToastrService,
@@ -70,7 +72,13 @@ export class HeaderComponent implements OnInit, DoCheck {
       for (let i = 0; i < this.notificationList.length; i++) {
         if (!this.notificationList[i].status) {
           this.checkSeen = true;
+          this.countNotification++;
         }
+      }
+
+      if (this.checkSeen) {
+        console.log(this.countNotification);
+        this.toast.warning('Bạn có ' + this.countNotification + ' thông báo', 'Thông báo');
       }
     });
   }
