@@ -3,51 +3,100 @@
 
     <h1 class="logo me-auto"><a href="index.html">C0720G1</a></h1>
     <!-- Uncomment below if you prefer to use an image logo -->
-<!--     <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+    <!--     <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
     <nav id="navbar" class="navbar order-last order-lg-0">
-      <ul>
-        <li><a class="active" href="index.html">Trang chủ</a></li>
+      <ul class="mr-5">
+        <li><a class="" routerLink="">Trang chủ</a></li>
         <li><a href="about.html">Giới thiệu</a></li>
         <li><a href="about.html">Tin tức</a></li>
-        <li><a href="about.html">Đào tạo</a></li>
-        <li><a href="progrees.html">Tiến độ</a></li>
-        <li class="dropdown"><a href="#"><span>Sinh viên</span> <i class="bi bi-chevron-down"></i></a>
+        <!--        <li><a href="about.html">Đào tạo</a></li>-->
+        <!--        <li><a href="progrees.html">Tiến độ</a></li>-->
+        <li *ngIf="accountPresent != null" class="dropdown"><a href="#" class=""><span>Sinh viên</span> <i
+          class="bi bi-chevron-down"></i></a>
           <ul>
-            <li><a href="#">Drop Down 1</a></li>
-            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-              <ul>
-                <li><a href="#">Deep Drop Down 1</a></li>
-                <li><a href="#">Deep Drop Down 2</a></li>
-                <li><a href="#">Deep Drop Down 3</a></li>
-                <li><a href="#">Deep Drop Down 4</a></li>
-                <li><a href="#">Deep Drop Down 5</a></li>
-              </ul>
+            <li *ngIf="processDetail != null"><a [routerLink]="'process-detail/'+ processDetail.id">Đề tài của tôi</a>
             </li>
-            <li><a href="#">Drop Down 2</a></li>
-            <li><a href="#">Drop Down 3</a></li>
+            <!--            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>-->
+            <!--              <ul>-->
+            <!--                <li><a href="#">Deep Drop Down 1</a></li>-->
+            <!--                <li><a href="#">Deep Drop Down 2</a></li>-->
+            <!--                <li><a href="#">Deep Drop Down 3</a></li>-->
+            <!--                <li><a href="#">Deep Drop Down 4</a></li>-->
+            <!--                <li><a href="#">Deep Drop Down 5</a></li>-->
+            <!--              </ul>-->
+            <!--            </li>-->
+            <li><a href="#">Đăng ký đề tài</a></li>
+            <li *ngIf="accountPresent.student != null"><a *ngIf="accountPresent.student.groupAccount != null" [routerLink]="'/group/'+ accountPresent.student.groupAccount.id">Nhóm của tôi</a></li>
             <li><a href="#">Drop Down 4</a></li>
           </ul>
         </li>
-        <li class="dropdown"><a href="#"><span>Giáo viên</span> <i class="bi bi-chevron-down"></i></a>
+        <li *ngIf="accountPresent != null ? accountPresent.teacher != null : false" class="dropdown"><a href="#"><span>Giáo viên</span>
+          <i
+            class="bi bi-chevron-down"></i></a>
           <ul>
             <li><a href="#">Đăng thông báo</a></li>
             <li><a href="#">Quản lí giáo viên</a></li>
-            <li><a href="#">Danh sách đề tài</a></li>
+            <li><a routerLink="process-manager">Quản lí đề tài</a></li>
             <li><a href="#">Kiểm duyệt đề tài</a></li>
             <li><a href="#">Hỏi đáp sinh viên</a></li>
             <li><a href="#">Tài liệu hướng dẫn</a></li>
           </ul>
         </li>
-        <li><a href="events.html">Liên hệ</a></li>
+        <li *ngIf="accountPresent != null" class="dropdown"><a href="#"><span>Nhóm</span> <i
+          class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li><a routerLink='/register-group'>Đăng kí nhóm</a></li>
+            <li><a routerLink='/list-group'>Quản lí nhóm</a></li>
+          </ul>
+        </li>
+        <li class="ml-4">
+          <div class="dropdown" *ngIf="checkLogin">
+            <button class="btn mb-2" (click)="seen()">
+        <span *ngIf="checkLogin" id="dropdownMenuButton1" class=""
+              style="margin-right: 30px; margin-bottom: 5px; font-size: 25px">
+          <i *ngIf="checkSeen" class="bi bi-envelope-fill text-danger"> </i>
+          <i *ngIf="!checkSeen" class="bi bi-envelope-open-fill text-success"></i>
+        </span>
+            </button>
+            <ul style="position: absolute; left: 0; width: 320px!important;" class="dropdown-menu"
+                aria-labelledby="dropdownMenuButton1">
+              <li class="text-center"><h4>Thông báo</h4></li>
+              <li>
+                <hr>
+              </li>
+              <li class="notification mb-3" *ngFor="let e of notificationList">
+                <div class="row px-0">
+                  <div class="col-3 ml-2">
+                    <img width="70px" height="70px" class="rounded-circle mt-2"
+                         [src]="e.accountSendNotification.student != null ? e.accountSendNotification.student.avatar : e.accountSendNotification.teacher.avatar"
+                         alt="">
+                  </div>
+                  <div class="col-8 fon" [class]="e.status ? '' : 'font-weight-bold'">
+                    <label style="text-align: justify; font-size: 15px; line-height: 20px"
+                           class="ml-1 mr-1">{{e.title.length > 50 ? e.title.substring(0, 50) + '...' : e.title}}</label>
+                    <label style="text-align: justify; font-size: 15px; line-height: 20px"
+                           class="ml-1 mr-1"> {{e.content.length > 50 ? e.content.substring(0, 50) + '...' : e.content}}</label>
+                  </div>
+                </div>
+                <sup class="mr-1 mt-2" style="margin-left: 150px">{{e.timeNotification}}</sup>
+              </li>
+              <li *ngIf="notificationList != null" class="text-center text-success"><h2
+                *ngIf="notificationList.length == 0">Không có thông báo nào</h2></li>
+            </ul>
+          </div>
+        </li>
+        <!--        <li><a href="events.html">Liên hệ</a></li>-->
 
       </ul>
-      <i *ngIf="checkLogin" class="bi bi-bell-fill text-warning" style="margin-left: 10px; margin-bottom: 5px; font-size: 25px"></i><sub *ngIf="checkLogin">1</sub>
+
+      <!--      <i *ngIf="checkLogin" class="bi bi-bell-fill text-warning" style="margin-left: 10px; margin-bottom: 5px; font-size: 25px"></i><sub *ngIf="checkLogin">1</sub>-->
       <i class="bi bi-list mobile-nav-toggle"></i>
+
 
     </nav><!-- .navbar -->
 
-    <a *ngIf="!checkLogin" routerLink="/login" class="get-started-btn">Đăng nhập</a>
+    <a *ngIf="!checkLogin" href="/login" class="get-started-btn">Đăng nhập</a>
     <a style="position: absolute; right: 50px" routerLink="" *ngIf="checkLogin" (click)="signOut()">Đăng xuất</a>
 
   </div>

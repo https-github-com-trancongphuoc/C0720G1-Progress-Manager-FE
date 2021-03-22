@@ -23,5 +23,12 @@ import {RouterModule} from '@angular/router';
     ReactiveFormsModule,
     RouterModule
   ]
+
+  declarations: [ RogressReportsComponent, SubscribeTopicComponent, EditFileComponent],
+    imports: [
+        CommonModule,
+        StudentRoutingModule,
+        FormsModule
+    ]
 })
 export class StudentModule { }

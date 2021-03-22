@@ -14,7 +14,8 @@ const routes: Routes = [
   {path: 'progress-reports' , component: RogressReportsComponent},
   {path: 'list-student', component: StudentListComponent},
   {path: 'create-student', component: StudentCreateComponent},
-  {path: 'edit-student/:idStudent', component: StudentEditComponent}
+  {path: 'edit-student/:idStudent', component: StudentEditComponent},
+  {path: 'progress-reports/:id' , component: RogressReportsComponent}
 ];
 
 @NgModule({

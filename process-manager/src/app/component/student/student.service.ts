@@ -5,11 +5,15 @@ import {IStudent} from '../../entity/IStudent';
 import {IGrade} from '../../entity/IGrade';
 import {IFaculty} from '../../entity/IFaculty';
 
+
+import {IReport} from '../../entity/IReport';
+
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
   public API: string = 'http://localhost:8081/api';
+
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -70,5 +74,10 @@ export class StudentService {
    */
   findStudentById(id: number): Observable<IStudent>{
     return this.http.get<IStudent>(this.API + "/get-Student-by-id/"+ id);
+  }
+
+  createReport(report: IReport): Observable<any>{
+    // @ts-ignore
+    return this.http.post(this.url + '/CreateReport/' + report);
   }
 }

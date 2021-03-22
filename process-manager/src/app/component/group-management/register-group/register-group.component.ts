@@ -1,0 +1,78 @@
+import {Component, OnInit} from '@angular/core';
+import {GroupService} from '../group.service';
+import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {IStudent, Student} from '../../../entity/IStudent';
+
+@Component({
+  selector: 'app-register-group',
+  templateUrl: './register-group.component.html',
+  styleUrls: ['./register-group.component.scss']
+})
+export class RegisterGroupComponent implements OnInit {
+  page = 0;
+  pageable: any;
+  listStudent: IStudent[];
+  listStudentAdded: IStudent[] = [];
+  student: IStudent;
+  studentId: number;
+  nameStudent = '';
+  searchName: any;
+  check = true;
+
+  constructor(public groupService: GroupService,
+              private router: Router,
+              private toastrService: ToastrService) {
+  }
+
+  ngOnInit(): void {
+    this.getListStudent();
+  }
+
+  getListStudent() {
+    this.groupService.getListStudent(this.page).subscribe(data => {
+      this.listStudent = data.content;
+      this.pageable = data;
+    });
+  }
+
+  addStudent(student: IStudent, index: number) {
+    this.student = student;
+    for (const val of this.listStudentAdded) {
+      // tslint:disable-next-line:triple-equals
+      if (JSON.stringify(val) === JSON.stringify(student)) {
+        this.check = false;
+      }
+    }
+    if (this.check) {
+      this.listStudentAdded.push(student);
+    }
+    delete this.listStudent[index];
+    this.listStudent = this.listStudent.filter((value => Student));
+  }
+
+  deleteStudentAdded(index: number, student: IStudent) {
+    delete this.listStudentAdded[index];
+    this.listStudent.push(student);
+    this.listStudentAdded = this.listStudentAdded.filter((value => Student));
+  }
+
+  getStudentId(student: IStudent, i: number) {
+    this.studentId = i;
+    this.nameStudent = student.name;
+    this.student = student;
+  }
+
+  onSubmit() {
+    // tslint:disable-next-line:triple-equals
+    if (this.searchName == '') {
+      this.getListStudent();
+    } else {
+      this.groupService.searchStudent(this.searchName, this.page).subscribe(data => {
+        // @ts-ignore
+        this.listStudent = data.content;
+        this.pageable = data;
+      });
+    }
+  }
+}

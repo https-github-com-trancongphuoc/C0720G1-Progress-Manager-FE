@@ -13,6 +13,11 @@ import {StudentModule} from './component/student/student.module';
 import {TeacherModule} from './component/teacher/teacher.module';
 import {AngularFireModule} from '@angular/fire';
 import {uploadImage} from '../environments/upload-image';
+import {GroupModule} from './component/group-management/group.module';
+import {ProcessModule} from "./component/process/process.module";
+import {imagePost} from "../environments/image-post";
+
+
 
 @NgModule({
   declarations: [
@@ -30,7 +35,9 @@ import {uploadImage} from '../environments/upload-image';
     ToastrModule.forRoot(),
     StudentModule,
     TeacherModule,
-    AngularFireModule.initializeApp(uploadImage.firebaseConfig),
+    GroupModule,
+    ProcessModule,
+    AngularFireModule.initializeApp(imagePost.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

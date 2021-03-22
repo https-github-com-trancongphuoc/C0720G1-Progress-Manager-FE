@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import {AccountRoutingModule} from './account-routing.module';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import { MyGroupComponent } from './my-group/my-group.component';
 
 
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, MyGroupComponent],
   imports: [
     CommonModule,
     AccountRoutingModule,

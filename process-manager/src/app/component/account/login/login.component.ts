@@ -32,7 +32,8 @@ export class LoginComponent implements OnInit {
 
   submitLogin() {
     if (this.loginForm.invalid) {
-      this.toast.error('Đăng nhập thất bại');
+      // this.toast.error('Đăng nhập thất bại');
+      this.checkSuccessLogin = false;
       console.log(this.storageService.getUser());
       console.log(this.storageService.getToken());
       return;
@@ -49,7 +50,12 @@ export class LoginComponent implements OnInit {
           this.storageService.saveUserSession(data.account);
         }
 
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('').then(data => {
+          window.location.reload();
+        });
+      }, error => {
+        // this.toast.error('Bạn nhập sai tài khoản hoặc mật khẩu');
+        this.checkSuccessLogin = false;
       });
     }
   }
