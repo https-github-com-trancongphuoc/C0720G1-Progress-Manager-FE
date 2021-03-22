@@ -11,6 +11,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {StudentModule} from './component/student/student.module';
 import {TeacherModule} from './component/teacher/teacher.module';
+import {AngularFireModule} from '@angular/fire';
+import {uploadImage} from '../environments/upload-image';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import {TeacherModule} from './component/teacher/teacher.module';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     StudentModule,
-    TeacherModule
+    TeacherModule,
+    AngularFireModule.initializeApp(uploadImage.firebaseConfig),
   ],
   providers: [],
   bootstrap: [AppComponent]

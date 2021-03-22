@@ -1,0 +1,86 @@
+<div class="breadcrumbs" data-aos="fade-in">
+  <div class="container">
+    <h2>Đăng kí thông tin sinh viên</h2>
+  </div>
+</div>
+<main id="main">
+  <!-- ======= Cource Details Section ======= -->
+  <section class="course-details">
+    <div class="container" data-aos="fade-up">
+      <div class="row">
+        <div class="col-lg-5">
+          <div style="width: 95%; height: 80%">
+            <img [src]="image" class="img-thumbnail" style="width: 100%;height: 100%" alt="">
+          </div>
+          <div class="container-fluid d-flex justify-content-end mt-2">
+            <input type="file" id="choiceAvatar" hidden (change)="showPreview($event)">
+            <button type="button" class="btn btn-outline-primary" (click)="choiceFileAvatar()"  style="border-radius: 50px;">Chọn ảnh đại diện
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <form [formGroup]="formCreateStudent" (ngSubmit)="save()">
+            <div class="mb-3">
+              <label for="name" class="form-label createStudent">Tên sinh viên (<span
+                style="color: red">*</span>)</label>
+              <input type="text" class="form-control" id="name" formControlName="name">
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label for="birthday" class="form-label createStudent">Ngày sinh (<span
+                  style="color: red">*</span>)</label>
+                <input type="date" class="form-control" id="birthday" formControlName="dateOfBirth">
+              </div>
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <div class="mb-3">
+                    <label for="phone" class="form-label createStudent">Số điện thoại (<span style="color: red">*</span>)</label>
+                    <input type="number" class="form-control" id="phone" formControlName="phone">
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label for="class" class="form-label createStudent">Lớp (<span style="color: red">*</span>)</label><br>
+                <select name="" id="class" class="form-select w-100"
+                        aria-label="Default select example" formControlName="grade">
+                  <option value="" selected>Chọn Lớp...</option>
+                  <option [value]="grade.id" *ngFor="let grade of listGrade">{{grade.name}}</option>
+                </select>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label for="faculty" class="form-label createStudent">Khoa (<span style="color: red">*</span>)</label><br>
+                  <select name="" id="faculty" class="form-select w-100"
+                          aria-label="Default select example" formControlName="faculty">
+                    <option value="">Chọn Khoa...</option>
+                    <option [value]="faculty.id" *ngFor="let faculty of listFaculty">{{faculty.name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="diachi" class="form-label createStudent">Địa chỉ (<span style="color: red">*</span>)</label>
+              <input type="text" class="form-control" id="diachi" formControlName="address">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label createStudent">Email (<span style="color: red">*</span>)</label>
+              <input type="text" class="form-control" id="email" formControlName="email">
+            </div>
+            <div class="container d-flex justify-content-end">
+              <button type="submit" class="btn  get-started-btn">Lưu</button>
+              <button type="button" class="btn  get-started-btn" [routerLink]="['list-student']" style="background: #7e9486">Thoát
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Cource Details Section -->
+
+</main><!-- End #main -->
