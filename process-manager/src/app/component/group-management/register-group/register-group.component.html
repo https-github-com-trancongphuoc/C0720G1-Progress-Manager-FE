@@ -1,15 +1,17 @@
-<div class="breadcrumbs" data-aos="fade-in">
+<div class="breadcrumbs" style="margin-top: 90px" data-aos="fade-in">
   <div class="container">
     <h2>Đăng kí thành viên của nhóm</h2>
   </div>
 </div>
 
-<div style="margin-top: 110px" class="container">
-    <div class="row" style="float: right">
-      <input type="text" style="width: 300px;border-radius: 30px; border: 1px solid #d6c9bb"
-             class="form-control" placeholder="Tên sinh viên hoặc MSSV" id="groups-search" [(ngModel)]="searchName" name="nameSearch" (keyup.enter)="onSubmit()">
-      <button class="get-started-btn" style="width: 100px;height: 38px;margin-left: 20px;border: 0" (click)="onSubmit()">Tìm kiếm
-      </button>
+<div style="margin-top: 90px" class="container">
+  <div class="row" style="float: right">
+    <input type="text" style="width: 300px;border-radius: 30px; border: 1px solid #d6c9bb"
+           class="form-control" placeholder="Tên sinh viên hoặc MSSV" id="groups-search" [(ngModel)]="searchName"
+           name="nameSearch" (keyup.enter)="onSubmit()">
+    <button class="get-started-btn" style="width: 100px;height: 38px;margin-left: 20px;border: 0" (click)="onSubmit()">
+      Tìm kiếm
+    </button>
   </div>
   <div class="row" style="clear: both">
     <section id="courses" class="courses">
@@ -47,14 +49,14 @@
   <nav class="d-flex justify-content-center" aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item">
-        <a class="page-link text-dark"  aria-label="Previous" [hidden]="page==0"
+        <a class="page-link text-dark" aria-label="Previous" [hidden]="page==0"
            (click)="page =page - 1; getListStudent()">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
       <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
       <li class="page-item">
-        <a class="page-link text-dark"  aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
+        <a class="page-link text-dark" aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
            (click)="page= page +1; getListStudent()">
           <span aria-hidden="true">&raquo;</span>
         </a>
@@ -77,7 +79,7 @@
         <th scope="col">Mã SV</th>
         <th scope="col">Tên SV</th>
         <th scope="col">Lớp</th>
-        <th scope="col">Tình trạng</th>
+        <th scope="col">Địa chỉ</th>
         <th scope="col"></th>
       </tr>
       </thead>

@@ -1,9 +1,18 @@
-<div class="breadcrumbs" data-aos="fade-in">
+<div style="margin-top: 90px" class="breadcrumbs" data-aos="fade-in">
   <div class="container">
     <h2>Quản lí nhóm</h2>
   </div>
 </div>
 <div id="main" class="container" style="height: 500px; margin-top: 50px">
+  <div class="row" style="float: right;margin-right: 10px;margin-bottom: 30px">
+    <input type="text" style="width: 200px;border-radius: 30px; border: 1px solid #d6c9bb"
+           class="form-control" placeholder="Tên nhóm" [(ngModel)]="searchName"
+           (keyup.enter)="searchGroup()">
+    <button class="get-started-btn" style="width: 100px;height: 38px;margin-left: 20px;border: 0"
+            (click)="searchGroup()">
+      Tìm kiếm
+    </button>
+  </div>
   <div class="">
     <table class="table table-hover">
       <thead>
@@ -16,33 +25,139 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>1</td>
-        <td>Nhóm 1</td>
-        <td>3</td>
+      <tr *ngFor="let group of listGroup;index as i">
+        <td>{{i + 1}}</td>
+        <td>{{group.name}}</td>
+        <td>{{group.quantity}}</td>
         <td>
-          <input type="checkbox">
+          <button *ngIf="group.status" class="btn btn-success" disabled data-bs-toggle="modal"
+                  data-bs-target="#acceptGroup">Đã duyệt
+          </button>
+          <button *ngIf="!group.status" style="width: 90px" class="btn btn-success" data-bs-toggle="modal"
+                  data-bs-target="#acceptGroup" (click)="getNameGroup(group.name,group.id)">Duyệt
+          </button>
         </td>
-        <td class=""><button class="btn btn-secondary">Xóa</button></td>
+        <td class="">
+          <button class="btn btn-secondary" data-bs-toggle="modal"
+                  data-bs-target="#deleteStudent" (click)="getNameGroup(group.name,group.id)">Xóa
+          </button>
+          <button style="margin-left: 20px" class="btn btn-info" data-bs-toggle="modal"
+                  data-bs-target="#showStudent" (click)="getListStudent(group.id)">Thành viên
+          </button>
+        </td>
       </tr>
-        </tbody>
+      </tbody>
     </table>
     <nav class="d-flex justify-content-end" aria-label="Page navigation example">
       <ul class="pagination">
         <li class="page-item">
-          <a class="page-link text-dark" href="#" aria-label="Previous">
+          <a class="page-link text-dark" href="#" aria-label="Previous" [hidden]="page==0"
+             (click)="page =page - 1; getListGroup()">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
         <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
+
         <li class="page-item">
-          <a class="page-link text-dark" href="#" aria-label="Next">
+          <a class="page-link text-dark" href="#" aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
+             (click)="page= page +1; getListGroup()">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
       </ul>
     </nav>
+  </div>
+</div>
+
+<!-- Modal Group Delete -->
+<div class="modal fade" id="deleteStudent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div style="margin-left: 10px" class="modal-body">
+        <h4>Bạn có muốn xóa nhóm <span style="color: red">{{nameGroup}}</span> không ?</h4>
+        <i>Hành động này không thể hoàn tác !</i>
+      </div>
+      <div style="margin: 0 30px 10px 300px">
+        <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button style="margin-left: 7px" type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                (click)="onSubmit()">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="showStudent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <h1 style="text-align: center;margin-top: 30px">Danh sách sinh viên nhóm</h1>
+      <div class="modal-body">
+        <table class="table table-hover">
+          <thead>
+          <tr class="">
+            <th>STT</th>
+            <th>Tên sinh viên</th>
+            <th>Ngày sinh</th>
+            <th>Lớp</th>
+            <th>Địa chỉ</th>
+            <th>Hành động</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let student of listStudent;index as i">
+            <td>{{i + 1}}</td>
+            <td>{{student.name}}</td>
+            <td>{{student.dateOfBirth | date: 'dd/MM/yyyy'}}</td>
+            <td>{{student.nameGrade}}</td>
+            <td>{{student.address}}</td>
+            <td>
+              <button class="btn btn-secondary" data-bs-toggle="modal"
+                      data-bs-target="#deleteStudent1" (click)="openComponent(student.id,student.name)">Xóa
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-secondary" style="float: right" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Group Delete -->
+<div class="modal fade" data-bs-backdrop="static" id="deleteStudent1" (keydown.escape)="closeComponent()" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div style="margin-left: 10px" class="modal-body">
+        <h4>Bạn có muốn xóa sinh viên <span style="color: red">{{nameStudent}}</span> khỏi nhóm này không ?</h4>
+        <i>Hành động này không thể hoàn tác !</i>
+      </div>
+      <div style="margin: 0 30px 10px 300px">
+        <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                (click)="closeComponent()">Đóng
+        </button>
+        <button style="margin-left: 7px" type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                (click)="deleteStudentGroup(studentId)">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal accept group-->
+<div class="modal fade" id="acceptGroup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        Bạn có muốn duyệt nhóm <span style="color: greenyellow">{{nameGroup}}</span> không ?
+      </div>
+      <div style="margin: 0 30px 10px 300px">
+        <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button style="margin-left: 7px" type="button" class="btn btn-success" data-bs-dismiss="modal"
+                (click)="acceptGroup(groupId)">Duyệt
+        </button>
+      </div>
+    </div>
   </div>
 </div>

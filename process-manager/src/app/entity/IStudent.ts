@@ -29,3 +29,14 @@ export class Student{
   account: IAccount;
   group: IGroupAccount;
 }
+
+export interface IStudent1{
+  id: number;
+  name: string;
+  dateOfBirth: string;
+  address: string;
+  email: string;
+  avatar: string;
+  gender: boolean;
+  nameGrade: string;
+}

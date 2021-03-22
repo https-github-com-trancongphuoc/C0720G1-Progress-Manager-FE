@@ -27,4 +27,28 @@ export class GroupService {
   searchStudent(searchName: any, page: number) {
     return this.http.get(this.API + 'search-student/' + searchName + '?page=' + page);
   }
+
+  getListGroup(page: number) {
+    return this.http.get(this.API + 'list-group?page=' + page);
+  }
+
+  deleteGroup(groupId: number) {
+    return this.http.delete(this.API + 'delete-group/' + groupId);
+  }
+
+  getListStudentByIdGroup(id: number): Observable<any> {
+    return this.http.get(this.API + 'student-group/' + id);
+  }
+
+  deleteStudentGroup(id: number) {
+    return this.http.delete(this.API + 'delete-student-group/' + id);
+  }
+
+  acceptGroup(id: number) {
+    return this.http.get(this.API + 'accept-group/' + id);
+  }
+
+  searchGroup(searchName: string, page: number) {
+    return this.http.get(this.API + 'search-group/' + searchName + '?page=' + page);
+  }
 }
