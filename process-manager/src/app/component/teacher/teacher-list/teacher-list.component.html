@@ -1,0 +1,133 @@
+<div class="breadcrumbs" data-aos="fade-in">
+  <div class="container">
+    <h2>Quản lý giáo viên</h2>
+  </div>
+</div>
+
+<main id="main" data-aos="fade-in" (click)="pageInput.value = ''">
+  <!-- ======= Courses Section ======= -->
+  <section id="courses" class="courses">
+    <div class="container" data-aos="fade-up">
+      <a href="" class="get-started-btn mt-2 mb-4" style="float: left" [routerLink]="['/create-teacher']">Thêm mới giáo viên</a>
+      <div>
+        <div class="d-flex justify-content-end">
+          <input (keydown.enter)="page = 0; getAllTeacher()" [(ngModel)]="find" class="form-control" type="text" value="" placeholder="Tìm kiếm sinh viên"
+                 style="border-radius: 30px; border: 1px solid #d6c9bb; height: 37px; width: 300px">
+          <button (click)="page = 0; getAllTeacher()" type="button" class="get-started-btn" style="border: 0">Tìm kiếm</button>
+        </div>
+        <div class="row" data-aos="zoom-in" data-aos-delay="100" style="clear: both">
+          <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch mt-4 mb-3 mt-md-0"
+               *ngFor="let teacher of listTeacher">
+            <div class="course-item" style="background-color: #f5f5f5">
+              <img [src]="teacher.avatar" class="img-fluid img-thumbnail" alt="">
+              <div class="course-content">
+                <div class="d-flex justify-content-center align-items-center mb-1">
+                  <h3><a href="">{{teacher.name}}</a></h3>
+                </div>
+                <ul class="list-group list-group-flush ">
+                  <li class="list-group-item email " style="background-color: #f5f5f5">
+                    <i class="bi bi-file-earmark-code-fill"></i><span
+                    class="lop"> Mã Giáo Viên: </span>MGV-{{teacher.id}}
+                  </li>
+                  <li class="list-group-item phone " style="background-color: #f5f5f5">
+                    <i class="fa fa-university"></i> <span class="lop"> Khoa: </span> {{teacher.faculty.name}}
+                  </li>
+                  <li class="list-group-item email" style="background-color: #f5f5f5">
+                    <i class="fa fa-envelope"></i> <span class="lop"> Email: </span>{{teacher.email}}
+                  </li>
+                  <li class="list-group-item phone" style="background-color: #f5f5f5">
+                    <i class="fa fa-phone "></i> <span class="lop"> Số điện thoại: </span> {{teacher.phone}}
+                  </li>
+
+                </ul>
+                <div class="trainer d-flex justify-content-between align-items-center">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-5">
+                        <ul class="social-links list-inline mb-0 d-flex justify-content-between">
+                          <li class="list-inline-item"><a title="" data-placement="top"
+                                                          data-toggle="tooltip" class="tooltips" href=""
+                                                          data-original-title="Facebook"><i
+                            class="fa fa-facebook-f"></i></a></li>
+                          <li class="list-inline-item"><a title="" data-placement="top"
+                                                          data-toggle="tooltip" class="tooltips" href=""
+                                                          data-original-title="Twitter"><i
+                            class="fa fa-twitter"></i></a></li>
+                          <li class="list-inline-item"><a title="" data-placement="top"
+                                                          data-toggle="tooltip" class="tooltips" href=""
+                                                          data-original-title="Skype"><i
+                            class="fa fa-skype"></i></a></li>
+                        </ul>
+                      </div>
+                      <div class="col-lg-7" style="clear: both">
+                        <div class="d-flex justify-content-end">
+                          <button class="btn btn-primary" style="border-radius: 100%; margin-right: 3px">
+                            <i class="fa fa-edit" data-toggle="tooltip" title="Sửa!"></i>
+                          </button>
+                          <button class="btn btn-secondary" style="border-radius: 100px"
+                                  data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-toggle="tooltip"
+                                  title="Xóa!" (click)="getTeacher(teacher)">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> <!-- End Course Item-->
+        </div>
+        <div class="container mt-4">
+          <nav aria-label="Page navigation example center">
+            <ul class="pagination justify-content-center">
+              <li class="page-item">
+                <button [hidden]="page < 1" (click)="page = 0; getAllTeacher()"  class="page-link" tabindex="-1" aria-disabled="true">Trang Đầu</button>
+              </li>
+              <li class="page-item">
+                <button [hidden]="page < 1" (click)="page = page - 1; getAllTeacher()" class="page-link" tabindex="-1" aria-disabled="true">Trang Trước</button>
+              </li>
+              <li class="page-item col-md-1 col-2  px-0">
+                <div class="input-group">
+                  <input  #pageInput (change)="page = $event.target.value - 1" type="text" class="form-control text-right rounded-0" [placeholder]="page + 1" aria-label="Username" aria-describedby="basic-addon1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"> /{{pageable.totalPages}}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="page-item">
+                <button (click)="getAllTeacher()" class="btn btn-primary rounded-0">Đi</button>
+              </li>
+              <li class="page-item">
+                <button [hidden]="page >=  pageable.totalPages - 1" (click)="page = page + 1; getAllTeacher()" class="page-link">Trang Sau</button>
+              </li>
+              <li class="page-item">
+                <button [hidden]="page >=  pageable.totalPages - 1 && page < pageable.totalPages" (click)="page = pageable.totalPages - 1; getAllTeacher()" class="page-link">Trang Cuối</button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Courses Section -->
+</main><!-- End #main -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc muốn xóa giáo viên {{nameTeacher}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="deleteTeacher()">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ======= Footer ======= -->
