@@ -49,12 +49,14 @@ export class RegisterGroupComponent implements OnInit {
     }
     delete this.listStudent[index];
     this.listStudent = this.listStudent.filter((value => Student));
+    this.registerComplete();
   }
 
   deleteStudentAdded(index: number, student: IStudent) {
     delete this.listStudentAdded[index];
     this.listStudent.push(student);
     this.listStudentAdded = this.listStudentAdded.filter((value => Student));
+    this.deleteComplete();
   }
 
   getStudentId(student: IStudent, i: number) {
@@ -74,5 +76,11 @@ export class RegisterGroupComponent implements OnInit {
         this.pageable = data;
       });
     }
+  }
+  deleteComplete(){
+    this.toastrService.warning('Xóa sinh viên thành công', 'Thành công');
+  }
+  registerComplete(){
+    this.toastrService.success('Đăng ký sinh viên thành công', 'Thành công');
   }
 }
