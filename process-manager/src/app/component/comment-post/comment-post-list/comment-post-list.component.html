@@ -6,25 +6,75 @@
              [src]="comments.account.student ? comments.account.student.avatar : comments.account.teacher.avatar">
       </div>
       <div class="comment-text w-100">
-        <h6 class="font-medium">
+        <h6 class="font-medium"><b>
           {{comments.account.student ? comments.account.student.name : comments.account.teacher.name}}
-        </h6>
+        </b></h6>
         <h6 class="font-medium">
           <span class="badge bg-primary">{{comments.title}}</span>
         </h6>
-        <span class="m-b-15 d-block">{{comments.content}}</span>
+        <div>
+          <p [innerHTML]="comments.content"></p>
+        </div>
         <div class="comment-footer">
       <span class="text-muted float-end"
-            style="position: absolute; right: 15px">{{comments.timeComment}}</span>
-          <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-          <button type="button" class="btn btn-success btn-sm">Trả lời</button>
-          <button type="button" class="btn btn-danger btn-sm " data-bs-toggle="modal"
-                  data-bs-target="#modalDel">Xóa
-          </button>
+            style="position: absolute; right: 15px">{{comments.timeComment |date: 'hh:mm:ss dd/MM/yyyy'}}</span>
+          <div *ngIf="account.id == comments.account.id else noDelete">
+            <button type="button" class="btn btn-cyan btn-sm" (click)="getEdit(comments)">Sửa</button>
+            <button type="button" class="btn btn-danger btn-sm " data-bs-toggle="modal"
+                    data-bs-target="#modalDel" (click)="getDeleteQuestion(comments)">Xóa
+            </button>
+          </div>
+          <ng-template #noDelete>
+            <button type="button" class="btn btn-success btn-sm" (click)="getIdComment(comments)">Trả lời</button>
+          </ng-template>
         </div>
       </div>
     </div>
-    <app-comment-post-reply-list [idReply]="comments.id"></app-comment-post-reply-list>
+    <div class="d-flex flex-row comment-row m-t-0" *ngIf="flagEdit && idCommentEdit == comments.id">
+      <div class="p-2">
+        <img alt="user" width="50" class="rounded-circle"
+             [src]="comments.account.student ? comments.account.student.avatar : comments.account.teacher.avatar"></div>
+      <div class="comment-text w-100">
+        <form [formGroup]="formGroup" novalidate>
+          <div class="form-group row">
+            <label for="inputTitle" class="col-sm-2 col-form-label">Tiêu đề</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputTitle" formControlName="title" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputContent" class="col-form-label">Nội dung</label>
+            <div>
+              <!--                        <textarea rows="1" id="inputContent" formControlName="content" class="form-control"></textarea>-->
+              <ck-editor name="editor1" id="inputContent" [(ngModel)]="editorValue" skin="moono-lisa" language="en"
+                         [fullPage]="true"
+                         formControlName="content" required>
+              </ck-editor>
+            </div>
+          </div>
+          <button class="btn btn-secondary float-end mt-2 mx-2" type="reset" (click)="exitReply()">Hủy</button>
+          <button class="btn btn-primary float-end mt-2" type="submit" (click)="editReply()"
+                  [disabled]="formGroup.invalid">Chỉnh sửa
+          </button>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="flagComment && idComment == comments.id">
+      <form [formGroup]="formGroup">
+        <div class="form-group">
+          <div class="col-sm">
+            <input id="inputContentReply" class="form-control" formControlName="content" required>
+          </div>
+        </div>
+        <button class="btn btn-secondary float-end mt-2 mx-2" type="button" (click)="exitReply()">Hủy</button>
+        <button class="btn btn-primary float-end mt-2" type="submit" [disabled]="formGroup.invalid"
+                (click)="submitForReply()">Trả lời
+        </button>
+      </form>
+    </div>
+    <hr>
+    <app-comment-post-reply-list [idReply]="comments.id"
+                                 (onDeleteComment)="getIdCommentDelete($event)"></app-comment-post-reply-list>
   </div>
   <div class="row" style="text-align: center">
     <div class="col-sm">
@@ -40,7 +90,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabelDel">Bạn có muốn xóa thắc mắc này không?</h5>
+        <h5 class="modal-title" id="modalLabel">Bạn có muốn xóa thắc mắc này không?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -48,10 +98,28 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Xóa</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="getDelete()">Xóa</button>
       </div>
     </div>
   </div>
 </div>
-<!--Lấy id nhóm hiện tại đặt ở phần process-detail.component.html-->
-<!--<app-comment-post-list [idProcess]="idProcessDetail"></app-comment-post-list>-->
+<div class="modal fade" id="modalDelReply" tabindex="-1" aria-labelledby="modalLabelReply" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelReply">Bạn có muốn xóa bình luận này không?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Việc xóa này không thể hoàn tác lại ban đầu. id
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="getDeleteCommentById(idComment)">
+          Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

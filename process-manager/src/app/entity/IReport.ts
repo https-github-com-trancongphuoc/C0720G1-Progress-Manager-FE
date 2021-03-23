@@ -7,5 +7,5 @@ export interface IReport{
   content: string;
 
   process: ITopicProcess;
-
+  date: string;
 }

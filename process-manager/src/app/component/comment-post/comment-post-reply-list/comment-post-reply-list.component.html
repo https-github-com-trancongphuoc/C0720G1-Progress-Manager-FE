@@ -1,56 +1,79 @@
 <div class="card">
-  <div class="row" *ngFor="let comments of iComment">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-11">
-      <div class="d-flex flex-row comment-row-child">
-        <div class="p-2">
-          <img alt="user" width="50" class="rounded-circle"
-               [src]="comments.account.student ? comments.account.student.avatar : comments.account.teacher.avatar">
-        </div>
-        <div class="comment-text w-100">
-          <h6 class="font-medium">
-            {{comments.account.student ? comments.account.student.name : comments.account.teacher.name}}
-          </h6>
-          <span class="m-b-15 d-block">{{comments.content}}</span>
-          <div class="comment-footer">
-      <span class="text-muted float-end"
-            style="position: absolute; right: 15px">{{comments.timeComment}}</span>
-            <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-            <button type="button" class="btn btn-success btn-sm" (click)="getIdComment(comments)">Trả lời</button>
-            <button type="button" class="btn btn-danger btn-sm " data-bs-toggle="modal"
-                    data-bs-target="#modalDel">Xóa
-            </button>
+  <div *ngFor="let comments of iComment">
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11">
+        <div class="d-flex flex-row comment-row-child">
+          <div class="p-2">
+            <img alt="user" width="50" class="rounded-circle"
+                 [src]="comments.account.student ? comments.account.student.avatar : comments.account.teacher.avatar">
+          </div>
+          <div class="comment-text w-100">
+            <h6 class="font-medium">
+              <b>
+                {{comments.account.student ? comments.account.student.name : comments.account.teacher.name}}
+            </b>
+            </h6>
+            <span class="m-b-15 d-block">{{comments.content}}</span>
+            <div class="comment-footer">
+              <span class="text-muted float-end" style="position: absolute; right: 30px">
+                {{comments.timeComment|date: 'hh:mm:ss dd/MM/yyyy'}}
+              </span>
+              <div *ngIf="account.id == comments.account.id else noDelete">
+                <button type="button" class="btn btn-cyan btn-sm" (click)="getEditComments(comments)">Sửa</button>
+                <button type="button" class="btn btn-danger btn-sm " (click)="getCommentDeleteById(comments.id)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalDelReply">Xóa
+                </button>
+              </div>
+              <ng-template #noDelete>
+                <button type="button" class="btn btn-success btn-sm" (click)="getIdComment(comments)">Trả lời</button>
+              </ng-template>
+            </div>
+
           </div>
         </div>
-      </div>
-    </div>
-    <app-comment-post-reply-list [idReply]="comments.id"></app-comment-post-reply-list>
-  </div>
 
-  <!--  <div class="row" style="text-align: center">-->
-  <!--    <div class="col-sm">-->
-  <!--      <button (click)="onClickShowComment()" style="color: #0a53be" class="text-center btn">Xem thêm...</button>-->
-  <!--    </div>-->
-  <!--    <div class="col-sm">-->
-  <!--      <button (click)="onClickHideComment()" style="color: #0a53be" class="text-center btn">Ẩn Đánh giá...</button>-->
-  <!--    </div>-->
-  <!--  </div>-->
-</div>
-<div class="modal fade" id="modalDel" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabelDel">Bạn có muốn xóa thắc mắc này không?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div *ngIf="flagReply && idComment == comments.id">
+          <form [formGroup]="formGroup">
+            <div class="form-group">
+              <div class="col-sm">
+                <input id="inputContentReply" class="form-control" formControlName="content" required>
+              </div>
+            </div>
+            <button class="btn btn-secondary float-end mt-2 mx-2" type="reset" (click)="exitReply()">Hủy</button>
+            <button class="btn btn-primary float-end mt-2" type="submit" [disabled]="formGroup.invalid"
+                    (click)="submitForReply()">Trả lời
+            </button>
+          </form>
+        </div>
+        <div *ngIf="flagEdit && idCommentEdit == comments.id">
+          <form [formGroup]="formGroup">
+            <div class="form-group">
+              <div class="col-sm">
+                <input id="editContentReply" class="form-control" formControlName="content" required>
+              </div>
+            </div>
+            <button class="btn btn-secondary float-end mt-2 mx-2" type="reset" (click)="exitReply()">Hủy</button>
+            <button class="btn btn-primary float-end mt-2" type="submit" [disabled]="formGroup.invalid"
+                    (click)="editReply()">Chỉnh sửa
+            </button>
+          </form>
+        </div>
       </div>
-      <div class="modal-body">
-        Việc xóa này không thể hoàn tác lại ban đầu.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Xóa</button>
+      <div class="row" style="text-align: center" *ngIf="iComment.length > 0">
+        <div class="col-sm">
+          <button (click)="onClickShowComment()" style="color: #0a53be" class="text-center btn">Xem bình luận...
+          </button>
+        </div>
+        <div class="col-sm">
+          <button (click)="onClickHideComment()" style="color: #0a53be" class="text-center btn">Ẩn bình luận...
+          </button>
+        </div>
       </div>
     </div>
+    <hr>
+    <app-comment-post-reply-list [idReply]="comments.id"></app-comment-post-reply-list>
   </div>
 </div>
 
