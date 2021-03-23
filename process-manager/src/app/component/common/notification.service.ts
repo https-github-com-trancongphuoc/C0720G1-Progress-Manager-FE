@@ -28,4 +28,17 @@ export class NotificationService {
   seenNotification(id: any) {
     return this.http.get(this.URL + '/seen-notification/'+ id);
   }
+
+  // public notification(notification: any) {
+  //   this.socket.emit('new-notification', notification)
+  // }
+  //
+  //
+  // public getNotification = () => {
+  //   return new Observable(subscriber => {
+  //     this.socket.on('new-notification', (notification) => {
+  //       subscriber.next(notification);
+  //     })
+  //   });
+  // }
 }

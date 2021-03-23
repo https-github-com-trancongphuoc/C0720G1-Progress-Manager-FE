@@ -23,8 +23,8 @@ export class ProcessService {
   }
 
 
-  getListProcess() {
-    return this.http.get(this.URL + '/process-list');
+  getListProcess(page: number): Observable<any> {
+    return this.http.get(this.URL + '/process-list?page=' + page);
   }
 
   getProcessDetail(idProcessDetail: number) {
@@ -57,5 +57,17 @@ export class ProcessService {
 
   replyAppreciate(value: any) {
     return this.http.post(this.URL + '/reply-appreciate', value, this.httpOptions);
+  }
+
+  registerTopic(value: any) {
+    return this.http.post(this.URL + '/register-topic', value, this.httpOptions);
+  }
+
+  getListInfoTopicRegister(id: number): Observable<any> {
+    return this.http.get((this.URL + '/get-topic-not-approval?id=' + id));
+  }
+
+  approval(infoTopicWantApproval: any) {
+    return this.http.post(this.URL + '/approval' , infoTopicWantApproval, this.httpOptions);
   }
 }

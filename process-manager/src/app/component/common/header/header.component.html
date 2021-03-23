@@ -12,25 +12,7 @@
         <li><a href="about.html">Tin tức</a></li>
         <!--        <li><a href="about.html">Đào tạo</a></li>-->
         <!--        <li><a href="progrees.html">Tiến độ</a></li>-->
-        <li *ngIf="accountPresent != null" class="dropdown"><a href="#" class=""><span>Sinh viên</span> <i
-          class="bi bi-chevron-down"></i></a>
-          <ul>
-            <li *ngIf="processDetail != null"><a [routerLink]="'process-detail/'+ processDetail.id">Đề tài của tôi</a>
-            </li>
-            <!--            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>-->
-            <!--              <ul>-->
-            <!--                <li><a href="#">Deep Drop Down 1</a></li>-->
-            <!--                <li><a href="#">Deep Drop Down 2</a></li>-->
-            <!--                <li><a href="#">Deep Drop Down 3</a></li>-->
-            <!--                <li><a href="#">Deep Drop Down 4</a></li>-->
-            <!--                <li><a href="#">Deep Drop Down 5</a></li>-->
-            <!--              </ul>-->
-            <!--            </li>-->
-            <li><a href="#">Đăng ký đề tài</a></li>
-            <li *ngIf="accountPresent.student != null"><a *ngIf="accountPresent.student.groupAccount != null" [routerLink]="'/group/'+ accountPresent.student.groupAccount.id">Nhóm của tôi</a></li>
-            <li><a href="#">Drop Down 4</a></li>
-          </ul>
-        </li>
+
         <li *ngIf="accountPresent != null ? accountPresent.teacher != null : false" class="dropdown"><a href="#"><span>Giáo viên</span>
           <i
             class="bi bi-chevron-down"></i></a>
@@ -38,7 +20,7 @@
             <li><a href="#">Đăng thông báo</a></li>
             <li><a href="#">Quản lí giáo viên</a></li>
             <li><a routerLink="process-manager">Quản lí đề tài</a></li>
-            <li><a href="#">Kiểm duyệt đề tài</a></li>
+            <li><a href="#" routerLink="/approval-topic">Kiểm duyệt đề tài</a></li>
             <li><a href="#">Hỏi đáp sinh viên</a></li>
             <li><a href="#">Tài liệu hướng dẫn</a></li>
           </ul>
@@ -50,6 +32,17 @@
             <li><a routerLink='/list-group'>Quản lí nhóm</a></li>
           </ul>
         </li>
+<!--        <li><a href="about.html"></a></li>-->
+        <li *ngIf="accountPresent != null" class="dropdown"><a href="#" class=""><i style="font-size: 30px" class="bi bi-person-circle"></i>
+          <i class="bi bi-chevron-down"></i></a>
+          <ul>
+<!--            <li *ngIf="processDetail != null"><a [routerLink]="'process-detail/'+ processDetail.id">Đề tài của tôi</a>-->
+<!--            </li>-->
+            <li *ngIf="accountPresent.student != null"><a *ngIf="accountPresent.student.groupAccount != null" [routerLink]="'/group/'+ accountPresent.student.groupAccount.id">Nhóm của tôi</a></li>
+            <li><a routerLink="change-password">Đổi mật khẩu</a></li>
+          </ul>
+        </li>
+
         <li class="ml-4">
           <div class="dropdown" *ngIf="checkLogin">
             <button class="btn mb-2" (click)="seen()">

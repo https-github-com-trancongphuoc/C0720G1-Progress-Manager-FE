@@ -14,6 +14,8 @@ export class MyGroupComponent implements OnInit {
 
   groupAccount: any;
 
+  checkStatusComplete = true;
+
   constructor(private route: ActivatedRoute,
               private accountService: AccountService) { }
 
@@ -30,8 +32,15 @@ export class MyGroupComponent implements OnInit {
 
   getMemberInGroup() {
     this.accountService.getMemberInGroup(this.idGroup).subscribe(data => {
-      console.log(data);
       this.groupAccount = data;
+
+      for (let i = 0; i < this.groupAccount.infoTopicRegisterList.length; i++) {
+        if (!this.groupAccount.infoTopicRegisterList[i].statusComplete) {
+          this.checkStatusComplete = false;
+        }
+      }
+
+      console.log(this.groupAccount);
     })
   }
 
