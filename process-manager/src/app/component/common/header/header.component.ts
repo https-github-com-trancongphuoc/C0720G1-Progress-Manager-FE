@@ -44,7 +44,6 @@ export class HeaderComponent implements OnInit, DoCheck {
       if (this.accountPresent.student.groupAccount != null) {
         this.processService.getProcessDetailByGroupId(this.accountPresent.student.groupAccount.id).subscribe(data => {
           this.processDetail = data;
-          console.log(this.processDetail);
         })
       }
     }
@@ -52,8 +51,7 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   getAccountPresent() {
     this.accountPresent = this.storageService.getUser();
-    console.log(this.accountPresent);
-  }
+ }
 
   ngDoCheck(): void {
 
@@ -67,7 +65,6 @@ export class HeaderComponent implements OnInit, DoCheck {
   getNotification() {
     this.notificationService.getAllNotification(this.accountPresent.id).subscribe(data => {
       this.notificationList = data.content;
-      console.log(this.notificationList);
       this.checkLoad = true;
       for (let i = 0; i < this.notificationList.length; i++) {
         if (!this.notificationList[i].status) {
@@ -77,7 +74,6 @@ export class HeaderComponent implements OnInit, DoCheck {
       }
 
       if (this.checkSeen) {
-        console.log(this.countNotification);
         this.toast.warning('Bạn có ' + this.countNotification + ' thông báo', 'Thông báo');
       }
     });

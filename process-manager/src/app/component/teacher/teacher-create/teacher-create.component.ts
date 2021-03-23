@@ -1,5 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UploadFireService} from '../../common/upload-fire-service/upload-fire.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Router} from '@angular/router';
 import {TeacherService} from '../teacher.service';
@@ -8,6 +7,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {IFaculty} from '../../../entity/IFaculty';
 import {IDegree} from '../../../entity/IDegree';
 import {finalize} from 'rxjs/operators';
+import {UploadFireService} from "../../upload-fire-service/upload-fire-service";
 
 @Component({
   selector: 'app-teacher-create',

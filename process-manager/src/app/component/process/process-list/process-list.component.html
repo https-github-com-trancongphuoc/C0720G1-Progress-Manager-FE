@@ -3,7 +3,7 @@
     <h2>Quản lí tiến độ đề tài sinh viên</h2>
   </div>
 </div>
-<div id="main" class="container" style="height: 500px; margin-top: 50px">
+<div *ngIf="checkLoad" id="main" class="container" style="height: 500px; margin-top: 50px">
   <div class="">
     <table class="table table-hover" >
       <thead>
@@ -28,18 +28,18 @@
 
     <nav class="d-flex justify-content-end" aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link text-dark" href="#" aria-label="Previous">
+        <li  (click)="page = page - 1; getListProcess()" *ngIf="!pageable.first" class="page-item">
+          <button class="page-link text-dark" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
-          </a>
+          </button>
         </li>
-        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link text-dark" href="#" aria-label="Next">
+        <li [class.active]="pageable.first" class="page-item"><button [disabled]="pageable.first" class="page-link text-dark" [value]="pageable.first ? 1 : page" (click)="page = $event.target.value - 1; getListProcess()">{{pageable.first ? 1 : (pageable.last ? (pageable.totalPages == 2 ? page : page - 1) : page)}}</button></li>
+        <li *ngIf="pageable.totalPages > 1" [class.active]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)" class="page-item"><button [disabled]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)" class="page-link text-dark" [value]="pageable.first ? page + 1 : page - 1" (click)="page = $event.target.value; getListProcess()">{{pageable.first ? page + 2 : (pageable.last ? (pageable.totalPages == 2 ? page + 1 : page) : page + 1)}}</button></li>
+        <li *ngIf="pageable.totalPages > 2" [class.active]="pageable.last" class="page-item"><button [disabled]="pageable.last" class="page-link text-dark" [value]="pageable.first ? page + 3 : (pageable.last ? pageable.totalPages + 1 : page + 2)" (click)="page = parseInt($event.target.value) - 1; getListProcess()">{{pageable.first ? page + 3 : (pageable.last ? pageable.totalPages : page + 2)}}</button></li>
+        <li  *ngIf="!pageable.last"  (click)="page = page + 1; getListProcess()" class="page-item">
+          <button class="page-link text-dark" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
-          </a>
+          </button>
         </li>
       </ul>
     </nav>

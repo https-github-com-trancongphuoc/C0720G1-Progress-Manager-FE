@@ -28,4 +28,8 @@ export class AccountService {
   getMemberInGroup(idGroup: number) {
     return this.http.get(this.URL + '/group/' + idGroup);
   }
+
+  changePassword(accountPercent: any) {
+    return this.http.post(this.URL + '/change-password', accountPercent, this.httpOptions);
+  }
 }
