@@ -8,6 +8,7 @@ import {StorageService} from "../../account/storage.service";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
 import {IReport} from "../../../entity/IReport";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-rogress-reports',
@@ -18,18 +19,19 @@ export class RogressReportsComponent implements OnInit {
 
   progressReports: ITopicProcess;
   idProcess: any;
-  content: string = null;
+  content: string = ' ';
   url: string = null;
   idProject: string = 'project-dating-c8c29';
   report: IReport;
+  form: FormGroup;
   private selectedImage: any = null;
-
   constructor(private studentService: StudentService,
               private activatedRoute: ActivatedRoute,
               @Inject(AngularFireStorage) private storage: AngularFireStorage,
               @Inject(UploadFireService) private uploadFileService: UploadFireService,
               private toastr: ToastrService,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -37,6 +39,8 @@ export class RogressReportsComponent implements OnInit {
       this.idProcess = data.get('id');
       this.studentService.checkCreateReport(this.idProcess).subscribe(data => {
         this.progressReports = data;
+        console.log('this.progressReports')
+        console.log(this.progressReports)
       })
     })
   }
@@ -54,10 +58,16 @@ export class RogressReportsComponent implements OnInit {
   }
 
   save() {
-    console.log('dsfsdfsdfsdfsdfsdfsd')
-    console.log(this.selectedImage);
-    console.log('content' +this.content);
-    console.log(this.progressReports)
+    this.form = this.formBuilder.group({
+      id: [''],
+      content: [this.content],
+      title: [''],
+      url: [''],
+      topicProcessId: [this.progressReports.id]
+    });
+    console.log('this.progressReports.id')
+    console.log(this.progressReports.id)
+    console.log(this.form.value);
     if (this.selectedImage !== null) {
       const name = this.selectedImage.name;
       const fileRef = this.storage.ref(name);
@@ -65,14 +75,11 @@ export class RogressReportsComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
             console.log(url)
+            this.report = this.form.value;
             this.report.url = url;
-            console.log(this.url + 'url');
-            console.log(this.content + 'content')
-            this.report.content = this.content;
-            this.uploadFileService.insertImageDetails(this.idProject, this.url);
+            console.log(this.report.url)
             this.studentService.createReport(this.report).subscribe(data => {
               this.toastr.success('Báo Cáo Thành Công','THÔNG BÁO')
-              this.ngOnInit();
             })
           });
         })

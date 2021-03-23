@@ -1,4 +1,3 @@
-
 <div class="breadcrumbs" data-aos="fade-in">
   <div class="container">
     <h2>Báo Cáo Tiến Độ</h2>
@@ -39,20 +38,20 @@
 
         <form action="forms/contact.php" method="post" role="form" class="php-email-form">
           <div class="col-md-6 form-group">
-            <h2>{{progressReports.infoTopicRegister.topic.name}}</h2>
+            <h5>{{progressReports.infoTopicRegister.topic.name}}</h5>
           </div>
           <div class="col-md-6 form-group mt-4">
             <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
                  data-bs-toggle="tooltip"
-                 style="width:25%" data-bs-placement="top" title="Giai đoạn 1">
-              25%
+                 style="width:{{progressReports.percentProcess}}%" data-bs-placement="top" title="Giai đoạn 1">
+              {{progressReports.percentProcess}}%
             </div>
           </div>
           <div class="col-md-6 form-group mt-4">
             <input class="form-control" type="file" (change)="showPreview($event)" multiple>
           </div>
           <div class="form-group mt-4">
-                            <textarea [(ngModel)]="content" class="form-control" rows="5"
+                            <textarea [value]="content" (keyup)="content = $event.target.value" class="form-control" rows="5"
                                       required></textarea>
           </div>
           <div class="my-3">
@@ -66,7 +65,7 @@
             </div>
             <div class="col-5">
               <a routerLink="/" class="get-started-btn bg-secondary">Thoát</a>
-              <a (click)="save()" routerLink="/"  class="get-started-btn bg-primary">Đăng ký</a>
+              <a (click)="save()" class="get-started-btn bg-primary">Đăng ký</a>
             </div>
           </div>
         </form>

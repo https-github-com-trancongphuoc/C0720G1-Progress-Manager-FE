@@ -12,7 +12,8 @@ import {IReport} from '../../entity/IReport';
   providedIn: 'root'
 })
 export class StudentService {
-  public API: string = 'http://localhost:8081/api';
+  public API: string = 'http://localhost:8080/api';
+  private url = 'http://localhost:8080/api/public/';
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -76,8 +77,10 @@ export class StudentService {
     return this.http.get<IStudent>(this.API + "/get-Student-by-id/"+ id);
   }
 
-  createReport(report: IReport): Observable<any>{
-    // @ts-ignore
-    return this.http.post(this.url + '/CreateReport/' + report);
+  createReport(report): Observable<IReport>{
+    return this.http.post<IReport>(this.url + "CreateReport", report);
+  }
+  checkCreateReport(id): Observable<any>{
+    return this.http.get(this.url + 'CheckCreateReport/' + id);
   }
 }
