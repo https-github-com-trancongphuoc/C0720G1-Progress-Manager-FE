@@ -6,6 +6,5 @@ export interface IReport{
   title: string;
   content: string;
 
-  process: ITopicProcess;
-
+  topicProcessReport: ITopicProcess;
 }
