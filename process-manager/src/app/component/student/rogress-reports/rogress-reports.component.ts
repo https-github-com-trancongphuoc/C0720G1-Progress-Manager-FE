@@ -23,6 +23,7 @@ export class RogressReportsComponent implements OnInit {
   url: string = null;
   idProject: string = 'project-dating-c8c29';
   report: IReport;
+  reportList: IReport[];
   form: FormGroup;
   private selectedImage: any = null;
   constructor(private studentService: StudentService,
@@ -38,9 +39,10 @@ export class RogressReportsComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe((data: ParamMap) => {
       this.idProcess = data.get('id');
       this.studentService.checkCreateReport(this.idProcess).subscribe(data => {
-        this.progressReports = data;
-        console.log('this.progressReports')
+        this.progressReports = data[0];
         console.log(this.progressReports)
+        this.reportList = data[1];
+        console.log(this.reportList)
       })
     })
   }
@@ -63,11 +65,9 @@ export class RogressReportsComponent implements OnInit {
       content: [this.content],
       title: [''],
       url: [''],
+      date: [''],
       topicProcessId: [this.progressReports.id]
     });
-    console.log('this.progressReports.id')
-    console.log(this.progressReports.id)
-    console.log(this.form.value);
     if (this.selectedImage !== null) {
       const name = this.selectedImage.name;
       const fileRef = this.storage.ref(name);
@@ -87,13 +87,7 @@ export class RogressReportsComponent implements OnInit {
 
     } else {
       console.log('alo alo')
-      // this.report.url = this.url;
-      // this.report.content = this.content;
-      // this.report.process = this.progressReports;
-      // this.studentService.createReport(this.report).subscribe(data => {
-      //   this.toastr.success('Sửa Thành Công','THÔNG BÁO');
-      //   this.ngOnInit();
-      // })
+      this.toastr.error("Vui lòng gửi file","THÔNG BÁO");
     }
   }
 }

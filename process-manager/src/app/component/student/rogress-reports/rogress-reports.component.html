@@ -24,7 +24,7 @@
 
           <div class="phone">
             <i class="bi bi-file-earmark-text-fill"></i>
-            <h4>File báo cáo</h4>
+            <h4>File báo cáo <label style="color:red;"> *</label></h4>
           </div>
           <div class="phone">
             <i class="bi bi-chat-left-dots-fill"></i>
@@ -35,23 +35,52 @@
       </div>
 
       <div class="col-lg-8 mt-5 mt-lg-0">
-
         <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-          <div class="col-md-6 form-group">
-            <h5>{{progressReports.infoTopicRegister.topic.name}}</h5>
+          <div class="col-md-6 form-group mt-2">
+            <h5 class="d-flex justify-content-center">{{progressReports.infoTopicRegister.topic.name}}</h5>
           </div>
-          <div class="col-md-6 form-group mt-4">
+          <div class="form-group mt-4">
             <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
                  data-bs-toggle="tooltip"
                  style="width:{{progressReports.percentProcess}}%" data-bs-placement="top" title="Giai đoạn 1">
               {{progressReports.percentProcess}}%
             </div>
           </div>
-          <div class="col-md-6 form-group mt-4">
-            <input class="form-control" type="file" (change)="showPreview($event)" multiple>
+          <div class="row mt-4">
+            <div class="col-md-6 form-group">
+              <input class="form-control" type="file" (change)="showPreview($event)" multiple>
+            </div>
+            <div class="col-md-6 form-group mt-3 mt-md-0">
+              <p>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Lịch sử file đã báo cáo
+                </button>
+              </p>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <table class="table table-hover" *ngFor="let object of reportList">
+                    <thead>
+                    <tr>
+                      <th scope="col">Ngày BC</th>
+                      <th scope="col">Tải xuống</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <th scope="row">{{object.date | date: 'dd/MM/yyyy'}}</th>
+                      <a href="{{object.url}}"><i class="bi bi-file-earmark-text" style="font-size: 200%"></i>
+                      </a>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="form-group mt-4">
-                            <textarea [value]="content" (keyup)="content = $event.target.value" class="form-control" rows="5"
+                            <textarea [value]="content" (keyup)="content = $event.target.value" class="form-control"
+                                      rows="5"
                                       required></textarea>
           </div>
           <div class="my-3">
