@@ -90,7 +90,7 @@ export class RogressReportsComponent implements OnInit {
 
     } else {
       console.log('alo alo')
-      this.toastr.error("Vui lòng gửi file","THÔNG BÁO");
+      this.toastr.error("Vui lòng chọn file để gửi","THÔNG BÁO");
     }
   }
 }
