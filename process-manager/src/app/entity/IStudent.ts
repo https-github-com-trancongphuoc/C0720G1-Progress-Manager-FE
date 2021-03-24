@@ -11,6 +11,7 @@ export interface IStudent{
   email: string;
   avatar: string;
   gender: boolean;
+  status_join: boolean;
   grade: IGrade;
   account: IAccount;
   group: IGroupAccount;
@@ -24,6 +25,7 @@ export class Student{
   email: string;
   avatar: string;
   gender: boolean;
+  status_join: boolean;
 
   grade: IGrade;
   account: IAccount;
@@ -39,4 +41,6 @@ export interface IStudent1{
   avatar: string;
   gender: boolean;
   nameGrade: string;
+  status_join: boolean;
+
 }

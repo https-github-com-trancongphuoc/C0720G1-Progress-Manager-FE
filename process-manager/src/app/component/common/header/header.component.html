@@ -28,17 +28,24 @@
         <li *ngIf="accountPresent != null" class="dropdown"><a href="#"><span>Nhóm</span> <i
           class="bi bi-chevron-down"></i></a>
           <ul>
-            <li><a routerLink='/register-group'>Đăng kí nhóm</a></li>
-            <li><a routerLink='/list-group'>Quản lí nhóm</a></li>
+            <li><a routerLink='/register-group'
+                   *ngIf="checkStudentExistGroup || check">Đăng ký
+              nhóm</a></li>
+            <li><a routerLink='/list-group' *ngIf="accountPresent.student == null">Quản lý nhóm</a></li>
+            <li *ngIf="accountPresent.student != null && accountPresent.student.groupAccount != null" style="text-align: center">Bạn đã có nhóm !
+            </li>
           </ul>
         </li>
-<!--        <li><a href="about.html"></a></li>-->
-        <li *ngIf="accountPresent != null" class="dropdown"><a href="#" class=""><i style="font-size: 30px" class="bi bi-person-circle"></i>
+        <!--        <li><a href="about.html"></a></li>-->
+        <li *ngIf="accountPresent != null" class="dropdown"><a href="#" class=""><i style="font-size: 30px"
+                                                                                    class="bi bi-person-circle"></i>
           <i class="bi bi-chevron-down"></i></a>
           <ul>
-<!--            <li *ngIf="processDetail != null"><a [routerLink]="'process-detail/'+ processDetail.id">Đề tài của tôi</a>-->
-<!--            </li>-->
-            <li *ngIf="accountPresent.student != null"><a *ngIf="accountPresent.student.groupAccount != null" [routerLink]="'/group/'+ accountPresent.student.groupAccount.id">Nhóm của tôi</a></li>
+            <!--            <li *ngIf="processDetail != null"><a [routerLink]="'process-detail/'+ processDetail.id">Đề tài của tôi</a>-->
+            <!--            </li>-->
+            <li *ngIf="accountPresent.student != null"><a *ngIf="accountPresent.student.groupAccount != null"
+                                                          [routerLink]="'/group/'+ accountPresent.student.groupAccount.id">Nhóm
+              của tôi</a></li>
             <li><a routerLink="change-password">Đổi mật khẩu</a></li>
           </ul>
         </li>

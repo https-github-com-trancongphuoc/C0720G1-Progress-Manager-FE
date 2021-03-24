@@ -24,11 +24,14 @@ export class HeaderComponent implements OnInit, DoCheck {
   processDetail: any;
 
   countNotification = 0;
+  check = false;
+  checkStudentExistGroup = false;
 
   constructor(private storageService: StorageService,
               private processService: ProcessService,
               private toast: ToastrService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService) {
+  }
 
   ngOnInit(): void {
     this.getAccountPresent();
@@ -51,7 +54,21 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   getAccountPresent() {
     this.accountPresent = this.storageService.getUser();
- }
+    this.accountPresent.accountRoleList.forEach(value => {
+      this.check = (value.role.name == 'Admin') || (value.role.name == 'Giảng viên');
+    })
+    if (this.accountPresent.student == null) {
+      this.checkStudentExistGroup = false;
+    }
+    if (this.accountPresent.student.groupAcount != null) {
+      this.checkStudentExistGroup = false;
+    }
+    if (this.accountPresent.student.groupAccount == null) {
+      this.checkStudentExistGroup = true;
+    }
+
+    console.log(this.accountPresent)
+  }
 
   ngDoCheck(): void {
 

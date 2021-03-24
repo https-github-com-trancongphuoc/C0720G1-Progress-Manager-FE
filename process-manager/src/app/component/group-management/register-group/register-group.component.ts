@@ -3,6 +3,8 @@ import {GroupService} from '../group.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {IStudent, Student} from '../../../entity/IStudent';
+import {StorageService} from "../../account/storage.service";
+
 
 @Component({
   selector: 'app-register-group',
@@ -19,10 +21,12 @@ export class RegisterGroupComponent implements OnInit {
   nameStudent = '';
   searchName: any;
   check = true;
+  nameGroup: string;
 
   constructor(public groupService: GroupService,
               private router: Router,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private storage: StorageService) {
   }
 
   ngOnInit(): void {
@@ -77,10 +81,32 @@ export class RegisterGroupComponent implements OnInit {
       });
     }
   }
-  deleteComplete(){
+
+  deleteComplete() {
     this.toastrService.warning('Xóa sinh viên thành công', 'Thành công');
   }
-  registerComplete(){
+
+  registerComplete() {
     this.toastrService.success('Đăng ký sinh viên thành công', 'Thành công');
+  }
+
+  createGroup(nameGroup: string) {
+    if (this.storage.getUser().student == null) {
+      this.groupService.createGroup(nameGroup, this.listStudentAdded).subscribe(data => {
+        this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
+        this.router.navigateByUrl('')
+        setTimeout(function () {
+          window.location.reload()
+        }, 200)
+      })
+    } else {
+      this.groupService.createGroupAndLeader(nameGroup, this.listStudentAdded, this.storage.getUser().id).subscribe(data => {
+        this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
+        this.router.navigateByUrl('')
+        setTimeout(function () {
+          window.location.reload()
+        }, 200)
+      })
+    }
   }
 }
