@@ -5,6 +5,7 @@ import {StorageService} from '../../account/storage.service';
 import {ICommentDTO} from '../../../dto/ICommentDTO';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {isEmpty} from "rxjs/operators";
+import {NotificationService} from "../../common/notification.service";
 
 @Component({
   selector: 'app-process-detail',
@@ -45,11 +46,14 @@ export class ProcessDetailComponent implements OnInit {
 
   idProcessPersent: number;
 
+  pageable: any;
+
 
   constructor(private processService: ProcessService,
               private route: ActivatedRoute,
               private storageService: StorageService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -179,8 +183,6 @@ export class ProcessDetailComponent implements OnInit {
   submitEditAppreciate() {
     console.log(this.formEditAppreciate);
 
-
-
     if (this.formEditAppreciate.invalid) {
 
     } else {
@@ -228,6 +230,8 @@ export class ProcessDetailComponent implements OnInit {
   }
 
   replyAppreciate(comment: any) {
+
+    // this.notificationService.notification(comment);
 
     if (this.formEditAppreciate.invalid) {
 

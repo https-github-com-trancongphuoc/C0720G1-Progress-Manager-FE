@@ -43,7 +43,7 @@
         <div class="col-2">
           <button [value]="e.id"
                   [disabled]="(i > 0 ? !processDetail.processList[i - 1].status : false) || processDetail.processList[i].status"
-                  class="btn btn-success">Báo cáo giai đoạn {{e.processNumber}}</button>
+                  class="btn btn-success" [routerLink]="'/progress-reports/' + e.id">Báo cáo giai đoạn {{e.processNumber}}</button>
         </div>
         <div class="col-10 px-0">
           <label for="" class="">Giai đoạn {{e.processNumber}}: {{e.dateStart}}
@@ -76,7 +76,7 @@
       </ul>
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <div *ngIf="commentList.length > 0" class="row d-flex justify-content-center mt-100 mb-100">
+          <div  class="row d-flex justify-content-center mt-100 mb-100">
             <div class="col-lg-8">
               <div class="card">
                 <div class="card-body text-center">
@@ -112,100 +112,103 @@
                       </form>
                     </div>
                   </div>
-                  <div class="d-flex flex-row comment-row" *ngFor="let e of commentList">
-                    <div class="p-2"><img
-                      [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
-                      alt="user"
-                      height="50" width="50" class="rounded-circle"></div>
+                  <div *ngIf="commentList.length > 0">
+                    <div  class="d-flex flex-row comment-row" *ngFor="let e of commentList">
+                      <div class="p-2"><img
+                        [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
+                        alt="user"
+                        height="50" width="50" class="rounded-circle"></div>
 
-                    <!------------------------------------------------->
+                      <!------------------------------------------------->
 
-                    <div *ngIf="toggleEditAppreciate && e.id == idAppreciate; else elseBlock  "
-                         class="comment-text w-100">
-                      <form [formGroup]="formEditAppreciate" (ngSubmit)="submitEditAppreciate()" action="">
-                        <textarea rows="3" formControlName="content" class="form-control"></textarea>
-                        <button style="border: 0" class="get-started-btn float-end mt-3">Lưu</button>
-                      </form>
-                    </div>
-                    <ng-template #elseBlock>
-                      <div class="comment-text w-100">
-                        <h6
-                          class="font-medium font-weight-bold">{{e.account.student == null ? e.account.teacher.name : e.account.student.name}}</h6>
-                        <h6 class="font-medium">
-                          <mark style="background-color: #5fa5be" class="">Tiến
-                            độ {{e.topicProcess.processNumber}}</mark>
-                        </h6>
-                        <span class="m-b-15 d-block">{{e.content}} </span>
-                        <div class="comment-footer">
-                          <span class="text-muted float-end">{{e.timeComment}}</span>
-                          <div >
-                            <button *ngIf="accountPresent.id == e.account.id" type="button" class="btn btn-cyan btn-sm" (click)="editAppreciate(e)">Sửa</button>
-                            <button type="button" class="btn btn-success btn-sm" (click)="e.toggle = !e.toggle">Trả lời</button>
-                            <button *ngIf="accountPresent.id == e.account.id" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                                    class="btn btn-danger btn-sm" (click)="toggleModalDeleteAppreciate(e)">Xóa
+                      <div *ngIf="toggleEditAppreciate && e.id == idAppreciate; else elseBlock  "
+                           class="comment-text w-100">
+                        <form [formGroup]="formEditAppreciate" (ngSubmit)="submitEditAppreciate()" action="">
+                          <textarea rows="3" formControlName="content" class="form-control"></textarea>
+                          <button style="border: 0" class="get-started-btn float-end mt-3">Lưu</button>
+                        </form>
+                      </div>
+                      <ng-template #elseBlock>
+                        <div class="comment-text w-100">
+                          <h6
+                            class="font-medium font-weight-bold">{{e.account.student == null ? e.account.teacher.name : e.account.student.name}}</h6>
+                          <h6 class="font-medium">
+                            <mark style="background-color: #5fa5be" class="">Tiến
+                              độ {{e.topicProcess.processNumber}}</mark>
+                          </h6>
+                          <span class="m-b-15 d-block">{{e.content}} </span>
+                          <div class="comment-footer">
+                            <span class="text-muted float-end">{{e.timeComment}}</span>
+                            <div >
+                              <button *ngIf="accountPresent.id == e.account.id" type="button" class="btn btn-cyan btn-sm" (click)="editAppreciate(e)">Sửa</button>
+                              <button type="button" class="btn btn-success btn-sm" (click)="e.toggle = !e.toggle">Trả lời</button>
+                              <button *ngIf="accountPresent.id == e.account.id" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
+                                      class="btn btn-danger btn-sm" (click)="toggleModalDeleteAppreciate(e)">Xóa
+                              </button>
+                            </div>
+                            <button *ngIf="!e.toggle && e.replyCommentList.length > 0" class="btn"
+                                    style="position: absolute; left: 42%; color: #0a53be" (click)="e.toggle = true">
+                              Xem {{e.replyCommentList.length}} đánh giá
                             </button>
                           </div>
-                          <button *ngIf="!e.toggle && e.replyCommentList.length > 0" class="btn"
-                                  style="position: absolute; left: 42%; color: #0a53be" (click)="e.toggle = true">
-                            Xem {{e.replyCommentList.length}} đánh giá
-                          </button>
-                        </div>
-                        <!--Rep Comment-->
+                          <!--Rep Comment-->
 
-                        <div *ngIf="e.toggle">
-                          <div class="d-flex flex-row comment-row-child"
-                               *ngFor="let replyComment of e.replyCommentList">
-                            <div class="p-2"><img
-                              [src]="replyComment.account.student ? replyComment.account.student.avatar : replyComment.account.teacher.avatar"
-                              alt="user"
-                              width="50" class="rounded-circle"></div>
-                            <div class="comment-text w-100">
-                              <h6
-                                class="font-medium font-weight-bold">{{replyComment.account.student == null ? replyComment.account.teacher.name : replyComment.account.student.name}}</h6>
-                              <!--                        <h6 class="font-medium">Tiến độ 3</h6>-->
-                              <span class="m-b-15 d-block">{{replyComment.content}} </span>
-                              <div class="comment-footer">
+                          <div *ngIf="e.toggle">
+                            <div class="d-flex flex-row comment-row-child"
+                                 *ngFor="let replyComment of e.replyCommentList">
+                              <div class="p-2"><img
+                                [src]="replyComment.account.student ? replyComment.account.student.avatar : replyComment.account.teacher.avatar"
+                                alt="user"
+                                width="50" class="rounded-circle"></div>
+                              <div class="comment-text w-100">
+                                <h6
+                                  class="font-medium font-weight-bold">{{replyComment.account.student == null ? replyComment.account.teacher.name : replyComment.account.student.name}}</h6>
+                                <!--                        <h6 class="font-medium">Tiến độ 3</h6>-->
+                                <span class="m-b-15 d-block">{{replyComment.content}} </span>
+                                <div class="comment-footer">
                             <span class="text-muted float-end"
                                   style="position: absolute; right: 15px">{{replyComment.timeComment}}</span>
-                                <div *ngIf="accountPresent.id == replyComment.account.id">
-                                  <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                                  <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                                          class="btn btn-danger btn-sm"  (click)="toggleModalDeleteAppreciate(replyComment)">Xóa
-                                  </button>
+                                  <div *ngIf="accountPresent.id == replyComment.account.id">
+                                    <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
+                                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
+                                            class="btn btn-danger btn-sm"  (click)="toggleModalDeleteAppreciate(replyComment)">Xóa
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div *ngIf="e.toggle" class="d-flex flex-row comment-row-child">
-                            <div class="p-2"><img
-                              [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
-                              alt="user"
-                              width="50" class="rounded-circle"></div>
-                            <div class="comment-text w-100">
-                              <form [formGroup]="formEditAppreciate" (ngSubmit)="replyAppreciate(e)">
-                                <textarea rows="3" formControlName="content" class="form-control"></textarea>
-                                <input type="hidden" formControlName="replyComment" >
-                                <button style="border: 0" class="get-started-btn float-end mt-3">Lưu</button>
-                              </form>
+                            <div *ngIf="e.toggle" class="d-flex flex-row comment-row-child">
+                              <div class="p-2"><img
+                                [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
+                                alt="user"
+                                width="50" class="rounded-circle"></div>
+                              <div class="comment-text w-100">
+                                <form [formGroup]="formEditAppreciate" (ngSubmit)="replyAppreciate(e)">
+                                  <textarea rows="3" formControlName="content" class="form-control"></textarea>
+                                  <input type="hidden" formControlName="replyComment" >
+                                  <button style="border: 0" class="get-started-btn float-end mt-3">Lưu</button>
+                                </form>
+                              </div>
                             </div>
+
+
+                            <button class="btn" style="position: absolute; left: 50%; color: #0a53be"
+                                    (click)="e.toggle = false">Ẩn đánh giá
+                            </button>
                           </div>
-
-
-                          <button class="btn" style="position: absolute; left: 50%; color: #0a53be"
-                                  (click)="e.toggle = false">Ẩn đánh giá
-                          </button>
+                          <!--Rep Comment-->
                         </div>
-                        <!--Rep Comment-->
-                      </div>
-                    </ng-template>
-                    <!------------------------------------------------->
+                      </ng-template>
+                      <!------------------------------------------------->
 
 
-                  </div> <!-- Comment Row -->
+                    </div> <!-- Comment Row -->
+                  </div>
+
                 </div> <!-- Card -->
-                <button *ngIf="checkLoadComment" (click)="page = page + 1; loadListComment()" style="color: #0a53be"
-                        class="text-center btn btn-success text-light mt-5 rounded-5">Xem thêm...
+                <button *ngIf="checkLoadComment && commentList.length > 0 " (click)="page = page + 1; loadListComment()" style="color: #0a53be"
+                        class="text-center btn btn-success text-light mt-5 rounded-5" >Xem thêm...
                 </button>
                 <button *ngIf="!checkLoadComment" (click)="page = 0; getListComment(); checkLoadComment = true"
                         style="color: #0a53be" class="text-center btn btn-dark text-light mt-5 rounded-5">Thu hồi...

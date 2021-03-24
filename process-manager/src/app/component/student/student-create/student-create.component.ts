@@ -3,10 +3,10 @@ import {StudentService} from '../student.service';
 import {IGrade} from '../../../entity/IGrade';
 import {IFaculty} from '../../../entity/IFaculty';
 import {FormControl, FormGroup} from '@angular/forms';
-import {UploadFireService} from '../../common/upload-fire-service/upload-fire.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {UploadFireService} from "../../upload-fire-service/upload-fire-service";
 
 @Component({
   selector: 'app-student-create',

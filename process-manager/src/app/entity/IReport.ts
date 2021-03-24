@@ -5,7 +5,7 @@ export interface IReport{
   url: string;
   title: string;
   content: string;
-
-  process: ITopicProcess;
+  
   date: string;
+  topicProcessReport: ITopicProcess;
 }

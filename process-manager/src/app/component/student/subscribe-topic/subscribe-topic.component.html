@@ -5,46 +5,40 @@
 </div>
 <div class="container mt-5">
   <div class="row">
-    <div class="col-6 border-end border-4 border-dark">
-      <div class="row">
-        <div class="col-4">
-          <label style="color: red">* </label>Tên đề tài
-        </div>
-        <div class="col-8">
-          <input class="form-control">
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-4">
-          <label style="color: red">* </label>Nội dung đề tài
-        </div>
-        <div class="col-8">
-          <textarea rows="5" cols="50" class="form-control"></textarea>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-4">
-          File
-        </div>
-        <div class="col-8">
-          <input class="form-control" type="file" id="formFileMultiple" multiple>
 
-
+    <div class="col-6 border-end border-2 border-dark">
+      <form action="" [formGroup]="formInfoTopicRegister">
+        <div formGroupName="topic" class="row">
+          <div class="col-4">
+            <label style="color: red">* </label>Tên đề tài
+          </div>
+          <div class="col-8">
+            <input formControlName="name" class="form-control" [readOnly]="checkReadOnly" >
+          </div>
         </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-4">
-          <label style="color: red">* </label>Nhóm
+        <div formGroupName="topic" class="row mt-3">
+          <div class="col-4">
+            <label style="color: red">* </label>Nội dung đề tài
+          </div>
+          <div class="col-8">
+            <textarea formControlName="content" rows="5" cols="50" class="form-control" [readOnly]="checkReadOnly" ></textarea>
+          </div>
         </div>
-        <div class="col-8">
-          <select class="form-select">
-            <option>Nhóm A</option>
-            <option>Nhóm B</option>
-            <option>Nhóm C</option>
-          </select>
-        </div>
-      </div>
+<!--        <div class="row mt-4">-->
+<!--          <div class="col-4">-->
+<!--            <label style="color: red">* </label>Nhóm-->
+<!--          </div>-->
+<!--          <div class="col-8">-->
+<!--            <select formControlName="groupAccount" class="form-select">-->
+<!--              <option value="2">Nhóm A</option>-->
+<!--              <option value="1">Nhóm B</option>-->
+<!--              <option value="3">Nhóm C</option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+      </form>
     </div>
+
 
     <div class="col-6 border-start">
       <table class="table table-hover">
@@ -52,38 +46,28 @@
         <tr>
           <th scope="col">STT</th>
           <th scope="col">Tên đề tài</th>
-          <th scope="col">Số Lượng SVTH</th>
+          <!--          <th scope="col">Số Lượng SVTH</th>-->
           <th scope="col">Xem</th>
+          <th scope="col">Chọn</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Website Hẹn Hò</td>
-          <td>1128</td>
+        <tr *ngFor="let e of topicList; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>{{e.name}}</td>
+          <!--          <td>1128</td>-->
           <td>
             <button class="btn btn-success">Xem</button>
           </td>
-
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Website Tiêm Chủng Định Kỳ</td>
-          <td>2109</td>
-          <td>
-            <button class="btn btn-success">Xem</button>
+          <td *ngIf="e.id != idTopicSelected">
+            <button class="btn btn-success" (click)="selectTopic(e)">Chọn</button>
+          </td>
+          <td *ngIf="checkReadOnly && e.id == idTopicSelected">
+            <button class="btn btn-danger" (click)="closeSelect()">Hủy</button>
           </td>
 
         </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Website Furama Resort</td>
-          <td>2432</td>
-          <td>
-            <a class="btn btn-success">Xem</a>
-          </td>
 
-        </tr>
         </tbody>
       </table>
     </div>
@@ -94,8 +78,10 @@
 
     </div>
     <div class="col-3">
-      <a routerLink="/" class="get-started-btn bg-secondary">Thoát</a>
-      <a routerLink="/" class="get-started-btn bg-primary">Đăng ký</a>
+      <form [formGroup]="formInfoTopicRegister" (ngSubmit)="save()">
+      <button [routerLink]="['/group',accountPercent.student.groupAccount.id]" class="get-started-btn bg-secondary">Thoát</button>
+      <button type="submit" class="get-started-btn bg-primary">Đăng ký</button>
+      </form>
     </div>
   </div>
 </div>

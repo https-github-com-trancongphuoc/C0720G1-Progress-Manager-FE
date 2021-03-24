@@ -124,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "process-manager"
+    }
+  },
+  "defaultProject": "process-manager",
+  "cli": {
+    "analytics": "53e5f215-e04e-4f1a-be35-39e8fa30d146"
+  }
 }

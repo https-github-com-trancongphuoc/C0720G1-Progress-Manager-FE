@@ -1,0 +1,81 @@
+<div class="breadcrumbs">
+  <div class="container">
+    <h2>Duyệt đề tài</h2>
+    <label>Giảng viên duyệt dề tài dưới đây để các sinh tiến hành thực hiện và bảo vệ. </label>
+<!--    <label>Mỗi đồ án tốt nghiệp mới được duyệt phải không trùng với các đồ án đã tồn tại. </label>-->
+  </div>
+</div><!-- End Breadcrumbs -->
+
+
+<div class="g-grid container" style="margin-top: 25px">
+  <div class="">
+    <h3 class="text-center text-danger" *ngIf="infoTopicRegisterList.length == 0"> Không có đề tài nào cần duyệt</h3>
+
+    <table *ngIf="infoTopicRegisterList.length > 0" class="table table-hover mt-5">
+      <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tên nhóm</th>
+        <th scope="col">Tên đề tài</th>
+        <th scope="col">Duyệt đề tài</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let e of infoTopicRegisterList; let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{e.groupAccount.name}}</td>
+        <td>
+          <a style="color: #0d6efd" href="list_topic_detail.html">{{e.topic.name}}</a>
+        </td>
+        <td>
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="infoTopicWantApproval = e">Duyệt</button>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <nav *ngIf="infoTopicRegisterList.length > 0" class="d-flex justify-content-end" aria-label="Page navigation example">
+      <ul class="pagination">
+        <li  (click)="page = page - 1; getListInfoTopicRegister()" *ngIf="!pageable.first" class="page-item">
+          <button class="page-link text-dark" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+        <li [class.active]="pageable.first" class="page-item"><button [disabled]="pageable.first" class="page-link text-dark" [value]="pageable.first ? 1 : page" (click)="page = $event.target.value - 1; getListInfoTopicRegister()">{{pageable.first ? 1 : (pageable.last ? (pageable.totalPages == 2 ? page : page - 1) : page)}}</button></li>
+        <li *ngIf="pageable.totalPages > 1" [class.active]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)" class="page-item"><button [disabled]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)" class="page-link text-dark" [value]="pageable.first ? page + 1 : page - 1" (click)="page = $event.target.value; getListInfoTopicRegister()">{{pageable.first ? page + 2 : (pageable.last ? (pageable.totalPages == 2 ? page + 1 : page) : page + 1)}}</button></li>
+        <li *ngIf="pageable.totalPages > 2" [class.active]="pageable.last" class="page-item"><button [disabled]="pageable.last" class="page-link text-dark" [value]="pageable.first ? page + 3 : (pageable.last ? pageable.totalPages + 1 : page + 2)" (click)="page = parseInt($event.target.value) - 1; getListInfoTopicRegister()">{{pageable.first ? page + 3 : (pageable.last ? pageable.totalPages : page + 2)}}</button></li>
+        <li  *ngIf="!pageable.last"  (click)="page = page + 1; getListInfoTopicRegister()" class="page-item">
+          <button class="page-link text-dark" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Duyệt đề tài</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div *ngIf="infoTopicWantApproval != null" class="modal-body">
+<!--        <label for="" class="text-danger">Đây là đề tài mới</label>-->
+        <label for=""><b>Đề tài</b>: {{infoTopicWantApproval.topic.name}}</label>
+        <br>
+        <label for=""><b>Mô tả</b>: {{infoTopicWantApproval.topic.content}}</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="approval()">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+</div>
