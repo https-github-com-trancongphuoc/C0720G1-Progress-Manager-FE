@@ -6,17 +6,17 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
 import {CommentPostListComponent} from "./comment-post-list/comment-post-list.component";
 import {CommentPostReplyListComponent} from "./comment-post-reply-list/comment-post-reply-list.component";
-import {CommentPostUpdateComponent} from "./comment-post-update/comment-post-update.component";
-import {CommentPostCreateComponent} from "./comment-post-create/comment-post-create.component";
-import { CommentPostReplyCreateComponent } from './comment-post-reply-create/comment-post-reply-create.component';
-import { CommentPostReplyEditComponent } from './comment-post-reply-edit/comment-post-reply-edit.component';
-
-
+import { CKEditorModule } from 'ngx-ckeditor';
+import { CommentPostCreateComponent } from './comment-post-create/comment-post-create.component';
+import { CommentReportListComponent } from './comment-report-list/comment-report-list.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
-  declarations: [CommentPostListComponent, CommentPostReplyListComponent, CommentPostUpdateComponent, CommentPostCreateComponent, CommentPostReplyCreateComponent, CommentPostReplyEditComponent],
+  declarations: [CommentPostListComponent, CommentPostReplyListComponent, CommentPostCreateComponent, CommentReportListComponent],
   exports: [
-    CommentPostListComponent
+    CommentPostListComponent,
+    CommentPostCreateComponent,
+    CommentReportListComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +25,8 @@ import { CommentPostReplyEditComponent } from './comment-post-reply-edit/comment
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    CKEditorModule,
+    RouterModule
   ]
 })
 export class CommentPostModule { }

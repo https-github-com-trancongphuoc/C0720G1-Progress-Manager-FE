@@ -16,6 +16,7 @@ import {uploadImage} from '../environments/upload-image';
 import {GroupModule} from './component/group-management/group.module';
 import {ProcessModule} from "./component/process/process.module";
 import {imagePost} from "../environments/image-post";
+import {TopicModule} from "./component/topic/topic.module";
 
 
 
@@ -37,6 +38,7 @@ import {imagePost} from "../environments/image-post";
     TeacherModule,
     GroupModule,
     ProcessModule,
+    TopicModule,
     AngularFireModule.initializeApp(imagePost.firebaseConfig)
   ],
   providers: [],

@@ -20,6 +20,13 @@ export class CommentPostService {
   constructor(private httpClient: HttpClient) {
   }
 
+  getAllReportSize(id: number, page: number, size: number):Observable<any> {
+    return this.httpClient.get<any>(this.apiCommentUrl + 'findById/' + id + '/report?page=' + page + '&size=' + size, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
+
   getAllCommentSize(id: number, page: number, size: number):Observable<any> {
     return this.httpClient.get<any>(this.apiCommentUrl + 'findById/' + id + '/comment?page=' + page + '&size=' + size, this.httpOptions)
       .pipe(
@@ -49,7 +56,28 @@ export class CommentPostService {
   }
 
   editComment(idComment, comment): Observable<IComment> {
-    return this.httpClient.put<IComment>(this.apiCommentUrl + 'update/' + idComment, comment)
+    return this.httpClient.put<IComment>(this.apiCommentUrl + 'update/' + idComment, comment, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
+
+  editCommentPost(idComment, comment): Observable<IComment> {
+    return this.httpClient.put<IComment>(this.apiCommentUrl + 'update-post/' + idComment, comment, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
+
+  deleteComment(idComment: number): Observable<IComment> {
+    return this.httpClient.patch<IComment>(this.apiCommentUrl + 'delete/' + idComment, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
+
+  saveComment(comment): Observable<any> {
+    return this.httpClient.post<any>(this.apiCommentUrl + 'create-comment', comment, this.httpOptions)
       .pipe(
         catchError(this.errorHandler)
       )
