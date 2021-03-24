@@ -41,13 +41,6 @@ export class CommentPostService {
       )
   }
 
-  getAllReply(id: number, page: number): Observable<any>{
-    return this.httpClient.get<any>(this.apiCommentUrl + 'findById/' + id + '/page-reply?page=' + page, this.httpOptions)
-      .pipe(
-        catchError(this.errorHandler)
-      );
-  }
-
   saveReply(reply): Observable<IComment> {
     return this.httpClient.post<IComment>(this.apiCommentUrl + 'create-reply', reply, this.httpOptions)
       .pipe(

@@ -24,6 +24,8 @@ export class CommentPostListComponent implements OnInit {
   flagEdit = false
   public idComment: number;
   idCommentEdit: number;
+  commentNotification : any;
+  accountSendId: number;
 
   @Input() idProcess;
 
@@ -37,17 +39,23 @@ export class CommentPostListComponent implements OnInit {
     this.getAllListCommentSizeInProcess();
     this.getAccountPresent();
   }
-
+  /**
+   * TrungTQ: Lấy id tk hiện tại
+   * */
   getAccountPresent() {
     this.account = this.storageService.getUser();
   }
-
+  /**
+   * TrungTQ: Hiển thị danh sách đăng câu hỏi
+   * */
   getAllListCommentSizeInProcess() {
     this.commentPostService.getAllCommentSize(this.idProcess, this.page, this.size).subscribe(data => {
       this.iComments = data.content;
     })
   }
-
+  /**
+   * TrungTQ: ẩn hiện comment
+   * */
   onClickShowComment() {
     this.size = this.size + 2;
     this.getAllListCommentSizeInProcess();
@@ -58,10 +66,10 @@ export class CommentPostListComponent implements OnInit {
     this.getAllListCommentSizeInProcess();
   }
 
-
+  /**
+   * TrungTQ: Lấy id bài đăng và form Edit
+   * */
   getEdit(comments: IComment) {
-    console.log('comments')
-    console.log(comments)
     this.flagEdit = true;
     this.idCommentEdit = comments.id;
     this.formGroup = this.formBuilder.group({
@@ -71,7 +79,11 @@ export class CommentPostListComponent implements OnInit {
     })
   }
 
+  /**
+   * TrungTQ: Lấy id bài đăng và form trả lời
+   * */
   getIdComment(comments: IComment) {
+    this.commentNotification = comments;
     this.flagComment = true;
     this.idComment = comments.id;
     this.formGroup = this.formBuilder.group({
@@ -81,12 +93,16 @@ export class CommentPostListComponent implements OnInit {
     })
   }
 
+  /**
+   * TrungTQ: Lấy đăng câu trả lời
+   * */
   submitForReply() {
     if (this.formGroup.invalid) {
       this.messageManager.showMessageCreateNotRole();
       this.flagComment = false;
       return;
     } else {
+      this.formGroup.value.accountSendId = this.commentNotification.account.id;
       this.commentPostService.saveReply(this.formGroup.value).subscribe(data => {
         this.flagComment = false;
         this.ngOnInit();
@@ -94,7 +110,9 @@ export class CommentPostListComponent implements OnInit {
       })
     }
   }
-
+  /**
+   * TrungTQ: Sửa câu trả lời
+   * */
   editReply() {
     if (this.formGroup.invalid) {
       this.messageManager.showMessageCreateNotRole();
@@ -109,22 +127,31 @@ export class CommentPostListComponent implements OnInit {
     }
   }
 
+  /**
+   * TrungTQ: Ẩn câu bình luận
+   * */
   exitReply() {
     this.flagComment = false;
     this.flagEdit = false;
   }
-
+  /**
+   * TrungTQ: Lấy id bài đăng để xóa
+   * */
   getDeleteQuestion(comments: IComment) {
     this.iComment = comments;
   }
-
+  /**
+   * TrungTQ: Xóa bài đăng với modal
+   * */
   getDelete(): void {
     this.commentPostService.deleteComment(this.iComment.id).subscribe(data => {
       this.ngOnInit();
       this.messageManager.showMessageDeleteSuccess()
     });
   }
-
+  /**
+   * TrungTQ: Lấy id câu bình luận và xóa
+   * */
   getDeleteCommentById(idComment: number) {
     this.commentPostService.deleteComment(idComment).subscribe(data => {
       this.ngOnInit();
@@ -132,6 +159,9 @@ export class CommentPostListComponent implements OnInit {
     });
   }
 
+  /**
+   * TrungTQ: Lấy id bình luận
+   * */
   getIdCommentDelete(idComment: number) {
     this.idComment = idComment;
   }

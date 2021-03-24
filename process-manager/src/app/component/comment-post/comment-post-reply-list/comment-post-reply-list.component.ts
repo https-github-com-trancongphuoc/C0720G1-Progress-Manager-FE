@@ -22,6 +22,9 @@ export class CommentPostReplyListComponent implements OnInit {
   formGroup: FormGroup;
   account: IAccount;
 
+  commentNotification : any;
+  accountSendId: number;
+
   @Input() idReply;
 
   @Output() onDeleteComment = new EventEmitter();
@@ -36,20 +39,29 @@ export class CommentPostReplyListComponent implements OnInit {
     this.getAllListReplySizeInComment();
     this.getAccountPresent();
   }
-
+  /**
+   * TrungTQ: Lấy id tk hiện tại
+   * */
   getAccountPresent() {
     this.account = this.storageService.getUser();
   }
 
+  /**
+   * TrungTQ: hiển thị bình luận
+   * */
   getAllListReplySizeInComment() {
-    this.commentPostService.getAllReplySize(this.idReply, this.page, this.size).subscribe(data => {
+    this.commentPostService.getAllReplySize(this.idReply.id, this.page, this.size).subscribe(data => {
       if (data != null) {
         this.iComment = data.content;
       }
     });
   }
 
+  /**
+   * TrungTQ: Lấy id bình luận trên để trả lời
+   * */
   getIdComment(comments: IComment) {
+    this.commentNotification = comments;
     this.flagReply = true;
     this.idComment = comments.id;
     this.formGroup = this.formBuilder.group({
@@ -59,6 +71,9 @@ export class CommentPostReplyListComponent implements OnInit {
     })
   }
 
+  /**
+   * TrungTQ: Lấy id bình luận để sửa
+   * */
   getEditComments(comments: IComment) {
     this.flagEdit = true;
     this.idCommentEdit = comments.id;
@@ -68,12 +83,16 @@ export class CommentPostReplyListComponent implements OnInit {
     })
   }
 
+  /**
+   * TrungTQ: Trả lời bình luận
+   * */
   submitForReply() {
     if (this.formGroup.invalid) {
       this.messageManager.showMessageCreateNotRole();
       this.flagReply = false;
       return;
     } else {
+      this.formGroup.value.accountSendId = this.commentNotification.account.id;
       this.commentPostService.saveReply(this.formGroup.value).subscribe(data=>{
         this.flagReply = false;
         this.ngOnInit();
@@ -81,7 +100,9 @@ export class CommentPostReplyListComponent implements OnInit {
       })
     }
   }
-
+  /**
+   * TrungTQ: sửa bình luận
+   * */
   editReply() {
     if (this.formGroup.invalid) {
       this.messageManager.showMessageCreateNotRole();
@@ -101,6 +122,9 @@ export class CommentPostReplyListComponent implements OnInit {
     this.flagEdit = false;
   }
 
+  /**
+   * TrungTQ: ẩn hiện hình luận
+   * */
   onClickShowComment() {
     this.size = this.size + 2;
     this.getAllListReplySizeInComment();
@@ -111,6 +135,9 @@ export class CommentPostReplyListComponent implements OnInit {
     this.getAllListReplySizeInComment();
   }
 
+  /**
+   * TrungTQ: Lấy id để xóa
+   * */
   getCommentDeleteById(idComment: number) {
     this.onDeleteComment.emit(idComment);
   }

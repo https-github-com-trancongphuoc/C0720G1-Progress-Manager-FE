@@ -19,13 +19,6 @@ export class TopicService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAllTopicSize(page: number, size: number): Observable<any> {
-    return this.httpClient.get<any>(this.apiTopicUrl + 'topic?page=' + page + '&size=' + size, this.httpOptions)
-      .pipe(
-        catchError(this.errorHandler)
-      )
-  }
-
   getAllTopicFind(name: string, page: number, size: number): Observable<any> {
     return this.httpClient.get<any>(this.apiTopicUrl + 'topic-search?name=' + name + '&page=' + page + '&size=' + size, this.httpOptions)
       .pipe(
@@ -39,7 +32,6 @@ export class TopicService {
         catchError(this.errorHandler)
       );
   }
-
 
   errorHandler(error) {
     let errorMessage = '';
