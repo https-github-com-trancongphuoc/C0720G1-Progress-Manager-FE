@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {EditFileComponent} from './edit-file/edit-file.component';
 import {SubscribeTopicComponent} from './subscribe-topic/subscribe-topic.component';
-import {RogressReportsComponent} from './rogress-reports/rogress-reports.component';
+import {RogressReportsComponent} from './progress-reports/rogress-reports.component';
 import {StudentListComponent} from './student-list/student-list.component';
 import {StudentCreateComponent} from './student-create/student-create.component';
 import {StudentEditComponent} from './student-edit/student-edit.component';
