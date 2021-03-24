@@ -7,11 +7,11 @@
 </div><!-- End Breadcrumbs -->
 
 
-<div class="g-grid container" style="margin-top: 25px">
+<div *ngIf="checkLoading" class="g-grid container" style="margin-top: 25px">
   <div class="">
-    <h3 class="text-center text-danger" *ngIf="infoTopicRegisterList.length == 0"> Không có đề tài nào cần duyệt</h3>
+    <h3 class="text-center text-danger" *ngIf="checkEmpty"> Không có đề tài nào cần duyệt</h3>
 
-    <table *ngIf="infoTopicRegisterList.length > 0" class="table table-hover mt-5">
+    <table *ngIf="!checkEmpty" class="table table-hover mt-5">
       <thead>
       <tr>
         <th scope="col">STT</th>
@@ -35,7 +35,7 @@
       </tbody>
     </table>
 
-    <nav *ngIf="infoTopicRegisterList.length > 0" class="d-flex justify-content-end" aria-label="Page navigation example">
+    <nav *ngIf="!checkEmpty" class="d-flex justify-content-end" aria-label="Page navigation example">
       <ul class="pagination">
         <li  (click)="page = page - 1; getListInfoTopicRegister()" *ngIf="!pageable.first" class="page-item">
           <button class="page-link text-dark" aria-label="Previous">

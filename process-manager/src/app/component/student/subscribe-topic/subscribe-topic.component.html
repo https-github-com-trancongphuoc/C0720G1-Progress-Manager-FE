@@ -8,14 +8,17 @@
 
     <div class="col-6 border-end border-2 border-dark">
       <form action="" [formGroup]="formInfoTopicRegister">
-        <div formGroupName="topic" class="row">
+        <div formGroupName="topic" class="row" style="height: 50px">
           <div class="col-4">
             <label style="color: red">* </label>Tên đề tài
           </div>
           <div class="col-8">
             <input formControlName="name" class="form-control" [readOnly]="checkReadOnly" >
           </div>
+          <span *ngIf="(formInfoTopicRegister.get('topic').get('name').hasError('required')) && formInfoTopicRegister.get('topic').get('name').touched " class="text-danger" style="margin-left: 35%">Không được để trống</span>
+          <span *ngIf="( formInfoTopicRegister.get('topic').get('name').hasError('maxlength')) && formInfoTopicRegister.get('topic').get('name').touched " class="text-danger" style="margin-left: 35%">Tên đề tài không được vượt quá 100 ký tự</span>
         </div>
+
         <div formGroupName="topic" class="row mt-3">
           <div class="col-4">
             <label style="color: red">* </label>Nội dung đề tài
@@ -23,7 +26,10 @@
           <div class="col-8">
             <textarea formControlName="content" rows="5" cols="50" class="form-control" [readOnly]="checkReadOnly" ></textarea>
           </div>
+          <span *ngIf="(formInfoTopicRegister.get('topic').get('content').hasError('required') ) && formInfoTopicRegister.get('topic').get('content').touched " class="text-danger" style="margin-left: 35%">Không được để trống</span>
+          <span *ngIf="(formInfoTopicRegister.get('topic').get('content').hasError('maxlength')) && formInfoTopicRegister.get('topic').get('content').touched " class="text-danger" style="margin-left: 35%">Nội dung đề tài không được vượt quá 1000 ký tự</span>
         </div>
+
 <!--        <div class="row mt-4">-->
 <!--          <div class="col-4">-->
 <!--            <label style="color: red">* </label>Nhóm-->
@@ -47,7 +53,7 @@
           <th scope="col">STT</th>
           <th scope="col">Tên đề tài</th>
           <!--          <th scope="col">Số Lượng SVTH</th>-->
-          <th scope="col">Xem</th>
+<!--          <th scope="col">Xem</th>-->
           <th scope="col">Chọn</th>
         </tr>
         </thead>
@@ -56,9 +62,9 @@
           <th scope="row">{{i + 1}}</th>
           <td>{{e.name}}</td>
           <!--          <td>1128</td>-->
-          <td>
-            <button class="btn btn-success">Xem</button>
-          </td>
+<!--          <td>-->
+<!--            <button class="btn btn-success">Xem</button>-->
+<!--          </td>-->
           <td *ngIf="e.id != idTopicSelected">
             <button class="btn btn-success" (click)="selectTopic(e)">Chọn</button>
           </td>
@@ -79,8 +85,8 @@
     </div>
     <div class="col-3">
       <form [formGroup]="formInfoTopicRegister" (ngSubmit)="save()">
-      <button [routerLink]="['/group',accountPercent.student.groupAccount.id]" class="get-started-btn bg-secondary">Thoát</button>
-      <button type="submit" class="get-started-btn bg-primary">Đăng ký</button>
+      <button [routerLink]="['/group',accountPercent.student.groupAccount.id]" class="get-started-btn bg-secondary border-0">Thoát</button>
+      <button type="submit" class="get-started-btn bg-primary border-0">Đăng ký</button>
       </form>
     </div>
   </div>
