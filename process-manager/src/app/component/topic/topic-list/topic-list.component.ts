@@ -30,6 +30,9 @@ export class TopicListComponent implements OnInit {
     this.ngSubmit();
   }
 
+  /**
+   * TrungTQ: Hiển thị danh sách dự án, tìm kiếm
+   * */
   getAllTopicSearch() {
     if (!Number(this.page) || Number(this.page) <0 ){
       this.page = 0;
@@ -58,6 +61,9 @@ export class TopicListComponent implements OnInit {
     })
   }
 
+  /**
+   * TrungTQ: Cắt ngắn bớt giới thiệu
+   * */
   getShortName(name: string, size: number): string {
     if (name.length > size) {
       return name.substring(0, size).concat('...');

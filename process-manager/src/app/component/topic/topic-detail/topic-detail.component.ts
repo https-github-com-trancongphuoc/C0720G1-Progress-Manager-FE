@@ -18,7 +18,9 @@ export class TopicDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getTopicById();
   }
-
+  /**
+   * TrungTQ: Lấy id để hiển thị chi tiết dự án
+   * */
   getTopicById(){
     this.idTopic = this.route.snapshot.params['id'];
     this.topicService.findByIdTopic(this.idTopic).subscribe((data:ITopic)=>{

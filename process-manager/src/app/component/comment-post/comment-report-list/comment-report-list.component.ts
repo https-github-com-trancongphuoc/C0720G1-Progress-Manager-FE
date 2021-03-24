@@ -19,7 +19,9 @@ export class CommentReportListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllListReportSizeInProcess();
   }
-
+  /**
+   * TrungTQ: Hiển thị danh sách bài báo cáo theo từng giai đoạn dự án
+   * */
   getAllListReportSizeInProcess() {
     this.commentPostService.getAllReportSize(this.idProcessReport, this.page, this.size).subscribe(data => {
       this.iReport = data.content;
