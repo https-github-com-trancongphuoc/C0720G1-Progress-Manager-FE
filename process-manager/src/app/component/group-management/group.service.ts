@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {IStudent, IStudent1} from "../../entity/IStudent";
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,8 @@ export class GroupService {
     return this.http.get(this.API + 'list-group?page=' + page);
   }
 
-  deleteGroup(groupId: number) {
-    return this.http.delete(this.API + 'delete-group/' + groupId);
+  deleteGroup(groupId: number, listIdStudent: number[]) {
+    return this.http.post(this.API + 'delete-group/' + groupId, listIdStudent);
   }
 
   getListStudentByIdGroup(id: number): Observable<any> {
@@ -50,5 +51,13 @@ export class GroupService {
 
   searchGroup(searchName: string, page: number) {
     return this.http.get(this.API + 'search-group/' + searchName + '?page=' + page);
+  }
+
+  createGroup(nameGroup: string, listStudentAdded: IStudent[]) {
+    return this.http.post(this.API + 'create-group/' + nameGroup, listStudentAdded)
+  }
+
+  createGroupAndLeader(nameGroup: string, listStudentAdded: IStudent[], accountId: number) {
+    return this.http.post(this.API + 'create-group-leader/' + nameGroup + '/' + accountId,listStudentAdded)
   }
 }

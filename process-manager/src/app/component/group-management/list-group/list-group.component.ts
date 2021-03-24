@@ -4,6 +4,7 @@ import {IGroupAccount} from '../../../entity/IGroupAccount';
 import {GroupService} from '../group.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {StorageService} from "../../account/storage.service";
 
 @Component({
   selector: 'app-list-group',
@@ -21,10 +22,12 @@ export class ListGroupComponent implements OnInit {
   listStudent: IStudent1[] = [];
   studentId = 0;
   nameStudent: string;
+  listIdStudent: number[] = []
 
   constructor(public groupService: GroupService,
               private router: Router,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private storage : StorageService) {
   }
 
   ngOnInit(): void {
@@ -42,8 +45,12 @@ export class ListGroupComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    this.groupService.deleteGroup(this.groupId).subscribe(data => {
+  onSubmit(listStudent: IStudent1[]) {
+    for (let i = 0; i < listStudent.length; i++) {
+      this.listIdStudent[i] = this.listStudent[i].id
+    }
+
+    this.groupService.deleteGroup(this.groupId, this.listIdStudent).subscribe(data => {
       this.toastrService.warning('Xóa nhóm thành công', 'Thành công');
       this.ngOnInit();
     });
@@ -100,7 +107,6 @@ export class ListGroupComponent implements OnInit {
         this.listGroup.forEach(value => {
           value.quantity = value.studentList.length;
         });
-        console.log(data);
       });
     }
   }
