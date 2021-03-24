@@ -6,6 +6,7 @@ import {ICommentDTO} from '../../../dto/ICommentDTO';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {isEmpty} from "rxjs/operators";
 import {NotificationService} from "../../common/notification.service";
+import {WebSocketService} from "../../common/web-socket.service";
 
 @Component({
   selector: 'app-process-detail',
@@ -53,7 +54,8 @@ export class ProcessDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private storageService: StorageService,
               private fb: FormBuilder,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private webSocketService: WebSocketService) {
   }
 
   ngOnInit(): void {
@@ -165,6 +167,7 @@ export class ProcessDetailComponent implements OnInit {
 
       this.processService.teacherAppreciate(this.formAppreciate.value).subscribe(data => {
         this.ngOnInit();
+        this.webSocketService.callServer().subscribe();
         // this.commentList.push(data);
         // this.formAppreciate.reset();
         // this.checkLoading = false;
@@ -246,8 +249,6 @@ export class ProcessDetailComponent implements OnInit {
       this.formEditAppreciate.value.account = this.accountPresent;
 
 
-
-
       this.processService.replyAppreciate(this.formEditAppreciate.value).subscribe(data => {
         for (let i = 0; i < this.commentList.length; i++) {
           if (this.commentList[i].id == comment.id) {
@@ -257,6 +258,7 @@ export class ProcessDetailComponent implements OnInit {
 
 
         this.formEditAppreciate.reset();
+        this.webSocketService.callServer().subscribe();
       })
     }
   }

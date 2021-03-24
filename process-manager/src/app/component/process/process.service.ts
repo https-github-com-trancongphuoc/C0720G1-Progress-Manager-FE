@@ -70,4 +70,8 @@ export class ProcessService {
   approval(infoTopicWantApproval: any) {
     return this.http.post(this.URL + '/approval' , infoTopicWantApproval, this.httpOptions);
   }
+
+  getListTopic(id: number) {
+    return this.http.get(this.URL + '/get-topic-list/' + id);
+  }
 }

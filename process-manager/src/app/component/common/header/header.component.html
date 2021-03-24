@@ -51,9 +51,9 @@
         </li>
 
         <li class="ml-4">
-          <div class="dropdown" *ngIf="checkLogin">
+          <div class="dropdown" *ngIf="accountPresent != null">
             <button class="btn mb-2" (click)="seen()">
-        <span *ngIf="checkLogin" id="dropdownMenuButton1" class=""
+        <span *ngIf="accountPresent != null" id="dropdownMenuButton1" class=""
               style="margin-right: 30px; margin-bottom: 5px; font-size: 25px">
           <i *ngIf="checkSeen" class="bi bi-envelope-fill text-danger"> </i>
           <i *ngIf="!checkSeen" class="bi bi-envelope-open-fill text-success"></i>
@@ -96,8 +96,8 @@
 
     </nav><!-- .navbar -->
 
-    <a *ngIf="!checkLogin" href="/login" class="get-started-btn">Đăng nhập</a>
-    <a style="position: absolute; right: 50px" routerLink="" *ngIf="checkLogin" (click)="signOut()">Đăng xuất</a>
+    <a *ngIf="accountPresent == null" href="/login" class="get-started-btn">Đăng nhập</a>
+    <a style="position: absolute; right: 50px" routerLink="" *ngIf="accountPresent != null" (click)="signOut()">Đăng xuất</a>
 
   </div>
 </header>

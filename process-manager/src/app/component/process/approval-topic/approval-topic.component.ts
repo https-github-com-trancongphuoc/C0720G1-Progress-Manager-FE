@@ -52,6 +52,5 @@ export class ApprovalTopicComponent implements OnInit {
     this.processService.approval(this.infoTopicWantApproval).subscribe(data => {
       this.ngOnInit();
     })
-
   }
 }

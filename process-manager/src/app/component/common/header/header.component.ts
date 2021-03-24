@@ -3,13 +3,14 @@ import {StorageService} from '../../account/storage.service';
 import {ProcessService} from "../../process/process.service";
 import {ToastrService} from "ngx-toastr";
 import {NotificationService} from "../notification.service";
+import {WebSocketService} from "../web-socket.service";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, DoCheck {
+export class HeaderComponent implements OnInit {
 
   checkLogin = false;
 
@@ -24,16 +25,32 @@ export class HeaderComponent implements OnInit, DoCheck {
   processDetail: any;
 
   countNotification = 0;
+
   check = false;
+
   checkStudentExistGroup = false;
 
   constructor(private storageService: StorageService,
               private processService: ProcessService,
               private toast: ToastrService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private webSocketService: WebSocketService) {
+
+    // Open connection with server socket
+    let stompClient = this.webSocketService.connect();
+    // stompClient.connect();
+    stompClient.connect({}, frame => {
+      console.log(frame);
+      // Subscribe to notification topic
+      stompClient.subscribe('/topic/notification', notifications => {
+        // Update notifications attribute with the recent messsage sent from the server
+        this.ngOnInit();
+      })
+    });
   }
 
   ngOnInit(): void {
+    this.countNotification = 0;
     this.getAccountPresent();
     this.checkLogin = !!this.accountPresent;
     if (this.checkLogin) {
@@ -55,23 +72,20 @@ export class HeaderComponent implements OnInit, DoCheck {
   getAccountPresent() {
     this.accountPresent = this.storageService.getUser();
     this.accountPresent.accountRoleList.forEach(value => {
-      this.check = (value.role.name == 'Admin') || (value.role.name == 'Giảng viên');
-    })
+      this.check = (value.role.name == 'ROLE_ADMIN') || (value.role.name == 'ROLE_TEACHER');
+    });
+
     if (this.accountPresent.student == null) {
       this.checkStudentExistGroup = false;
     }
-    if (this.accountPresent.student.groupAcount != null) {
+    if (this.accountPresent.student?.groupAcount != null) {
       this.checkStudentExistGroup = false;
     }
-    if (this.accountPresent.student.groupAccount == null) {
+    if (this.accountPresent.student?.groupAccount == null) {
       this.checkStudentExistGroup = true;
     }
 
     console.log(this.accountPresent)
-  }
-
-  ngDoCheck(): void {
-
   }
 
   signOut() {
@@ -81,6 +95,7 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   getNotification() {
     this.notificationService.getAllNotification(this.accountPresent.id).subscribe(data => {
+      console.log(data);
       this.notificationList = data.content;
       this.checkLoad = true;
       for (let i = 0; i < this.notificationList.length; i++) {
