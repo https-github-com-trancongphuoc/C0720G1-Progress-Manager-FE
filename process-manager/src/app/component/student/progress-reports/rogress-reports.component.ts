@@ -28,6 +28,9 @@ export class RogressReportsComponent implements OnInit {
   reportList: IReport[];
   form: FormGroup;
   fake: number;
+
+
+  nameTopic: any;
   private selectedImage: any = null;
   constructor(private studentService: StudentService,
               private activatedRoute: ActivatedRoute,
@@ -47,7 +50,24 @@ export class RogressReportsComponent implements OnInit {
         console.log(this.progressReports)
         this.reportList = data[1];
       })
-    })
+    });
+
+    this.getNameTopic();
+
+  }
+
+  getNameTopic() {
+    console.log(this.storageService.getUser())
+    let infoRegisterTopicList = this.storageService.getUser().student.groupAccount.infoTopicRegisterList;
+
+
+    for (let i = 0; i < infoRegisterTopicList.length; i++) {
+      if(!infoRegisterTopicList[i].statusComplete) {
+        this.nameTopic = infoRegisterTopicList[i].topic.name;
+      }
+    }
+
+    console.log(infoRegisterTopicList);
   }
   showPreview(event: any) {
     if (event.target.files) {
