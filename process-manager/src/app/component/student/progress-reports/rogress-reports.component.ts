@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {StudentService} from "../student.service";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router, RouterModule} from "@angular/router";
 import {ITopicProcess} from "../../../entity/ITopicProcess";
 import {UploadFireService} from "../../upload-fire-service/upload-fire-service";
 import {ToastrService} from "ngx-toastr";
@@ -23,8 +23,11 @@ export class RogressReportsComponent implements OnInit {
   url: string = null;
   idProject: string = 'project-dating-c8c29';
   report: IReport;
+  public pageable: any;
+  public page = 0;
   reportList: IReport[];
   form: FormGroup;
+  fake: number;
   private selectedImage: any = null;
   constructor(private studentService: StudentService,
               private activatedRoute: ActivatedRoute,
@@ -32,7 +35,8 @@ export class RogressReportsComponent implements OnInit {
               @Inject(UploadFireService) private uploadFileService: UploadFireService,
               private toastr: ToastrService,
               private storageService: StorageService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -42,11 +46,9 @@ export class RogressReportsComponent implements OnInit {
         this.progressReports = data[0];
         console.log(this.progressReports)
         this.reportList = data[1];
-        console.log(this.reportList)
       })
     })
   }
-
   showPreview(event: any) {
     if (event.target.files) {
       var reader = new FileReader();
@@ -79,6 +81,7 @@ export class RogressReportsComponent implements OnInit {
             this.report.url = url;
             console.log(this.report.url)
             this.studentService.createReport(this.report).subscribe(data => {
+              this.router.navigateByUrl('/process-detail/' + this.progressReports.infoTopicRegister.id)
               this.toastr.success('Báo Cáo Thành Công','THÔNG BÁO')
             })
           });
