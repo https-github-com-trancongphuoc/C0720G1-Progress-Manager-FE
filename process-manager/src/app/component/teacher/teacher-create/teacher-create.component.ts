@@ -1,13 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {UploadFireService} from '../../common/upload-fire-service/upload-fire.service';
+
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Router} from '@angular/router';
 import {TeacherService} from '../teacher.service';
 import {StudentService} from '../../student/student.service';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IFaculty} from '../../../entity/IFaculty';
 import {IDegree} from '../../../entity/IDegree';
 import {finalize} from 'rxjs/operators';
+import {UploadFireService} from "../../upload-fire-service/upload-fire-service";
+import {checkDateOfBirth} from "../../common/validate/checkBirthdayStudentAndTeacher";
 
 @Component({
   selector: 'app-teacher-create',
@@ -39,16 +41,48 @@ export class TeacherCreateComponent implements OnInit {
     this.uploadFireService.getImageDetailList();
   }
 
+  validation_messages = {
+    name: [
+      {type: 'required', message: 'Vui lòng nhập tên'},
+      {type: 'maxlength', message: 'Vui lòng nhập tên không quá 40 kí tự.'},
+      {type: 'minlength', message: 'Vui lòng nhập tên có ít nhất 6 kí tự'},
+      {type: 'pattern', message: 'Vui lòng nhập tên đúng'}
+    ],
+    dateOfBirth: [
+      {type: 'required', message: 'Vui lòng nhập ngày sinh'},
+      {type: 'checkAge', message: 'Tuổi phải từ 18 đến 50'},
+    ],
+    phone: [
+      {type: 'required', message: 'Vui lòng nhập số điện thoại'},
+      {type: 'pattern', message: 'Vui lòng nhập số địa thoại đúng định dạng 0xxxxxxxxx'}
+    ],
+    address: [
+      {type: 'required', message: 'Vui lòng nhập địa chỉ'},
+      {type: 'maxlength', message: 'Vui lòng nhập tên không quá 40 kí tự.'},
+      {type: 'minlength', message: 'Vui lòng nhập tên có ít nhất 6 kí tự'},
+      {type: 'pattern', message: 'Vui lòng nhập tên đúng'}
+    ],
+    email: [
+      {type: 'required', message: 'Vui lòng nhập email'},
+      {type: 'pattern', message: 'Vui lòng nhập email đúng định dạng abcabc@abc.abc'}
+    ],
+  };
+
   ngOnInit(): void {
     this.formCreateTeacher = new FormGroup({
-      name: new FormControl(''),
-      dateOfBirth: new FormControl(''),
-      address: new FormControl(''),
-      phone: new FormControl(''),
-      email: new FormControl(''),
+      name: new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợở" +
+        "ỡùúụủũưừứựửữỳýỵỷỹđ]+(\\s[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]+)*$"),
+        Validators.maxLength(40), Validators.minLength(6)]),
+      dateOfBirth: new FormControl('', checkDateOfBirth),
+      address: new FormControl('',[Validators.required, Validators.pattern('^[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợở' +
+        'ỡùúụủũưừứựửữỳýỵỷỹđ]+(\\s[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]+)*$'),
+        Validators.maxLength(100), Validators.minLength(6)]),
+      phone: new FormControl('',[Validators.required, Validators.pattern("^(0|\\(\\+84\\))\\d{9}$")]),
+      email: new FormControl('', [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
       faculty: new FormControl(''),
       degree: new FormControl(''),
       avatar: new FormControl(''),
+      gender: new FormControl(),
     });
   }
 

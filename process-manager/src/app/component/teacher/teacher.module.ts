@@ -6,11 +6,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import { TeacherCreateComponent } from './teacher-create/teacher-create.component';
+import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 
 
 
 @NgModule({
-  declarations: [TeacherListComponent, TeacherCreateComponent],
+  declarations: [TeacherListComponent, TeacherCreateComponent, TeacherEditComponent],
   imports: [
     CommonModule,
     TeacherRoutingModule,

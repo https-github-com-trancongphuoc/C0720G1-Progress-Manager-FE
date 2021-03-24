@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IStudent} from '../../entity/IStudent';
+import {IStudent, IStudentEdit} from '../../entity/IStudent';
 import {IGrade} from '../../entity/IGrade';
 import {IFaculty} from '../../entity/IFaculty';
 
@@ -72,8 +72,16 @@ export class StudentService {
    * TinVT
    * findById Student
    */
-  findStudentById(id: number): Observable<IStudent>{
-    return this.http.get<IStudent>(this.API + "/get-Student-by-id/"+ id);
+
+  findStudentById(id: number): Observable<IStudentEdit>{
+    return this.http.get<IStudentEdit>(this.API + "/get-student-by-id/"+ id);
+  }
+  /**
+   * TinVT
+   * findById Student
+   */
+  editStudent(any): Observable<any>{
+      return this.http.put<any>(this.API + "/edit-student", JSON.stringify(any), this.httpOptions);
   }
 
   createReport(report: IReport): Observable<any>{

@@ -33,12 +33,12 @@ export class RogressReportsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((data: ParamMap) => {
-      this.idProcess = data.get('id');
-      this.studentService.checkCreateReport(this.idProcess).subscribe(data => {
-        this.progressReports = data;
-      })
-    })
+    // this.activatedRoute.paramMap.subscribe((data: ParamMap) => {
+    //   this.idProcess = data.get('id');
+    //   this.studentService.checkCreateReport(this.idProcess).subscribe(data => {
+    //     this.progressReports = data;
+    //   })
+    // })
   }
 
   showPreview(event: any) {

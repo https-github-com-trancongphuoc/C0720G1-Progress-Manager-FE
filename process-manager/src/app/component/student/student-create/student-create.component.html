@@ -7,72 +7,113 @@
   <!-- ======= Cource Details Section ======= -->
   <section class="course-details">
     <div class="container" data-aos="fade-up">
-      <div class="row">
-        <div class="col-lg-5">
-          <div style="width: 95%; height: 80%">
-            <img [src]="image" class="img-thumbnail" style="width: 100%;height: 100%" alt="">
-          </div>
+      <div class="row" style="height: 500px">
+        <div class="col-lg-5 h-100">
+          <img [src]="image" class="img-thumbnail h-100 w-100" alt="">
           <div class="container-fluid d-flex justify-content-end mt-2">
             <input type="file" id="choiceAvatar" hidden (change)="showPreview($event)">
-            <button type="button" class="btn btn-outline-primary" (click)="choiceFileAvatar()"  style="border-radius: 50px;">Chọn ảnh đại diện
+            <button type="button" class="btn btn-outline-primary" (click)="choiceFileAvatar()"
+                    style="border-radius: 50px;">Chọn ảnh đại diện
             </button>
           </div>
         </div>
         <div class="col-lg-7">
           <form [formGroup]="formCreateStudent" (ngSubmit)="save()">
-            <div class="mb-3">
-              <label for="name" class="form-label createStudent">Tên sinh viên (<span
-                style="color: red">*</span>)</label>
-              <input type="text" class="form-control" id="name" formControlName="name">
-            </div>
             <div class="row">
+              <div class="col-lg-6">
+                <label for="name" class="form-label createStudent">Tên sinh viên (<span
+                  style="color: red">*</span>)</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div class="text-danger" *ngFor="let validation of validation_messages.name">
+                  <div class="error-message"
+                       *ngIf="formCreateStudent.get('name').hasError(validation.type) && (formCreateStudent.get('name').dirty || formCreateStudent.get('name').touched)">
+                    {{validation.message}}</div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label for="gender" class="form-label createStudent">Giới tính (<span
+                  style="color: red">*</span>)</label><br>
+                <select name="" id="gender" class="form-select w-100" formControlName="gender">
+                  <option [value]="true">Nam</option>
+                  <option [value]="false">Nữ</option>
+                </select>
+                <div class="text-danger" *ngFor="let validation of validation_messages.gender">
+                  <div class="error-message"
+                       *ngIf="formCreateStudent.get('gender').hasError(validation.type) && (formCreateStudent.get('gender').dirty || formCreateStudent.get('gender').touched)">
+                    {{validation.message}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
               <div class="col-lg-6">
                 <label for="birthday" class="form-label createStudent">Ngày sinh (<span
                   style="color: red">*</span>)</label>
                 <input type="date" class="form-control" id="birthday" formControlName="dateOfBirth">
-              </div>
-              <div class="col-lg-6">
-                <div class="mb-3">
-                  <div class="mb-3">
-                    <label for="phone" class="form-label createStudent">Số điện thoại (<span style="color: red">*</span>)</label>
-                    <input type="number" class="form-control" id="phone" formControlName="phone">
-                  </div>
-
+                <div class="text-danger" *ngFor="let validation of validation_messages.dateOfBirth">
+                  <div class="error-message"
+                       *ngIf="formCreateStudent.get('dateOfBirth').hasError(validation.type) && (formCreateStudent.get('dateOfBirth').dirty || formCreateStudent.get('dateOfBirth').touched)">
+                    {{validation.message}}</div>
                 </div>
               </div>
+              <div class="col-lg-6">
+                    <label for="phone" class="form-label createStudent">Số điện thoại (<span style="color: red">*</span>)</label>
+                    <input type="text" class="form-control" id="phone" formControlName="phone">
+                    <div class="text-danger" *ngFor="let validation of validation_messages.phone">
+                      <div class="error-message"
+                           *ngIf="formCreateStudent.get('phone').hasError(validation.type) && (formCreateStudent.get('phone').dirty || formCreateStudent.get('phone').touched)">
+                        {{validation.message}}</div>
+                    </div>
+              </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
               <div class="col-lg-6">
                 <label for="class" class="form-label createStudent">Lớp (<span style="color: red">*</span>)</label><br>
                 <select name="" id="class" class="form-select w-100"
                         aria-label="Default select example" formControlName="grade">
                   <option value="" selected>Chọn Lớp...</option>
                   <option [value]="grade.id" *ngFor="let grade of listGrade">{{grade.name}}</option>
+                  <div class="text-danger" *ngFor="let validation of validation_messages.grade">
+                    <div class="error-message"
+                         *ngIf="formCreateStudent.get('grade').hasError(validation.type) && (formCreateStudent.get('grade').dirty || formCreateStudent.get('grade').touched)">
+                      {{validation.message}}</div>
+                  </div>
                 </select>
               </div>
-
               <div class="col-lg-6">
-                <div class="mb-3">
-                  <label for="faculty" class="form-label createStudent">Khoa (<span style="color: red">*</span>)</label><br>
-                  <select name="" id="faculty" class="form-select w-100"
-                          aria-label="Default select example" formControlName="faculty">
-                    <option value="">Chọn Khoa...</option>
-                    <option [value]="faculty.id" *ngFor="let faculty of listFaculty">{{faculty.name}}</option>
-                  </select>
+                <label for="diachi" class="form-label createStudent">Địa chỉ (<span style="color: red">*</span>)</label>
+                <input type="text" class="form-control" id="diachi" formControlName="address">
+                <div class="text-danger" *ngFor="let validation of validation_messages.address">
+                  <div class="error-message"
+                       *ngIf="formCreateStudent.get('address').hasError(validation.type) && (formCreateStudent.get('address').dirty || formCreateStudent.get('address').touched)">
+                    {{validation.message}}</div>
                 </div>
               </div>
             </div>
-            <div class="mb-3">
-              <label for="diachi" class="form-label createStudent">Địa chỉ (<span style="color: red">*</span>)</label>
-              <input type="text" class="form-control" id="diachi" formControlName="address">
+            <div class="row mb-3">
+              <div class="col-lg-6">
+                <label for="email" class="form-label createStudent">Email (<span style="color: red">*</span>)</label>
+                <input type="text" class="form-control" id="email" formControlName="email">
+                <div class="text-danger" *ngFor="let validation of validation_messages.email">
+                  <div class="error-message"
+                       *ngIf="formCreateStudent.get('email').hasError(validation.type) && (formCreateStudent.get('email').dirty || formCreateStudent.get('email').touched)">
+                    {{validation.message}}</div>
+                </div>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label createStudent">Email (<span style="color: red">*</span>)</label>
-              <input type="text" class="form-control" id="email" formControlName="email">
-            </div>
-            <div class="container d-flex justify-content-end">
-              <button type="submit" class="btn  get-started-btn">Lưu</button>
-              <button type="button" class="btn  get-started-btn" [routerLink]="['list-student']" style="background: #7e9486">Thoát
+            <div class="container d-flex justify-content-end mt-3">
+<!--              <div *ngIf="isSubmit then submited else notSubmited"></div>-->
+<!--              <ng-template #notSubmited>-->
+<!--               -->
+<!--              </ng-template>-->
+<!--              <ng-template #submited>-->
+<!--                <button type="submit" class="btn btn-primary icon" disabled>Lưu-->
+<!--                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>-->
+<!--                  Loading...-->
+<!--                </button>-->
+<!--              </ng-template>-->
+              <button [disabled]="formCreateStudent.invalid" type="submit" class="btn  get-started-btn" >Lưu</button>
+              <button type="button" class="btn  get-started-btn" [routerLink]="['list-student']"
+                      style="background: #7e9486">Thoát
               </button>
             </div>
 
