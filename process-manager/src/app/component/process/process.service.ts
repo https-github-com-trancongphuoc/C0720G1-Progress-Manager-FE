@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ICommentDTO} from '../../dto/ICommentDTO';
@@ -32,7 +32,7 @@ export class ProcessService {
   }
 
   getListComment(idProcessDetail: number, page: number): Observable<any> {
-    return this.http.get<ICommentDTO[]>(this.URL + '/appreciate-list/' + idProcessDetail + '/?page=' + page);
+    return this.http.get<ICommentDTO[]>(this.URL + '/appreciate-list?idProcessDetail=' + idProcessDetail + '&page=' + page);
   }
 
   getRepCommentList(idComment: number) {
@@ -51,12 +51,16 @@ export class ProcessService {
     return this.http.post(this.URL + '/edit-appreciate', value, this.httpOptions);
   }
 
+  // deleteAppreciate(value: any) {
+  //   return this.http.post(this.URL + '/delete-appreciate', value, this.httpOptions);
+  // }
+
   deleteAppreciate(value: any) {
-    return this.http.post(this.URL + '/delete-appreciate', value, this.httpOptions);
+    return this.http.get(this.URL + '/delete-appreciate/' + value.id);
   }
 
-  replyAppreciate(value: any) {
-    return this.http.post(this.URL + '/reply-appreciate', value, this.httpOptions);
+  replyAppreciate(value: any, id: number) {
+    return this.http.post(this.URL + '/reply-appreciate/' + id, value, this.httpOptions);
   }
 
   registerTopic(value: any) {
@@ -68,7 +72,7 @@ export class ProcessService {
   }
 
   approval(infoTopicWantApproval: any) {
-    return this.http.post(this.URL + '/approval' , infoTopicWantApproval, this.httpOptions);
+    return this.http.post(this.URL + '/approval', infoTopicWantApproval, this.httpOptions);
   }
 
   getListTopic(id: number) {
