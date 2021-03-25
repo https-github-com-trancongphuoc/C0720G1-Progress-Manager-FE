@@ -16,3 +16,16 @@ export interface ITeacher{
   faculty: IFaculty;
   account: IAccount;
 }
+
+export interface ITeacherEditDTO {
+  id: number;
+  name: string;
+  address: string;
+  dateOfBirth: string;
+  email: string;
+  phone: string;
+  degree: number;
+  faculty: number;
+  gender: boolean,
+  avatar: string;
+}
