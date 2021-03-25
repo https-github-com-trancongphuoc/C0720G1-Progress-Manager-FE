@@ -22,9 +22,12 @@
     "@angular/router": "~9.1.12",
     "angularfire": "^2.3.0",
     "firebase": "^8.3.1",
+    "net": "^1.0.2",
     "ngx-ckeditor": "^10.0.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.5.4",
+    "sockjs-client": "^1.5.0",
+    "stompjs": "^2.3.3",
     "tslib": "^1.10.0",
     "xlsx": "^0.16.9",
     "zone.js": "~0.10.2"
