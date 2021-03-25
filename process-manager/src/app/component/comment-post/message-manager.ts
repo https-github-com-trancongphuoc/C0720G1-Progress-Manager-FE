@@ -30,4 +30,20 @@ export class MessageManager {
   showMessageSearch(){
     this.toastrService.warning("Tìm kiếm không thành công", "Thông báo");
   }
+
+  showMessageCreateStudentExcel(number: number){
+    this.toastrService.success("Bạn đã thêm mới " + number + " danh sách sinh viên thành công", "Thông báo");
+  }
+
+  showMessageDeleteStudentExcel(){
+    this.toastrService.success("Bạn đã xóa bớt một sinh viên thành công", "Thông báo");
+  }
+
+  showMessageCreateTeacherExcel(number: number){
+    this.toastrService.success("Bạn đã thêm mới " + number + " danh sách giảng viên thành công", "Thông báo");
+  }
+
+  showMessageDeleteTeacherExcel(){
+    this.toastrService.success("Bạn đã xóa bớt một giảng viên thành công", "Thông báo");
+  }
 }
