@@ -36,7 +36,7 @@
         </div>
 
         <div class="col-lg-8 mt-5 mt-lg-0">
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+          <form role="form">
             <div class="col-md-6 form-group mt-2">
               <h5 class="d-flex justify-content-center">{{nameTopic}}</h5>
             </div>
@@ -51,7 +51,10 @@
             </div>
             <div class="row mt-4">
               <div class="col-md-6">
-                <input class="form-control"  type="file" (change)="showPreview($event)" multiple>
+                <!--                <input class="form-control"  type="file" (change)="showPreview($event)" multiple>-->
+                <div class="mb-3">
+                  <input class="form-control" type="file" id="formFile" (change)="showPreview($event)" multiple>
+                </div>
               </div>
               <div class="col-md-6 form-group mt-3 mt-md-0">
                 <p>
@@ -65,7 +68,7 @@
                     <table class="table table-hover">
                       <thead>
                       <tr>
-                        <th scope="col">Ngày BC</th>
+                        <th scope="col">Ngày báo cáo</th>
                         <th scope="col">Tải xuống</th>
                       </tr>
                       </thead>
@@ -97,8 +100,9 @@
 
               </div>
               <div class="col-5">
-                <button [routerLink]="['/process-detail/' + progressReports.infoTopicRegister.id]"
-                   class="get-started-btn bg-secondary border-0">Thoát</button>
+                <button [routerLink]="['/process-detail/' + idInfoRegisterProcess]"
+                        class="get-started-btn bg-secondary border-0">Thoát
+                </button>
                 <button (click)="save()" class="get-started-btn bg-primary border-0">Gửi</button>
               </div>
             </div>
