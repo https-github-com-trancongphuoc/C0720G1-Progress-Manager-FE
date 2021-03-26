@@ -53,11 +53,23 @@ export class GroupService {
     return this.http.get(this.API + 'search-group/' + searchName + '?page=' + page);
   }
 
-  createGroup(nameGroup: string, listStudentAdded: IStudent[]) {
-    return this.http.post(this.API + 'create-group/' + nameGroup, listStudentAdded)
+  createGroup(nameGroup: string, listStudentAdded: IStudent[], id: number) {
+    return this.http.post(this.API + 'create-group/' + nameGroup + '/' + id, listStudentAdded)
   }
 
   createGroupAndLeader(nameGroup: string, listStudentAdded: IStudent[], accountId: number) {
-    return this.http.post(this.API + 'create-group-leader/' + nameGroup + '/' + accountId,listStudentAdded)
+    return this.http.post(this.API + 'create-group-leader/' + nameGroup + '/' + accountId, listStudentAdded)
+  }
+
+  checkJoinGroup(id: number) {
+    return this.http.get(this.API + 'check-join-group/' + id)
+  }
+
+  acceptJoinGroup(id: any) {
+    return this.http.get(this.API + 'accept-join-group/'+ id)
+  }
+
+  denyGroup(id: any) {
+    return this.http.get(this.API + 'deny-join-group/'+ id)
   }
 }
