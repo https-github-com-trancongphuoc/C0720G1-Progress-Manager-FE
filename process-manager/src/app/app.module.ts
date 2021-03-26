@@ -17,7 +17,7 @@ import {GroupModule} from './component/group-management/group.module';
 import {ProcessModule} from "./component/process/process.module";
 import {imagePost} from "../environments/image-post";
 import {TopicModule} from "./component/topic/topic.module";
-
+import {ManagerAddNewModule} from "./component/manager-add-new/manager-add-new.module";
 
 
 @NgModule({
@@ -39,6 +39,7 @@ import {TopicModule} from "./component/topic/topic.module";
     GroupModule,
     ProcessModule,
     TopicModule,
+	ManagerAddNewModule,
     AngularFireModule.initializeApp(imagePost.firebaseConfig)
   ],
   providers: [],

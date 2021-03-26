@@ -92,7 +92,7 @@ export class RegisterGroupComponent implements OnInit {
 
   createGroup(nameGroup: string) {
     if (this.storage.getUser().student == null) {
-      this.groupService.createGroup(nameGroup, this.listStudentAdded).subscribe(data => {
+      this.groupService.createGroup(nameGroup, this.listStudentAdded,this.storage.getUser().id).subscribe(data => {
         this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
         this.router.navigateByUrl('')
         setTimeout(function () {
