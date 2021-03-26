@@ -25,8 +25,7 @@ export class CommentPostCreateComponent implements OnInit {
   constructor(public formBuilder: FormBuilder,
               public commentPostService: CommentPostService,
               public messageManager: MessageManager,
-              public storageService: StorageService,
-              private toast: ToastrService) {
+              public storageService: StorageService) {
   }
 
   ngOnInit(): void {
@@ -34,9 +33,10 @@ export class CommentPostCreateComponent implements OnInit {
     this.createFrom();
   }
 
+  /**
+   * TrungTQ: Thêm mới bài đăng
+   * */
   createFrom() {
-    console.log('this.idInfoTopic')
-    console.log(this.idInfoTopic)
     this.formGroup = this.formBuilder.group({
       title: ['', [Validators.required]],
       content: ['', [Validators.required]],
@@ -44,7 +44,9 @@ export class CommentPostCreateComponent implements OnInit {
       topicProcessId: [this.idInfoTopic.processList[0].id],
     })
   }
-
+  /**
+   * TrungTQ: Thêm mới bài đăng
+   * */
   submitForm() {
     if (this.formGroup.invalid) {
       this.messageManager.showMessageCreateNotRole();
@@ -60,12 +62,14 @@ export class CommentPostCreateComponent implements OnInit {
           this.messageManager.showMessageCreatePostSuccess();
           setTimeout(() => {
             window.location.reload();
-          }, 400)
+          }, 500)
         }
       });
     }
   }
-
+  /**
+   * TrungTQ: Lấy Tk hiện tại
+   * */
   getAccountPresent() {
     this.account = this.storageService.getUser();
   }

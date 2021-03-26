@@ -4,6 +4,7 @@ import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {CommonModule} from '@angular/common';
 import { HomeComponent } from './home/home.component';
+import {WebSocketService} from "./web-socket.service";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { HomeComponent } from './home/home.component';
   imports: [
     CommonModule,
     CommonRoutingModule
-  ]
+  ],
+  providers: [WebSocketService]
 })
 export class CommonsModule {
 }

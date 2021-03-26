@@ -56,6 +56,7 @@
           <tr>
             <th>STT</th>
             <th>Tên đề tài</th>
+            <th>Phê duyệt</th>
             <th>Trạng thái</th>
             <th>Xem chi tiết</th>
           </tr>
@@ -64,10 +65,14 @@
           <tr *ngFor="let e of groupAccount.infoTopicRegisterList; let i = index">
             <td scope="row">{{i + 1}}</td>
             <td>{{e.topic.name}}</td>
+            <td>{{e.status ? 'Đã phê duyệt' : 'Chưa được phê duyệt'}}</td>
             <td>{{e.statusComplete ? 'Hoàn thành' : 'Chưa hoàn thành'}}</td>
+
             <td class="">
               <button [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button>
             </td>
+<!--             <td class=""><button [disabled]="!e.status" [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button></td> -->
+
           </tr>
           </tbody>
         </table>

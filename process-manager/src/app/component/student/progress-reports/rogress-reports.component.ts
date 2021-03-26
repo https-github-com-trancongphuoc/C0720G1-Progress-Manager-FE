@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {StudentService} from "../student.service";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router, RouterModule} from "@angular/router";
 import {ITopicProcess} from "../../../entity/ITopicProcess";
 import {UploadFireService} from "../../upload-fire-service/upload-fire-service";
 import {ToastrService} from "ngx-toastr";
@@ -23,8 +23,14 @@ export class RogressReportsComponent implements OnInit {
   url: string = null;
   idProject: string = 'project-dating-c8c29';
   report: IReport;
+  public pageable: any;
+  public page = 0;
   reportList: IReport[];
   form: FormGroup;
+  fake: number;
+
+
+  nameTopic: any;
   private selectedImage: any = null;
   constructor(private studentService: StudentService,
               private activatedRoute: ActivatedRoute,
@@ -32,7 +38,8 @@ export class RogressReportsComponent implements OnInit {
               @Inject(UploadFireService) private uploadFileService: UploadFireService,
               private toastr: ToastrService,
               private storageService: StorageService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -42,11 +49,26 @@ export class RogressReportsComponent implements OnInit {
         this.progressReports = data[0];
         console.log(this.progressReports)
         this.reportList = data[1];
-        console.log(this.reportList)
       })
-    })
+    });
+
+    this.getNameTopic();
+
   }
 
+  getNameTopic() {
+    console.log(this.storageService.getUser())
+    let infoRegisterTopicList = this.storageService.getUser().student.groupAccount.infoTopicRegisterList;
+
+
+    for (let i = 0; i < infoRegisterTopicList.length; i++) {
+      if(!infoRegisterTopicList[i].statusComplete) {
+        this.nameTopic = infoRegisterTopicList[i].topic.name;
+      }
+    }
+
+    console.log(infoRegisterTopicList);
+  }
   showPreview(event: any) {
     if (event.target.files) {
       var reader = new FileReader();
@@ -79,6 +101,7 @@ export class RogressReportsComponent implements OnInit {
             this.report.url = url;
             console.log(this.report.url)
             this.studentService.createReport(this.report).subscribe(data => {
+              this.router.navigateByUrl('/process-detail/' + this.progressReports.infoTopicRegister.id)
               this.toastr.success('Báo Cáo Thành Công','THÔNG BÁO')
             })
           });
@@ -87,7 +110,7 @@ export class RogressReportsComponent implements OnInit {
 
     } else {
       console.log('alo alo')
-      this.toastr.error("Vui lòng gửi file","THÔNG BÁO");
+      this.toastr.error("Vui lòng chọn file để gửi","THÔNG BÁO");
     }
   }
 }

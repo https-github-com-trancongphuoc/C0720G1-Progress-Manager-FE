@@ -1,3 +1,4 @@
+
 <header id="header" class="fixed-top">
   <div class="container d-flex align-items-center">
 
@@ -51,9 +52,9 @@
         </li>
 
         <li class="ml-4">
-          <div class="dropdown" *ngIf="checkLogin">
+          <div class="dropdown" *ngIf="accountPresent != null">
             <button class="btn mb-2" (click)="seen()">
-        <span *ngIf="checkLogin" id="dropdownMenuButton1" class=""
+        <span *ngIf="accountPresent != null" id="dropdownMenuButton1" class=""
               style="margin-right: 30px; margin-bottom: 5px; font-size: 25px">
           <i *ngIf="checkSeen" class="bi bi-envelope-fill text-danger"> </i>
           <i *ngIf="!checkSeen" class="bi bi-envelope-open-fill text-success"></i>
@@ -66,6 +67,7 @@
                 <hr>
               </li>
               <li class="notification mb-3" *ngFor="let e of notificationList">
+                <button class="btn" [routerLink]="e.url">
                 <div class="row px-0">
                   <div class="col-3 ml-2">
                     <img width="70px" height="70px" class="rounded-circle mt-2"
@@ -76,10 +78,11 @@
                     <label style="text-align: justify; font-size: 15px; line-height: 20px"
                            class="ml-1 mr-1">{{e.title.length > 50 ? e.title.substring(0, 50) + '...' : e.title}}</label>
                     <label style="text-align: justify; font-size: 15px; line-height: 20px"
-                           class="ml-1 mr-1"> {{e.content.length > 50 ? e.content.substring(0, 50) + '...' : e.content}}</label>
+                           class="ml-1 mr-1"> {{e.content.length > 20 ? e.content.substring(0, 20) + '...' : e.content}}</label>
                   </div>
                 </div>
-                <sup class="mr-1 mt-2" style="margin-left: 150px">{{e.timeNotification}}</sup>
+                <sup class=" mt-2" style="margin-left: 150px">{{e.timeNotification}}</sup>
+                </button>
               </li>
               <li *ngIf="notificationList != null" class="text-center text-success"><h2
                 *ngIf="notificationList.length == 0">Không có thông báo nào</h2></li>
@@ -96,8 +99,8 @@
 
     </nav><!-- .navbar -->
 
-    <a *ngIf="!checkLogin" href="/login" class="get-started-btn">Đăng nhập</a>
-    <a style="position: absolute; right: 50px" routerLink="" *ngIf="checkLogin" (click)="signOut()">Đăng xuất</a>
+    <a *ngIf="accountPresent == null" href="/login" class="get-started-btn">Đăng nhập</a>
+    <a style="position: absolute; right: 50px" routerLink="" *ngIf="accountPresent != null" (click)="signOut()">Đăng xuất</a>
 
   </div>
 </header>

@@ -160,6 +160,18 @@
                                 [src]="replyComment.account.student ? replyComment.account.student.avatar : replyComment.account.teacher.avatar"
                                 alt="user"
                                 width="50" class="rounded-circle"></div>
+
+
+                              <!----------------->
+                              <div *ngIf="toggleEditAppreciate && replyComment.id == idAppreciate; else elseBlock2  "
+                                   class="comment-text w-100">
+                                <form [formGroup]="formEditAppreciate" (ngSubmit)="submitEditAppreciate()" action="">
+                                  <textarea rows="3" formControlName="content" class="form-control"></textarea>
+                                  <button style="border: 0" class="get-started-btn float-end mt-3">Lưu</button>
+                                </form>
+                              </div>
+                              <!------------------------>
+                              <ng-template #elseBlock2>
                               <div class="comment-text w-100">
                                 <h6
                                   class="font-medium font-weight-bold">{{replyComment.account.student == null ? replyComment.account.teacher.name : replyComment.account.student.name}}</h6>
@@ -169,18 +181,19 @@
                             <span class="text-muted float-end"
                                   style="position: absolute; right: 15px">{{replyComment.timeComment}}</span>
                                   <div *ngIf="accountPresent.id == replyComment.account.id">
-                                    <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
+<!--                                    <button type="button" class="btn btn-cyan btn-sm">Sửa</button>-->
                                     <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
                                             class="btn btn-danger btn-sm"  (click)="toggleModalDeleteAppreciate(replyComment)">Xóa
                                     </button>
                                   </div>
                                 </div>
                               </div>
+                              </ng-template>
                             </div>
 
                             <div *ngIf="e.toggle" class="d-flex flex-row comment-row-child">
                               <div class="p-2"><img
-                                [src]="e.account.student ? e.account.student.avatar : e.account.teacher.avatar"
+                                [src]="accountPresent.student ? accountPresent.student.avatar : accountPresent.teacher.avatar"
                                 alt="user"
                                 width="50" class="rounded-circle"></div>
                               <div class="comment-text w-100">
@@ -207,7 +220,7 @@
                   </div>
 
                 </div> <!-- Card -->
-                <button *ngIf="checkLoadComment && commentList.length > 0 " (click)="page = page + 1; loadListComment()" style="color: #0a53be"
+                <button *ngIf="checkLoadComment && commentList.length > 3 " (click)="page = page + 1; loadListComment()" style="color: #0a53be"
                         class="text-center btn btn-success text-light mt-5 rounded-5" >Xem thêm...
                 </button>
                 <button *ngIf="!checkLoadComment" (click)="page = 0; getListComment(); checkLoadComment = true"

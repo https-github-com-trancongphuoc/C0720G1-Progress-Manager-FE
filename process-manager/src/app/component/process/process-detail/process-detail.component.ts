@@ -6,6 +6,7 @@ import {ICommentDTO} from '../../../dto/ICommentDTO';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {isEmpty} from "rxjs/operators";
 import {NotificationService} from "../../common/notification.service";
+import {WebSocketService} from "../../common/web-socket.service";
 
 @Component({
   selector: 'app-process-detail',
@@ -53,7 +54,8 @@ export class ProcessDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private storageService: StorageService,
               private fb: FormBuilder,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private webSocketService: WebSocketService) {
   }
 
   ngOnInit(): void {
@@ -127,6 +129,7 @@ export class ProcessDetailComponent implements OnInit {
   }
 
   loadListComment() {
+    console.log(this.checkLoadComment);
     this.processService.getListComment(this.idProcessDetail, this.page).subscribe(data => {
       this.commentListTemp = data;
 
@@ -139,12 +142,10 @@ export class ProcessDetailComponent implements OnInit {
           this.commentList.push(this.commentListTemp[i]);
         }
 
-        this.processService.getListComment(this.idProcessDetail, this.page + 1).subscribe(data2 => {
-          if (data2.length == 0) {
+        this.processService.getListComment(this.idProcessDetail, this.page + 1).subscribe(() => {
+
+        }, error => {
             this.checkLoadComment = false;
-          } else {
-            return;
-          }
         });
 
     });
@@ -165,6 +166,7 @@ export class ProcessDetailComponent implements OnInit {
 
       this.processService.teacherAppreciate(this.formAppreciate.value).subscribe(data => {
         this.ngOnInit();
+        this.webSocketService.callServer().subscribe();
         // this.commentList.push(data);
         // this.formAppreciate.reset();
         // this.checkLoading = false;
@@ -189,7 +191,7 @@ export class ProcessDetailComponent implements OnInit {
 
       this.processService.editAppreciate(this.formEditAppreciate.value).subscribe(data => {
         this.toggleEditAppreciate = false;
-        this.formEditAppreciate.reset();
+
 
         for (let i = 0; i < this.commentList.length; i++) {
           if (this.commentList[i].id == this.formEditAppreciate.value.id) {
@@ -197,6 +199,9 @@ export class ProcessDetailComponent implements OnInit {
             this.commentList[i] = this.formEditAppreciate.value;
           }
         }
+
+
+        this.formEditAppreciate.reset();
         console.log(this.commentList);
       }, error => {
 
@@ -217,7 +222,7 @@ export class ProcessDetailComponent implements OnInit {
         if (this.commentList[i].replyCommentList != null) {
           for (let j = 0; j < this.commentList[i].replyCommentList.length; j++) {
             if (this.commentList[i].replyCommentList[j].id == this.appreciateWantDelete.id) {
-              this.commentList[i].replyCommentList.splice(i,1);
+              this.commentList[i].replyCommentList.splice(j,1);
             }
           }
         }
@@ -246,9 +251,7 @@ export class ProcessDetailComponent implements OnInit {
       this.formEditAppreciate.value.account = this.accountPresent;
 
 
-
-
-      this.processService.replyAppreciate(this.formEditAppreciate.value).subscribe(data => {
+      this.processService.replyAppreciate(this.formEditAppreciate.value, this.idProcessDetail).subscribe(data => {
         for (let i = 0; i < this.commentList.length; i++) {
           if (this.commentList[i].id == comment.id) {
             this.commentList[i].replyCommentList.push(data);
@@ -257,6 +260,7 @@ export class ProcessDetailComponent implements OnInit {
 
 
         this.formEditAppreciate.reset();
+        this.webSocketService.callServer().subscribe();
       })
     }
   }

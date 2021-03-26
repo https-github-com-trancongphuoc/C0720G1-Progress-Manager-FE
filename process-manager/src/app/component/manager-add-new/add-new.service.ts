@@ -1,36 +1,38 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
+import {IComment} from "../../entity/IComment";
 import {catchError} from "rxjs/operators";
-import {ITopic} from "../../entity/ITopic";
+import {IStudent} from "../../entity/IStudent";
+import {ITeacher} from "../../entity/ITeacher";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TopicService {
+export class AddNewService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     }),
     'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Methods': 'GET,PUT,POST,PATCH'
   };
-  private apiTopicUrl = 'http://localhost:8080/api/public/topic-manager/';
+  private apiStudentAndTeacherUrl = 'http://localhost:8080/api/public/teacher-student/';
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getAllTopicFind(name: string, page: number, size: number): Observable<any> {
-    return this.httpClient.get<any>(this.apiTopicUrl + 'topic-search?name=' + name + '&page=' + page + '&size=' + size, this.httpOptions)
+  createStudent(student): Observable<IStudent> {
+    return this.httpClient.post<IStudent>(this.apiStudentAndTeacherUrl + 'create-student', student, this.httpOptions)
       .pipe(
         catchError(this.errorHandler)
       )
   }
 
-  findByIdTopic(id): Observable<ITopic> {
-    return this.httpClient.get<ITopic>(this.apiTopicUrl + 'findById/' + id, this.httpOptions)
+  createTeacher(teacher): Observable<ITeacher> {
+    return this.httpClient.post<ITeacher>(this.apiStudentAndTeacherUrl + 'create-teacher', teacher, this.httpOptions)
       .pipe(
         catchError(this.errorHandler)
-      );
+      )
   }
 
   errorHandler(error) {

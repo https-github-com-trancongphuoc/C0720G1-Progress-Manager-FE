@@ -19,6 +19,10 @@ export class ApprovalTopicComponent implements OnInit {
 
   page = 0;
 
+  checkLoading = false;
+
+  checkEmpty = false;
+
 
 
   constructor(private processService: ProcessService,
@@ -44,7 +48,12 @@ export class ApprovalTopicComponent implements OnInit {
       this.pageable = data;
       this.infoTopicRegisterList = data.content;
       console.log(this.infoTopicRegisterList);
-    })
+
+      this.checkLoading = true;
+    }, error => {
+      this.checkLoading = true;
+      this.checkEmpty = true;
+    });
   }
 
   approval() {
@@ -52,6 +61,5 @@ export class ApprovalTopicComponent implements OnInit {
     this.processService.approval(this.infoTopicWantApproval).subscribe(data => {
       this.ngOnInit();
     })
-
   }
 }

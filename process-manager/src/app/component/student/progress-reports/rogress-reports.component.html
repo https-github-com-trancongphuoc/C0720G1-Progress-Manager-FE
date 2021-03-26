@@ -1,0 +1,113 @@
+<div class="breadcrumbs" data-aos="fade-in">
+  <div class="container">
+    <h2>Báo Cáo Tiến Độ</h2>
+  </div>
+</div>
+<main id="main" data-aos="fade-in">
+  <section id="contact" class="contact">
+    <!--  -->
+
+    <div class="container" data-aos="fade-up">
+
+      <div class="row mt-5">
+
+        <div class="col-lg-4">
+          <div class="info">
+            <div class="address">
+              <i class="bi bi-book-fill"></i>
+              <h4>Tên đề tài</h4>
+            </div>
+
+            <div class="email">
+              <i class="bi bi-bar-chart-line-fill"></i>
+              <h4>Giai đoạn {{progressReports.processNumber}}</h4>
+            </div>
+
+            <div class="phone">
+              <i class="bi bi-file-earmark-text-fill"></i>
+              <h4>File báo cáo <label style="color:red;"> *</label></h4>
+            </div>
+            <div class="phone">
+              <i class="bi bi-chat-left-dots-fill"></i>
+              <h4>Nội dung</h4>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-8 mt-5 mt-lg-0">
+          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <div class="col-md-6 form-group mt-2">
+              <h5 class="d-flex justify-content-center">{{nameTopic}}</h5>
+            </div>
+            <div class="form-group mt-4">
+              <div class="progress mb-2">
+                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" data-bs-toggle="tooltip"
+                     [style]="'width: ' + progressReports.percentProcess +'%'" data-bs-placement="top"
+                     title="Giai đoạn 1">
+                  {{progressReports.percentProcess}}%
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <input class="form-control"  type="file" (change)="showPreview($event)" multiple>
+              </div>
+              <div class="col-md-6 form-group mt-3 mt-md-0">
+                <p>
+                  <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Lịch sử file đã báo cáo
+                  </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body" *ngIf="reportList.length > 0;else Teamplate">
+                    <table class="table table-hover">
+                      <thead>
+                      <tr>
+                        <th scope="col">Ngày BC</th>
+                        <th scope="col">Tải xuống</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let object of reportList">
+                        <th scope="row">{{object.date | date: 'dd/MM/yyyy'}}</th>
+                        <th><a href="{{object.url}}"><i class="bi bi-file-earmark-text" style="font-size: 200%"></i>
+                        </a></th>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <ng-template #Teamplate>
+                    <img style=" width:100%;height: 230px"
+                         src="http://sd.keepcalm-o-matic.co.uk/i/keep-calm-and-nullpointerexception.png">
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+                            <textarea placeholder="Nội dung báo cáo" (keyup)="content = $event.target.value"
+                                      class="form-control"
+                                      rows="5"
+                                      required></textarea>
+            </div>
+            <div class="row mt-4">
+              <div class="col-7">
+
+              </div>
+              <div class="col-5">
+                <button [routerLink]="['/process-detail/' + progressReports.infoTopicRegister.id]"
+                   class="get-started-btn bg-secondary border-0">Thoát</button>
+                <button (click)="save()" class="get-started-btn bg-primary border-0">Gửi</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</main>
