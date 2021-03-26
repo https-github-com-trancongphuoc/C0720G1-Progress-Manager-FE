@@ -29,6 +29,18 @@ export class CommentPostListComponent implements OnInit {
 
   @Input() idProcess;
 
+  validate_message = {
+    'title' : [
+      {type: 'required', message: 'Tiêu đề câu hỏi không được để trống!'},
+      {type: 'maxlength', message: 'Không nhập tiêu đề quá dài!'},
+      {type: 'minlength', message: 'Không nhập tiêu đề quá ngắn!'},
+    ],
+    'content' : [
+      {type: 'required', message: 'Nội dung không được để trống!'},
+      {type: 'maxlength', message: 'Không nhập nội dung quá dài!'},
+    ]
+  }
+
   constructor(private commentPostService: CommentPostService,
               public messageManager: MessageManager,
               private storageService: StorageService,
@@ -74,7 +86,7 @@ export class CommentPostListComponent implements OnInit {
     this.idCommentEdit = comments.id;
     this.formGroup = this.formBuilder.group({
       id: [comments.id],
-      title: [comments.title, [Validators.required]],
+      title: [comments.title, [Validators.required, Validators.maxLength(200), Validators.minLength(5)]],
       content: [comments.content, [Validators.required]]
     })
   }
@@ -87,7 +99,7 @@ export class CommentPostListComponent implements OnInit {
     this.flagComment = true;
     this.idComment = comments.id;
     this.formGroup = this.formBuilder.group({
-      content: ['', [Validators.required]],
+      content: ['', [Validators.required, Validators.maxLength(200)]],
       accountId: [this.account.id],
       replyCommentId: [this.idComment]
     })

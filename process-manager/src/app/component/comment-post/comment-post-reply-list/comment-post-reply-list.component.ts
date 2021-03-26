@@ -29,6 +29,18 @@ export class CommentPostReplyListComponent implements OnInit {
 
   @Output() onDeleteComment = new EventEmitter();
 
+  validate_message = {
+    'title' : [
+      {type: 'required', message: 'Tiêu đề câu hỏi không được để trống!'},
+      {type: 'maxlength', message: 'Không nhập tiêu đề quá dài!'},
+      {type: 'minlength', message: 'Không nhập tiêu đề quá ngắn!'},
+    ],
+    'content' : [
+      {type: 'required', message: 'Nội dung không được để trống!'},
+      {type: 'maxlength', message: 'Không nhập nội dung quá dài!'},
+    ]
+  }
+
   constructor(private commentPostService: CommentPostService,
               private storageService: StorageService,
               public messageManager: MessageManager,
@@ -65,7 +77,7 @@ export class CommentPostReplyListComponent implements OnInit {
     this.flagReply = true;
     this.idComment = comments.id;
     this.formGroup = this.formBuilder.group({
-      content:['', [Validators.required]],
+      content:['', [Validators.required, Validators.maxLength(200)]],
       accountId: [this.account.id],
       replyCommentId: [this.idComment]
     })
@@ -79,7 +91,7 @@ export class CommentPostReplyListComponent implements OnInit {
     this.idCommentEdit = comments.id;
     this.formGroup = this.formBuilder.group({
       id: [comments.id],
-      content: [comments.content, [Validators.required]]
+      content: [comments.content, [Validators.required, Validators.maxLength(200)]]
     })
   }
 

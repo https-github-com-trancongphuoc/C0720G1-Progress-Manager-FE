@@ -12,7 +12,7 @@
             <h6 class="font-medium">
               <b>
                 {{comments.account.student ? comments.account.student.name : comments.account.teacher.name}}
-            </b>
+              </b>
             </h6>
             <span class="m-b-15 d-block">{{comments.content}}</span>
             <div class="comment-footer">
@@ -39,6 +39,11 @@
             <div class="form-group">
               <div class="col-sm">
                 <input id="inputContentReply" class="form-control" formControlName="content" required>
+                <div class="error-place" *ngFor="let comment of validate_message.content">
+                  <div><small class="text-danger"
+                              *ngIf="formGroup.get('content').hasError(comment.type) && (formGroup.get('content').touched )">
+                    {{comment.message}}</small></div>
+                </div>
               </div>
             </div>
             <button class="btn btn-secondary float-end mt-2 mx-2" type="reset" (click)="exitReply()">Hủy</button>
@@ -52,6 +57,11 @@
             <div class="form-group">
               <div class="col-sm">
                 <input id="editContentReply" class="form-control" formControlName="content" required>
+                <div class="error-place" *ngFor="let comment of validate_message.content">
+                  <div><small class="text-danger"
+                              *ngIf="formGroup.get('content').hasError(comment.type) && (formGroup.get('content').touched )">
+                    {{comment.message}}</small></div>
+                </div>
               </div>
             </div>
             <button class="btn btn-secondary float-end mt-2 mx-2" type="reset" (click)="exitReply()">Hủy</button>
