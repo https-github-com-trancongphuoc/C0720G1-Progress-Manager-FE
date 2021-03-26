@@ -49,6 +49,7 @@ export class ProcessDetailComponent implements OnInit {
 
   pageable: any;
 
+  flagPost: boolean = false;
 
   constructor(private processService: ProcessService,
               private route: ActivatedRoute,
@@ -267,5 +268,13 @@ export class ProcessDetailComponent implements OnInit {
 
   checkIsEmpty(value: any) {
     isEmpty()
+  }
+
+  getShowPost(){
+    this.flagPost = true;
+  }
+
+  getHiddenPost() {
+    this.flagPost = false;
   }
 }

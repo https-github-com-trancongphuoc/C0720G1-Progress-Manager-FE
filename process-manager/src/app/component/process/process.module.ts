@@ -5,6 +5,7 @@ import { ProcessListComponent } from './process-list/process-list.component';
 import { ProcessDetailComponent } from './process-detail/process-detail.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { ApprovalTopicComponent } from './approval-topic/approval-topic.component';
+import {CommentPostModule} from "../comment-post/comment-post.module";
 
 
 
@@ -13,7 +14,8 @@ import { ApprovalTopicComponent } from './approval-topic/approval-topic.componen
     imports: [
         CommonModule,
         ProcessRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        CommentPostModule
     ]
 })
 export class ProcessModule { }

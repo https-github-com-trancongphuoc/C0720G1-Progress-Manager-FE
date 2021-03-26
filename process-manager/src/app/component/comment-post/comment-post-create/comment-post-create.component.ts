@@ -3,8 +3,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {StorageService} from "../../account/storage.service";
 import {MessageManager} from "../message-manager";
 import {CommentPostService} from "../comment-post.service";
-import {ToastrService} from "ngx-toastr";
-import {IComment} from "../../../entity/IComment";
 
 @Component({
   selector: 'app-comment-post-create',
@@ -22,6 +20,17 @@ export class CommentPostCreateComponent implements OnInit {
 
   @Input() idInfoTopic;
 
+  validate_message = {
+    'title' : [
+      {type: 'required', message: 'Tiêu đề câu hỏi không được để trống!'},
+      {type: 'maxlength', message: 'Không nhập tiêu đề quá dài!'},
+      {type: 'minlength', message: 'Không nhập tiêu đề quá ngắn!'},
+    ],
+    'content' : [
+      {type: 'required', message: 'Nội dung câu hỏi không được để trống!'},
+    ]
+  }
+
   constructor(public formBuilder: FormBuilder,
               public commentPostService: CommentPostService,
               public messageManager: MessageManager,
@@ -38,7 +47,7 @@ export class CommentPostCreateComponent implements OnInit {
    * */
   createFrom() {
     this.formGroup = this.formBuilder.group({
-      title: ['', [Validators.required]],
+      title: ['', [Validators.required, Validators.maxLength(200), Validators.minLength(5)]],
       content: ['', [Validators.required]],
       accountId: [this.account.id],
       topicProcessId: [this.idInfoTopic.processList[0].id],
@@ -48,6 +57,7 @@ export class CommentPostCreateComponent implements OnInit {
    * TrungTQ: Thêm mới bài đăng
    * */
   submitForm() {
+    this.flagLoading = true;
     if (this.formGroup.invalid) {
       this.messageManager.showMessageCreateNotRole();
       return;
@@ -62,7 +72,7 @@ export class CommentPostCreateComponent implements OnInit {
           this.messageManager.showMessageCreatePostSuccess();
           setTimeout(() => {
             window.location.reload();
-          }, 500)
+          }, 600)
         }
       });
     }
