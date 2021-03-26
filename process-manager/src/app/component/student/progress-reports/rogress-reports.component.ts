@@ -28,6 +28,7 @@ export class RogressReportsComponent implements OnInit {
   reportList: IReport[];
   form: FormGroup;
   fake: number;
+  idInfoRegisterProcess: string;
 
 
   nameTopic: any;
@@ -63,6 +64,8 @@ export class RogressReportsComponent implements OnInit {
 
     for (let i = 0; i < infoRegisterTopicList.length; i++) {
       if(!infoRegisterTopicList[i].statusComplete) {
+        this.idInfoRegisterProcess = infoRegisterTopicList[i].id;
+        console.log(this.idInfoRegisterProcess)
         this.nameTopic = infoRegisterTopicList[i].topic.name;
       }
     }
@@ -101,13 +104,12 @@ export class RogressReportsComponent implements OnInit {
             this.report.url = url;
             console.log(this.report.url)
             this.studentService.createReport(this.report).subscribe(data => {
-              this.router.navigateByUrl('/process-detail/' + this.progressReports.infoTopicRegister.id)
+              this.router.navigateByUrl('/process-detail/' + this.idInfoRegisterProcess)
               this.toastr.success('Báo Cáo Thành Công','THÔNG BÁO')
             })
           });
         })
       ).subscribe();
-
     } else {
       console.log('alo alo')
       this.toastr.error("Vui lòng chọn file để gửi","THÔNG BÁO");
