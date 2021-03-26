@@ -11,7 +11,7 @@
 
       <div class="row mt-5">
 
-        <div class="col-lg-4">
+        <div class="col-4">
           <div class="info">
             <div class="address">
               <i class="bi bi-book-fill"></i>
@@ -35,12 +35,12 @@
 
         </div>
 
-        <div class="col-lg-8 mt-5 mt-lg-0">
+        <div class="col-8">
           <form role="form">
             <div class="col-md-6 form-group mt-2">
-              <h5 class="d-flex justify-content-center">{{nameTopic}}</h5>
+              <h2 class="d-flex justify-content-center">{{nameTopic}}</h2>
             </div>
-            <div class="form-group mt-4">
+            <div class="form-group" style="margin-top: 5%">
               <div class="progress mb-2">
                 <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" data-bs-toggle="tooltip"
                      [style]="'width: ' + progressReports.percentProcess +'%'" data-bs-placement="top"
@@ -49,7 +49,7 @@
                 </div>
               </div>
             </div>
-            <div class="row mt-4">
+            <div class="row mt-5">
               <div class="col-md-6">
                 <!--                <input class="form-control"  type="file" (change)="showPreview($event)" multiple>-->
                 <div class="mb-3">
@@ -89,7 +89,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-3">
                             <textarea placeholder="Nội dung báo cáo" (keyup)="content = $event.target.value"
                                       class="form-control"
                                       rows="5"
