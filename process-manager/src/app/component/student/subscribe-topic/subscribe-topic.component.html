@@ -30,6 +30,29 @@
           <span *ngIf="(formInfoTopicRegister.get('topic').get('content').hasError('maxlength')) && formInfoTopicRegister.get('topic').get('content').touched " class="text-danger" style="margin-left: 35%">Nội dung đề tài không được vượt quá 1000 ký tự</span>
         </div>
 
+        <div class="row mt-4">
+
+          <div class="col-4">
+          <label for="formDescription" class="form-label"> <label style="color: red">* </label>Mô tả</label>
+          </div>
+          <div class="col-8">
+          <input formControlName="descriptionURL" (change)="selectedDescriptionFile($event)" class="form-control form-control-sm" id="formDescription" type="file">
+
+          </div>
+
+        </div>
+
+        <div class="row mt-4" formGroupName="topic">
+
+          <div class="col-4">
+            <label for="formImage" class="form-label"> <label style="color: red">* </label>Hình ảnh</label>
+          </div>
+          <div class="col-8">
+            <input formControlName="image" (change)="selectedIamge($event)" class="form-control form-control-sm" id="formImage" type="file">
+          </div>
+          <span *ngIf="selectedImage == null && formInfoTopicRegister.get('topic').get('image').touched" class="text-danger" style="margin-left: 35%">Vui lòng chọn hình ảnh</span>
+
+        </div>
 <!--        <div class="row mt-4">-->
 <!--          <div class="col-4">-->
 <!--            <label style="color: red">* </label>Nhóm-->
@@ -65,12 +88,10 @@
 <!--          <td>-->
 <!--            <button class="btn btn-success">Xem</button>-->
 <!--          </td>-->
-          <td *ngIf="e.id != idTopicSelected">
-            <button class="btn btn-success" (click)="selectTopic(e)">Chọn</button>
+          <td>
+            <button  data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success" (click)="selectTopic(e)">Xem</button>
           </td>
-          <td *ngIf="checkReadOnly && e.id == idTopicSelected">
-            <button class="btn btn-danger" (click)="closeSelect()">Hủy</button>
-          </td>
+
 
         </tr>
 
@@ -86,8 +107,43 @@
     <div class="col-3">
       <form [formGroup]="formInfoTopicRegister" (ngSubmit)="save()">
       <button [routerLink]="['/group',accountPercent.student.groupAccount.id]" class="get-started-btn bg-secondary border-0">Thoát</button>
-      <button type="submit" class="get-started-btn bg-primary border-0">Đăng ký</button>
+      <button *ngIf="!checkSniper" type="submit" class="get-started-btn bg-primary border-0">Đăng ký</button>
+        <button *ngIf="checkSniper" disabled style="border: 0; width: 100px"
+                class="get-started-btn bg-primary border-0">
+          <div class="spinner-border spinner-border-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
       </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Chi tiết đề tài</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div *ngIf="topicDetail != null" class="modal-body">
+        <div class="row">
+          <label style="width: 100px">Tên đề tài:</label> <label class="col-9">{{topicDetail.name}}</label>
+        </div>
+
+        <div class="row">
+          <label style="width: 100px">Nội dung:</label> <label class="col-9">{{topicDetail.content}}</label>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+<!--        <button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
     </div>
   </div>
 </div>

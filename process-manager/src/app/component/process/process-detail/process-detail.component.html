@@ -69,6 +69,11 @@
           </button>
         </li>
         <li class="nav-item" role="presentation">
+          <button class="nav-link" id="report-tab" data-bs-toggle="tab" data-bs-target="#report" type="button"
+                  role="tab" aria-controls="report" aria-selected="false">Báo cáo của sinh viên
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
           <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
                   role="tab" aria-controls="profile" aria-selected="false">Thắc mắc của sinh viên
           </button>
@@ -193,7 +198,7 @@
 
                             <div *ngIf="e.toggle" class="d-flex flex-row comment-row-child">
                               <div class="p-2"><img
-                                [src]="accountPresent.student ? accountPresent.student.avatar : accountPresent.teacher.avatar"
+                                [src]="accountPresent.student ? accountPresent.student.avatar : accountPresent  .teacher.avatar"
                                 alt="user"
                                 width="50" class="rounded-circle"></div>
                               <div class="comment-text w-100">
@@ -231,78 +236,43 @@
           </div>
           <h1 *ngIf="commentList.length ==0" class="text-center mt-5 text-success"> Chưa có đánh giá nào</h1>
         </div>
+        <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="report-tab">
+          <div class="row d-flex justify-content-center mt-100 mb-100">
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h4 class="card-title">Báo cáo tiến độ của sinh viên</h4>
+                </div>
+                <div class="comment-widgets">
+                  <app-comment-report-list [idProcessReport]="idProcessDetail"></app-comment-report-list>
+                </div> <!-- Card -->
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
           <div class="row d-flex justify-content-center mt-100 mb-100">
             <div class="col-lg-8">
               <div class="card">
                 <div class="card-body text-center">
                   <h4 class="card-title">Thắc mắc sinh viên</h4>
+                  <div *ngIf="flagPost == false; else hidden">
+                    <button class="get-started-btn float-end mt-2" type="button" style="border: 0" (click)="getShowPost()">Đăng câu hỏi thắc mắc</button>
+                  </div>
+                  <ng-template #hidden>
+                    <button class="get-started-btn float-end mt-2" type="button" style="border: 0" (click)="getHiddenPost()">Ẩn đăng câu hỏi thắc mắc
+                    </button>
+                  </ng-template>
+
                 </div>
                 <div class="comment-widgets">
-                  <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row m-t-0">
-                    <div class="p-2"><img
-                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
-                      alt="user"
-                      width="50" class="rounded-circle"></div>
-                    <div class="comment-text w-100">
-                      <div>
-                        <textarea rows="3" class="form-control"></textarea>
-                        <button class="btn btn-primary float-end mt-2">Đánh giá</button>
-                      </div>
-                    </div>
+                  <div *ngIf="flagPost">
+                    <app-comment-post-create [idInfoTopic]="processDetail"></app-comment-post-create>
                   </div>
-                  <div class="d-flex flex-row comment-row m-t-0">
-                    <div class="p-2"><img
-                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
-                      alt="user"
-                      width="50" class="rounded-circle"></div>
-                    <div class="comment-text w-100">
-                      <h6 class="font-medium">Hoàng Tứ</h6> <span class="m-b-15 d-block">Em không làm được chức năng bán bom. Mong thầy giúp đỡ. </span>
-                      <div class="comment-footer"><span class="text-muted float-end">09/03/2021</span>
-                        <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                        <button type="button" class="btn btn-success btn-sm">Trả lời</button>
-                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                                class="btn btn-danger btn-sm">Xóa
-                        </button>
-                      </div>
-                    </div>
-                  </div> <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row">
-                    <div class="p-2"><img
-                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583319/AAA/3.jpg"
-                      alt="user"
-                      width="50" class="rounded-circle"></div>
-                    <div class="comment-text active w-100">
-                      <h6 class="font-medium">Michael Hussey</h6> <span class="m-b-15 d-block">Thanks bbbootstrap.com for providing such useful snippets. </span>
-                      <div class="comment-footer"><span class="text-muted float-end">22/02/2021</span>
-                        <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                        <button type="button" class="btn btn-success btn-sm">Trả lời</button>
-                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                                class="btn btn-danger btn-sm">Xóa
-                        </button>
-                      </div>
-                    </div>
-                  </div> <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row">
-                    <div class="p-2"><img
-                      src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg"
-                      alt="user"
-                      width="50" class="rounded-circle"></div>
-                    <div class="comment-text w-100">
-                      <h6 class="font-medium">Johnathan Doeting</h6> <span class="m-b-15 d-block">Great industry leaders are not the real heroes of stock market. </span>
-                      <div class="comment-footer"><span class="text-muted float-end">26/02/2021</span>
-                        <button type="button" class="btn btn-cyan btn-sm">Sửa</button>
-                        <button type="button" class="btn btn-success btn-sm">Trả lời</button>
-                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button"
-                                class="btn btn-danger btn-sm">Xóa
-                        </button>
-                      </div>
-                    </div>
+                  <div>
+                    <app-comment-post-list [idProcess]="idProcessDetail"></app-comment-post-list>
                   </div>
-                </div> <!-- Card -->
-                <a href="" style="color: #0a53be" class="text-center">Xem thêm...</a>
-
+                </div>
               </div>
             </div>
           </div>

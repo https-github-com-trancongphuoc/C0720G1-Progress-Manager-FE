@@ -76,9 +76,9 @@
                   </div>
                   <div class="col-8 fon" [class]="e.status ? '' : 'font-weight-bold'">
                     <label style="text-align: justify; font-size: 15px; line-height: 20px"
-                           class="ml-1 mr-1">{{e.title.length > 50 ? e.title.substring(0, 50) + '...' : e.title}}</label>
+                           class="ml-1 mr-1">{{e.title?.length > 50 ? e.title.substring(0, 50) + '...' : e.title}}</label>
                     <label style="text-align: justify; font-size: 15px; line-height: 20px"
-                           class="ml-1 mr-1"> {{e.content.length > 20 ? e.content.substring(0, 20) + '...' : e.content}}</label>
+                           class="ml-1 mr-1"> {{e.content?.length > 20 ? e.content.substring(0, 20) + '...' : e.content}}</label>
                   </div>
                 </div>
                 <sup class=" mt-2" style="margin-left: 150px">{{e.timeNotification}}</sup>
