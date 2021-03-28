@@ -4,6 +4,8 @@ import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {IStudent, Student} from '../../../entity/IStudent';
 import {StorageService} from "../../account/storage.service";
+import {finalize} from "rxjs/operators";
+import {IGroupAccount} from "../../../entity/IGroupAccount";
 
 
 @Component({
@@ -22,6 +24,7 @@ export class RegisterGroupComponent implements OnInit {
   searchName: any;
   check = true;
   nameGroup: string;
+  idGroup: number;
 
   constructor(public groupService: GroupService,
               private router: Router,
@@ -93,16 +96,22 @@ export class RegisterGroupComponent implements OnInit {
   createGroup(nameGroup: string) {
     if (this.storage.getUser().student == null) {
       this.groupService.createGroup(nameGroup, this.listStudentAdded,this.storage.getUser().id).subscribe(data => {
-        this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
-        this.router.navigateByUrl('')
+        this.groupService.getAll().subscribe(data1 =>{
+          console.log(data1)
+          this.router.navigateByUrl('group/' + data1)
+          this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
+        })
         setTimeout(function () {
           window.location.reload()
         }, 200)
       })
     } else {
       this.groupService.createGroupAndLeader(nameGroup, this.listStudentAdded, this.storage.getUser().id).subscribe(data => {
-        this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
-        this.router.navigateByUrl('')
+        this.groupService.getAll().subscribe(data1 =>{
+          console.log(data1)
+          this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
+          this.router.navigateByUrl('group/' + data1)
+        })
         setTimeout(function () {
           window.location.reload()
         }, 200)
