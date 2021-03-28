@@ -44,3 +44,15 @@ export interface IStudent1{
   status_join: boolean;
 
 }
+
+export interface IStudentEdit{
+  id: number;
+  name: string;
+  dateOfBirth: string;
+  phone: string;
+  grade: number;
+  address: string;
+  email: string;
+  image: string;
+  gender: boolean;
+}
