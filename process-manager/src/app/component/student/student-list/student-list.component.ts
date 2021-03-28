@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {StudentService} from '../student.service';
-import {IStudentDTO} from '../../../entity/IStudentDTO';
 import {IStudent} from '../../../entity/IStudent';
 import {Router} from '@angular/router';
 

@@ -1,46 +1,48 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {StudentService} from '../student.service';
-import {IGrade} from '../../../entity/IGrade';
-import {IFaculty} from '../../../entity/IFaculty';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-
-import {AngularFireStorage} from '@angular/fire/storage';
-import {finalize} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {StudentService} from "../../student/student.service";
 import {UploadFireService} from "../../upload-fire-service/upload-fire-service";
+import {AngularFireStorage} from "@angular/fire/storage";
+import {TeacherService} from "../teacher.service";
+import {IFaculty} from "../../../entity/IFaculty";
+import {IDegree} from "../../../entity/IDegree";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ITeacherEditDTO} from "../../../entity/ITeacher";
+import {finalize} from "rxjs/operators";
 import {checkDateOfBirth} from "../../common/validate/checkBirthdayStudentAndTeacher";
 
-
-
 @Component({
-  selector: 'app-student-create',
-  templateUrl: './student-create.component.html',
-  styleUrls: ['./student-create.component.css']
+  selector: 'app-teacher-edit',
+  templateUrl: './teacher-edit.component.html',
+  styleUrls: ['./teacher-edit.component.css']
 })
-export class StudentCreateComponent implements OnInit {
-  public listGrade: IGrade[] = [];
-  public listFaculty: IFaculty[] = [];
-  public formCreateStudent: FormGroup;
-  public image: string = 'https://static1.bestie.vn/Mlog/ImageContent/202003/90195464-1520137768148366-7780160422925041664-n-3e4695.jpg';
+export class TeacherEditComponent implements OnInit {
+  listFaculty: IFaculty[] = [];
+  listDegree: IDegree[] = [];
+  id: number;
+  formEditTeacher: FormGroup;
   selectedImage: any = null;
   idProject: string = 'process-manager-11b67';
   url: string;
-  isSubmit: boolean = true;
+  img: string = '';
+  teacher: ITeacherEditDTO;
 
-  constructor(private studentService: StudentService,
-              @Inject(UploadFireService) private uploadFireService: UploadFireService,
+  constructor(private activatedRoute: ActivatedRoute,
+              private studentService: StudentService,
+              @Inject(UploadFireService) private uploadFireService : UploadFireService,
               @Inject(AngularFireStorage) private storage: AngularFireStorage,
               private router: Router,
-  ) {
-    this.studentService.getAllGrade().subscribe(data => {
-      this.listGrade = data;
-    });
-    this.studentService.getAllFaculty().subscribe(data => {
+              private teacherService: TeacherService
+              ) {
+    this.studentService.getAllFaculty().subscribe(data =>{
       this.listFaculty = data;
+    });
+    this.teacherService.getAllDegree().subscribe(data =>{
+      console.log(data);
+      this.listDegree = data;
     });
     this.uploadFireService.getImageDetailList();
   }
-
   validation_messages = {
     name: [
       {type: 'required', message: 'Vui lòng nhập tên'},
@@ -51,9 +53,6 @@ export class StudentCreateComponent implements OnInit {
     dateOfBirth: [
       {type: 'required', message: 'Vui lòng nhập ngày sinh'},
       {type: 'checkAge', message: 'Tuổi phải từ 18 đến 50'},
-    ],
-    gender: [
-      {type: 'required', message: 'Vui lòng chọn giới tính'},
     ],
     phone: [
       {type: 'required', message: 'Vui lòng nhập số điện thoại'},
@@ -69,74 +68,75 @@ export class StudentCreateComponent implements OnInit {
       {type: 'required', message: 'Vui lòng nhập email'},
       {type: 'pattern', message: 'Vui lòng nhập email đúng định dạng abcabc@abc.abc'}
     ],
-    grade: [
-      {type: 'required', message: 'Vui chọn lớp'}
-    ],
-    faculty: [
-      {type: 'required', message: 'Vui chọn khoa'}
-    ],
   };
 
   ngOnInit(): void {
-    this.formCreateStudent = new FormGroup({
+    this.formEditTeacher = new FormGroup({
+      id: new FormControl(),
       name: new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợở" +
         "ỡùúụủũưừứựửữỳýỵỷỹđ]+(\\s[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]+)*$"),
         Validators.maxLength(40), Validators.minLength(6)]),
-      dateOfBirth: new FormControl('', [Validators.required, checkDateOfBirth]),
-      phone: new FormControl('', [Validators.required, Validators.pattern("^(0|\\(\\+84\\))\\d{9}$")]),
-      grade: new FormControl(1, Validators.required),
-      faculty: new FormControl(1, Validators.required),
-      address: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợở' +
+      dateOfBirth: new FormControl('', checkDateOfBirth),
+      address: new FormControl('',[Validators.required, Validators.pattern('^[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợở' +
         'ỡùúụủũưừứựửữỳýỵỷỹđ]+(\\s[a-zA-Zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]+)*$'),
         Validators.maxLength(100), Validators.minLength(6)]),
+      phone: new FormControl('',[Validators.required, Validators.pattern("^(0|\\(\\+84\\))\\d{9}$")]),
       email: new FormControl('', [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
-      image: new FormControl(this.image),
-      gender: new FormControl(1, Validators.required)
+      faculty: new FormControl(''),
+      degree: new FormControl(''),
+      avatar: new FormControl(''),
+      gender: new FormControl(),
+    });
+    this.activatedRoute.paramMap.subscribe((data:ParamMap) =>{
+      this.id = Number(data.get('idTeacher'));
+
+    });
+    this.teacherService.findTeacherById(this.id).subscribe(data =>{
+      this.teacher =  data;
+      this.img = data.avatar;
+      this.formEditTeacher.patchValue(data);
     })
   }
 
-  save() {
-    if (this.formCreateStudent.invalid) {
-      this.isSubmit = false;
-      console.log(this.formCreateStudent);
-    } else {
-      if (this.image == 'https://static1.bestie.vn/Mlog/ImageContent/202003/90195464-1520137768148366-7780160422925041664-n-3e4695.jpg') {
-        this.formCreateStudent.value.image = this.image;
-        this.studentService.createStudent(this.formCreateStudent.value).subscribe(data => {
-          this.router.navigateByUrl('list-student');
-        })
-      } else {
-        this.getLinkFireBaseImage()
-      }
-    }
-  }
-
-  choiceFileAvatar() {
-    document.getElementById('choiceAvatar').click();
-  }
 
   showPreview(event: any) {
     if (event.target.files) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (event: any) => {
-        this.image = event.target.result
+        this.img = event.target.result
       };
     }
     this.selectedImage = event.target.files[0];
   }
 
-  getLinkFireBaseImage() {
-    const name = this.selectedImage.name + Date.now();
+  choiceFileAvatar() {
+    document.getElementById('choiceAvatar').click();
+  }
+
+  save() {
+    console.log(this.formEditTeacher.value);
+    if (this.img == this.teacher.avatar){
+      this.formEditTeacher.value.avatar = this.teacher.avatar;
+      this.teacherService.editTeacher(this.formEditTeacher.value).subscribe(data =>{
+        this.router.navigateByUrl('list-teacher');
+      })
+    }else {
+      this.getLinkImage()
+    }
+  }
+
+  getLinkImage(){
+    const name = this.selectedImage.name + Date.now() ;
     const fileRef = this.storage.ref(name);
     this.storage.upload(name, this.selectedImage).snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe((url) => {
           this.url = url;
           this.uploadFireService.insertImageDetails(this.idProject, this.url);
-          this.formCreateStudent.value.image = this.url;
-          this.studentService.createStudent(this.formCreateStudent.value).subscribe(data => {
-            this.router.navigateByUrl('list-student');
+          this.formEditTeacher.value.avatar = this.url;
+          this.teacherService.editTeacher(this.formEditTeacher.value).subscribe(data =>{
+            this.router.navigateByUrl('list-teacher');
           })
         });
       })

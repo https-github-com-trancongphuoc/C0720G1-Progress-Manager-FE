@@ -26,7 +26,7 @@ export class TeacherListComponent implements OnInit {
     if (!Number(this.page) || Number(this.page) <0 ){
       this.page = 0;
     }
-    this.teacherService.getAllStudent(this.find, this.page).subscribe(data =>{
+    this.teacherService.getAllTeacher(this.find, this.page).subscribe(data =>{
 
       // @ts-ignore
       this.listTeacher = data.content;
