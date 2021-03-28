@@ -61,6 +61,10 @@ export class GroupService {
     return this.http.post(this.API + 'create-group-leader/' + nameGroup + '/' + accountId, listStudentAdded)
   }
 
+  getAll(){
+    return this.http.get(this.API + 'getAllGroupAccount')
+  }
+
   checkJoinGroup(id: number) {
     return this.http.get(this.API + 'check-join-group/' + id)
   }

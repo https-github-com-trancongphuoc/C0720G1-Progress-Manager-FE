@@ -10,7 +10,9 @@
        style="text-align: center" role="alert">
     Bạn có 1 lời mời vào nhóm <span style="color: red">{{nameGroup}}</span>!
     <button style="margin-left: 20px" class="btn btn-success" (click)="JoinGroup(studentId)">Đồng ý</button>
-    <button style="margin-left: 20px" class="btn btn-secondary" (click)="DenyGroup(studentId)">Từ chối</button>
+    <button style="margin-left: 20px" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Từ
+      chối
+    </button>
   </div>
   <!-- ======= Trainers Section ======= -->
   <div id="trainers" class="trainers" style="margin-top: 50px">
@@ -71,7 +73,7 @@
             <td class="">
               <button [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button>
             </td>
-<!--             <td class=""><button [disabled]="!e.status" [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button></td> -->
+            <!--             <td class=""><button [disabled]="!e.status" [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button></td> -->
 
           </tr>
           </tbody>
@@ -84,7 +86,6 @@
 </main><!-- End #main -->
 
 
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -93,11 +94,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        Bạn có chắc chăn muốn từ chối lời mời nhóm <span style="color: red">{{nameGroup}}</span> ?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+        <button type="button" class="btn btn-primary" (click)="DenyGroup(studentId)">Đồng ý</button>
       </div>
     </div>
   </div>
