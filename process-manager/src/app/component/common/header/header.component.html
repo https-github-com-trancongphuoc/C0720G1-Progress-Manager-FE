@@ -115,4 +115,23 @@
   </div>
   </div>
 </header>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="accountPercent != null">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chăn muốn từ chối lời mời nhóm <span style="color: red">{{accountPercent.student?.groupAccount.name}}</span> ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="DenyGroup(accountPercent.student?.id)">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- End Header -->
