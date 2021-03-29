@@ -135,4 +135,15 @@ export class HeaderComponent implements OnInit {
       });
     })
   }
+
+
+  DenyGroup(id: any) {
+    this.groupService.denyGroup(id).subscribe(data => {
+      this.toast.warning('Từ chối nhóm thành công', 'Thành công');
+      this.accountService.login(this.accountPercent).subscribe(data => {
+        this.storageService.saveUserLocal(data.account);
+        this.ngOnInit();
+      });
+    })
+  }
 }
