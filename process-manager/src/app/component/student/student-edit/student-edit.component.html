@@ -97,7 +97,7 @@
 
             <div class="container d-flex justify-content-end mt-3">
               <button [disabled]="formEditStudent.invalid" type="submit" class="btn  get-started-btn">Lưu</button>
-              <button type="button" class="btn  get-started-btn" style="background: #7e9486">Thoát
+              <button type="button" class="btn  get-started-btn" [routerLink]="['/list-student']" style="background: #7e9486">Thoát
               </button>
             </div>
           </form>

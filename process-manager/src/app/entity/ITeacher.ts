@@ -29,3 +29,18 @@ export interface ITeacherEditDTO {
   gender: boolean,
   avatar: string;
 }
+
+export class Teacher{
+  id: number;
+  name: string;
+  dateOfBirth: string;
+  address: string;
+  phone: string;
+  email: string;
+  avatar: string;
+  gender: boolean;
+
+  degree: IDegree;
+  faculty: IFaculty;
+  account: IAccount;
+}

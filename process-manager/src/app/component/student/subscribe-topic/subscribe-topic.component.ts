@@ -119,7 +119,7 @@ export class SubscribeTopicComponent implements OnInit {
 
 
   getLinkFireBaseDescriptionURL() {
-    const name = this.selectedImage.name + Date.now() ;
+    const name = this.selectedDescriptionURL.name;
     const fileRef = this.storage.ref(name);
     console.log(1);
     this.storage.upload(name, this.selectedDescriptionURL).snapshotChanges().pipe(

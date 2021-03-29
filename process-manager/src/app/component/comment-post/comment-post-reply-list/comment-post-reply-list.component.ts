@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {StorageService} from "../../account/storage.service";
 import {IAccount} from "../../../entity/IAccount";
 import {MessageManager} from "../message-manager";
+import {WebSocketService} from "../../common/web-socket.service";
 
 @Component({
   selector: 'app-comment-post-reply-list',
@@ -21,11 +22,14 @@ export class CommentPostReplyListComponent implements OnInit {
   idCommentEdit: number;
   formGroup: FormGroup;
   account: IAccount;
-
+  flagComment: boolean = false;
   commentNotification : any;
   accountSendId: number;
+  processDetailId: number;
 
   @Input() idReply;
+
+  @Input() idProcessReply;
 
   @Output() onDeleteComment = new EventEmitter();
 
@@ -41,9 +45,11 @@ export class CommentPostReplyListComponent implements OnInit {
     ]
   }
 
+
   constructor(private commentPostService: CommentPostService,
               private storageService: StorageService,
               public messageManager: MessageManager,
+              public webSocketService: WebSocketService,
               public formBuilder: FormBuilder) {
   }
 
@@ -63,7 +69,10 @@ export class CommentPostReplyListComponent implements OnInit {
    * */
   getAllListReplySizeInComment() {
     this.commentPostService.getAllReplySize(this.idReply.id, this.page, this.size).subscribe(data => {
-      if (data != null) {
+      if (data == null){
+        this.flagComment = false
+      } else {
+        this.flagComment = true;
         this.iComment = data.content;
       }
     });
@@ -81,6 +90,8 @@ export class CommentPostReplyListComponent implements OnInit {
       accountId: [this.account.id],
       replyCommentId: [this.idComment]
     })
+    console.log('this.idProcessReply')
+    console.log(this.idProcessReply)
   }
 
   /**
@@ -105,10 +116,17 @@ export class CommentPostReplyListComponent implements OnInit {
       return;
     } else {
       this.formGroup.value.accountSendId = this.commentNotification.account.id;
+      this.formGroup.value.processDetailId = this.idProcessReply;
       this.commentPostService.saveReply(this.formGroup.value).subscribe(data=>{
-        this.flagReply = false;
-        this.ngOnInit();
-        this.messageManager.showMessageCreateCommentSuccess();
+        if (data != null) {
+          this.messageManager.showMessageCreateNotRole();
+        } else {
+          this.flagReply = false;
+          this.ngOnInit();
+          this.messageManager.showMessageCreateCommentSuccess();
+          this.webSocketService.callServer().subscribe();
+        }
+
       })
     }
   }

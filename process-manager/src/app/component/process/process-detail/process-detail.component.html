@@ -42,7 +42,7 @@
       <div class="row mt-2 align-items-center" *ngFor="let e of processDetail.processList; let i = index">
         <div class="col-2">
           <button [value]="e.id"
-                  [disabled]="(i > 0 ? !processDetail.processList[i - 1].status : false) || processDetail.processList[i].status"
+                  [disabled]="(i > 0 ? !processDetail.processList[i - 1].status : false) || (processDetail.processList[i].status) || (accountPresent.teacher != null)"
                   class="btn btn-success" [routerLink]="'/progress-reports/' + e.id">Báo cáo giai đoạn {{e.processNumber}}</button>
         </div>
         <div class="col-10 px-0">
@@ -256,18 +256,20 @@
               <div class="card">
                 <div class="card-body text-center">
                   <h4 class="card-title">Thắc mắc sinh viên</h4>
-                  <div *ngIf="flagPost == false; else hidden">
-                    <button class="get-started-btn float-end mt-2" type="button" style="border: 0" (click)="getShowPost()">Đăng câu hỏi thắc mắc</button>
+                  <div *ngIf="accountPresent.student != null">
+                    <div *ngIf="flagPost == false; else hidden">
+                      <button class="get-started-btn float-end mt-2" type="button" style="border: 0" (click)="getShowPost()">Đăng câu hỏi thắc mắc</button>
+                    </div>
+                    <ng-template #hidden>
+                      <button class="get-started-btn float-end mt-2" type="button" style="border: 0" (click)="getHiddenPost()">Ẩn đăng câu hỏi thắc mắc
+                      </button>
+                    </ng-template>
                   </div>
-                  <ng-template #hidden>
-                    <button class="get-started-btn float-end mt-2" type="button" style="border: 0" (click)="getHiddenPost()">Ẩn đăng câu hỏi thắc mắc
-                    </button>
-                  </ng-template>
 
                 </div>
                 <div class="comment-widgets">
                   <div *ngIf="flagPost">
-                    <app-comment-post-create [idInfoTopic]="processDetail"></app-comment-post-create>
+                    <app-comment-post-create [idInfoTopic]="processDetail" [idProcess]="idProcessDetail"></app-comment-post-create>
                   </div>
                   <div>
                     <app-comment-post-list [idProcess]="idProcessDetail"></app-comment-post-list>

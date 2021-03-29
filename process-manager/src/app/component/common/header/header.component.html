@@ -9,7 +9,7 @@
     <nav id="navbar" class="navbar order-last order-lg-0">
       <ul class="mr-5">
         <li><a class="" routerLink="">Trang chủ</a></li>
-        <li><a href="about.html">Giới thiệu</a></li>
+        <li><a [routerLink]="['/topic-manager']">Danh sách đề tài</a></li>
         <li><a href="about.html">Tin tức</a></li>
         <!--        <li><a href="about.html">Đào tạo</a></li>-->
         <!--        <li><a href="progrees.html">Tiến độ</a></li>-->
@@ -19,10 +19,10 @@
             class="bi bi-chevron-down"></i></a>
           <ul>
             <li><a href="#">Đăng thông báo</a></li>
-            <li><a href="#">Quản lí giáo viên</a></li>
+            <li><a href="#" [routerLink]="['/list-teacher']">Quản lí giáo viên</a></li>
             <li><a routerLink="process-manager">Quản lí đề tài</a></li>
             <li><a href="#" routerLink="/approval-topic">Kiểm duyệt đề tài</a></li>
-            <li><a href="#">Hỏi đáp sinh viên</a></li>
+            <li><a href="#" [routerLink]="['/list-student']">Quản lý sinh viên</a></li>
             <li><a href="#">Tài liệu hướng dẫn</a></li>
           </ul>
         </li>
@@ -81,7 +81,7 @@
                            class="ml-1 mr-1"> {{e.content?.length > 20 ? e.content.substring(0, 20) + '...' : e.content}}</label>
                   </div>
                 </div>
-                <sup class=" mt-2" style="margin-left: 150px">{{e.timeNotification}}</sup>
+                <sup class=" mt-2" style="margin-left: 150px">{{e.timeNotification |date: 'hh:mm:ss dd/MM/yyyy'}}</sup>
                 </button>
               </li>
               <li *ngIf="notificationList != null" class="text-center text-success"><h2

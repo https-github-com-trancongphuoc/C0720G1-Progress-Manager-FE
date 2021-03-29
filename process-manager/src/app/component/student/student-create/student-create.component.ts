@@ -26,6 +26,7 @@ export class StudentCreateComponent implements OnInit {
   idProject: string = 'process-manager-11b67';
   url: string;
   isSubmit: boolean = true;
+  flag = false;
 
   constructor(private studentService: StudentService,
               @Inject(UploadFireService) private uploadFireService: UploadFireService,
@@ -96,6 +97,7 @@ export class StudentCreateComponent implements OnInit {
   }
 
   save() {
+    this.flag = true;
     if (this.formCreateStudent.invalid) {
       this.isSubmit = false;
       console.log(this.formCreateStudent);

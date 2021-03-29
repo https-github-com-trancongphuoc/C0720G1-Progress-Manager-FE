@@ -111,8 +111,14 @@
               <!--                  Loading...-->
               <!--                </button>-->
               <!--              </ng-template>-->
-              <button [disabled]="formCreateStudent.invalid" type="submit" class="btn  get-started-btn" >Lưu</button>
-              <button type="button" class="btn  get-started-btn" [routerLink]="['list-student']"
+              <button *ngIf="!flag" [disabled]="formCreateStudent.invalid" type="submit" class="btn  get-started-btn" >Lưu</button>
+              <button *ngIf="flag" disabled style="border: 0; width: 100px"
+                      class="get-started-btn">
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+              <button type="button" class="btn  get-started-btn" [routerLink]="['/list-student']"
                       style="background: #7e9486">Thoát
               </button>
             </div>

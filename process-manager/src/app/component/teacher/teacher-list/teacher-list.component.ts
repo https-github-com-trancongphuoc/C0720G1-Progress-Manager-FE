@@ -14,7 +14,7 @@ export class TeacherListComponent implements OnInit {
   public find: string = '';
   idTeacher: number;
   nameTeacher: string;
-
+  avatarNull: string = "https://firebasestorage.googleapis.com/v0/b/vaccination-manager.appspot.com/o/trainer-2.jpg?alt=media&token=0c5c2877-85b4-4f32-bc95-02743283219e";
   constructor(private teacherService : TeacherService) {
     this.getAllTeacher();
   }

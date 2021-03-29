@@ -42,7 +42,7 @@ export class TopicListComponent implements OnInit {
         this.messageManager.showMessageSearch();
         setTimeout(()=>{
           this.getReload();
-        }, 400)
+        }, 600)
       } else {
         this.iTopic = data.content;
         this.pageable = data;
@@ -65,7 +65,7 @@ export class TopicListComponent implements OnInit {
    * TrungTQ: Cắt ngắn bớt giới thiệu
    * */
   getShortName(name: string, size: number): string {
-    if (name.length > size) {
+    if (name?.length > size) {
       return name.substring(0, size).concat('...');
     } else {
       return name;

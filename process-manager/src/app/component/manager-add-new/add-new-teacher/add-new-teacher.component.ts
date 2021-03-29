@@ -15,6 +15,7 @@ export class AddNewTeacherComponent implements OnInit {
   public iTeacher: ITeacher[];
   public quantityRecord = 0;
   public studentIndex: number;
+  flagLoading: boolean = false;
 
   constructor(public addNewService: AddNewService,
               public router: Router,
@@ -26,6 +27,7 @@ export class AddNewTeacherComponent implements OnInit {
   }
 
   onFileChange(evt: any) {
+    this.flagLoading = true;
     const target: DataTransfer = (evt.target) as DataTransfer;
     if (target.files.length !== 1) {
       throw new Error('Cannot use multiple files');
@@ -37,8 +39,8 @@ export class AddNewTeacherComponent implements OnInit {
       this.iTeacher.forEach(value => {
         this.quantityRecord = this.quantityRecord + 1;
       });
-      // console.log('this.iTeacher')
-      // console.log(this.iTeacher)
+        // console.log('this.iTeacher')
+        // console.log(this.iTeacher)
     };
     reader.readAsBinaryString(target.files[0]);
   }
@@ -69,5 +71,9 @@ export class AddNewTeacherComponent implements OnInit {
 
   backList() {
     this.router.navigateByUrl('/list-teacher');
+  }
+
+  load() {
+    window.location.reload();
   }
 }

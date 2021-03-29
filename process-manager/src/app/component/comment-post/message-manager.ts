@@ -46,4 +46,8 @@ export class MessageManager {
   showMessageDeleteTeacherExcel(){
     this.toastrService.success("Bạn đã xóa bớt một giảng viên thành công", "Thông báo");
   }
+
+  showMessage() {
+    this.toastrService.warning("Không có thông tin nào trong file này", "Thông báo")
+  }
 }

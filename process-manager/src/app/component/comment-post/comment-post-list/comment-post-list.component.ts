@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MessageManager} from "../message-manager";
 import {StorageService} from "../../account/storage.service";
 import {IAccount} from "../../../entity/IAccount";
+import {WebSocketService} from "../../common/web-socket.service";
 
 @Component({
   selector: 'app-comment-post-list',
@@ -26,6 +27,7 @@ export class CommentPostListComponent implements OnInit {
   idCommentEdit: number;
   commentNotification : any;
   accountSendId: number;
+  processDetailId: number;
 
   @Input() idProcess;
 
@@ -44,6 +46,7 @@ export class CommentPostListComponent implements OnInit {
   constructor(private commentPostService: CommentPostService,
               public messageManager: MessageManager,
               private storageService: StorageService,
+              public webSocketService: WebSocketService,
               public formBuilder: FormBuilder) {
   }
 
@@ -62,7 +65,12 @@ export class CommentPostListComponent implements OnInit {
    * */
   getAllListCommentSizeInProcess() {
     this.commentPostService.getAllCommentSize(this.idProcess, this.page, this.size).subscribe(data => {
-      this.iComments = data.content;
+      if (data == null){
+        this.flagComment = false
+      } else {
+        this.flagComment = true;
+        this.iComments = data.content;
+      }
     })
   }
   /**
@@ -115,10 +123,17 @@ export class CommentPostListComponent implements OnInit {
       return;
     } else {
       this.formGroup.value.accountSendId = this.commentNotification.account.id;
+      this.formGroup.value.processDetailId = this.idProcess;
       this.commentPostService.saveReply(this.formGroup.value).subscribe(data => {
-        this.flagComment = false;
-        this.ngOnInit();
-        this.messageManager.showMessageCreateCommentSuccess();
+        if (data != null) {
+          this.messageManager.showMessageCreateNotRole();
+        } else {
+          this.flagComment = false;
+          this.ngOnInit();
+          this.messageManager.showMessageCreateCommentSuccess();
+          this.webSocketService.callServer().subscribe();
+        }
+
       })
     }
   }

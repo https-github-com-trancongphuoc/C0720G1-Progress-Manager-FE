@@ -13,11 +13,16 @@
     <div class="row">
       <div class="col-sm-6"></div>
       <div class="col-sm-6">
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="flagLoading == false; else hidden">
           <label for="formFile" class="form-label">Chọn file Excel có trong danh sách. Sẽ thêm Sheet đầu tiên của
             file</label>
           <input class="form-control" type="file" id="formFile" (change)="onFileChange($event)">
         </div>
+        <ng-template #hidden>
+          <div class="mb-3" >
+            <button class="btn btn-warning" (click)="load()" style="border-radius: 100px;margin-top: 15px; margin-left: 15px;float: right">Xóa toàn bộ</button>
+          </div>
+        </ng-template>
       </div>
       <!--      <div class="col-sm-3"></div>-->
     </div>
@@ -51,8 +56,10 @@
           <td *ngIf="teacher?.gender == 0">Nam</td>
           <td *ngIf="teacher?.gender == 1">Nữ</td>
           <td>{{teacher?.phone}}</td>
-          <td>{{teacher?.degreeId}}</td>
-          <td>{{teacher?.facultyId}}</td>
+          <td *ngIf="teacher?.degreeId != null">{{teacher?.degreeId}}</td>
+          <td *ngIf="teacher?.degreeId == null">Yêu cầu điền vào</td>
+          <td *ngIf="teacher?.facultyId != null">{{teacher?.facultyId}}</td>
+          <td *ngIf="teacher?.facultyId == null">Yêu cầu điền vào</td>
           <td *ngIf="teacher!=null">
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"
                     (click)="getEmployeeIndex(i)">Xóa
@@ -64,7 +71,7 @@
 
     </div>
     <p>Có {{quantityRecord}} sinh viên được nhập vào</p>
-    <button class="btn btn-success" (click)="backList()" style="border-radius: 100px;margin-top: 15px; margin-left: 15px;float: right">Quay
+    <button class="btn btn-secondary" (click)="backList()" style="border-radius: 100px;margin-top: 15px; margin-left: 15px;float: right">Quay
       lại
     </button>
     <button class="btn btn-success" (click)="acceptCreate()" style="border-radius: 100px;margin-top: 15px;float: right">

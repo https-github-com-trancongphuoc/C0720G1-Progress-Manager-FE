@@ -24,6 +24,7 @@ export class TeacherCreateComponent implements OnInit {
   selectedImage: any = null;
   idProject: string = 'process-manager-11b67';
   url: string;
+  flag = false;
 
   constructor(@Inject(UploadFireService) private uploadFireService : UploadFireService,
               @Inject(AngularFireStorage) private storage: AngularFireStorage,
@@ -102,6 +103,7 @@ export class TeacherCreateComponent implements OnInit {
   }
 
   save() {
+    this.flag = true;
     if (this.image == 'https://static1.bestie.vn/Mlog/ImageContent/202003/90195464-1520137768148366-7780160422925041664-n-3e4695.jpg'){
       this.formCreateTeacher.value.avatar = this.image;
       this.teacherService.createTeacher(this.formCreateTeacher.value).subscribe(data =>{
