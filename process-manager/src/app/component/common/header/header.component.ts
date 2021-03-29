@@ -4,6 +4,8 @@ import {ProcessService} from "../../process/process.service";
 import {ToastrService} from "ngx-toastr";
 import {NotificationService} from "../notification.service";
 import {WebSocketService} from "../web-socket.service";
+import {GroupService} from "../../group-management/group.service";
+import {AccountService} from "../../account/account.service";
 
 @Component({
   selector: 'app-header',
@@ -16,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   notificationList: any;
 
-  accountPresent: any;
+  accountPercent: any;
 
   checkSeen = false;
 
@@ -34,7 +36,9 @@ export class HeaderComponent implements OnInit {
               private processService: ProcessService,
               private toast: ToastrService,
               private notificationService: NotificationService,
-              private webSocketService: WebSocketService) {
+              private webSocketService: WebSocketService,
+              private groupService: GroupService,
+              private accountService: AccountService) {
 
     // Open connection with server socket
     let stompClient = this.webSocketService.connect();
@@ -52,7 +56,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.countNotification = 0;
     this.getAccountPresent();
-    this.checkLogin = !!this.accountPresent;
+    this.checkLogin = !!this.accountPercent;
     if (this.checkLogin) {
       this.getNotification();
       this.getProcessDetailByGroupId();
@@ -60,9 +64,9 @@ export class HeaderComponent implements OnInit {
   }
 
   getProcessDetailByGroupId() {
-    if (this.accountPresent.student != null) {
-      if (this.accountPresent.student.groupAccount != null) {
-        this.processService.getProcessDetailByGroupId(this.accountPresent.student.groupAccount.id).subscribe(data => {
+    if (this.accountPercent.student != null) {
+      if (this.accountPercent.student.groupAccount != null) {
+        this.processService.getProcessDetailByGroupId(this.accountPercent.student.groupAccount.id).subscribe(data => {
           this.processDetail = data;
         })
       }
@@ -70,22 +74,22 @@ export class HeaderComponent implements OnInit {
   }
 
   getAccountPresent() {
-    this.accountPresent = this.storageService.getUser();
-    this.accountPresent.accountRoleList.forEach(value => {
+    this.accountPercent = this.storageService.getUser();
+    this.accountPercent.accountRoleList.forEach(value => {
       this.check = (value.role.name == 'ROLE_ADMIN') || (value.role.name == 'ROLE_TEACHER');
     });
 
-    if (this.accountPresent.student == null) {
+    if (this.accountPercent.student == null) {
       this.checkStudentExistGroup = false;
     }
-    if (this.accountPresent.student?.groupAcount != null) {
+    if (this.accountPercent.student?.groupAcount != null) {
       this.checkStudentExistGroup = false;
     }
-    if (this.accountPresent.student?.groupAccount == null) {
+    if (this.accountPercent.student?.groupAccount == null) {
       this.checkStudentExistGroup = true;
     }
 
-    console.log(this.accountPresent)
+    console.log(this.accountPercent)
   }
 
   signOut() {
@@ -94,7 +98,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getNotification() {
-    this.notificationService.getAllNotification(this.accountPresent.id).subscribe(data => {
+    this.notificationService.getAllNotification(this.accountPercent.id).subscribe(data => {
       console.log(data);
       this.notificationList = data.content;
       this.checkLoad = true;
@@ -113,11 +117,22 @@ export class HeaderComponent implements OnInit {
 
   seen() {
     if (this.checkSeen) {
-      this.notificationService.seenNotification(this.accountPresent.id).subscribe(data => {
+      this.notificationService.seenNotification(this.accountPercent.id).subscribe(data => {
         this.ngOnInit();
         this.checkSeen = false;
       });
     }
+  }
 
+
+  JoinGroup() {
+    this.groupService.acceptJoinGroup(this.accountPercent.student?.id).subscribe(data => {
+      this.toast.success('Tham gia nhóm thành công', 'Thành công');
+
+      this.accountService.login(this.accountPercent).subscribe(data => {
+        this.storageService.saveUserLocal(data.account);
+        this.ngOnInit();
+      });
+    })
   }
 }
