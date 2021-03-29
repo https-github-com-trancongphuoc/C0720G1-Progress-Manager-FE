@@ -11,7 +11,7 @@ import {ITeacherEditDTO} from "../../entity/ITeacher";
 })
 export class TeacherService {
 
-  public API: string = 'http://localhost:8081/api';
+  public API: string = 'http://localhost:8080/api';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

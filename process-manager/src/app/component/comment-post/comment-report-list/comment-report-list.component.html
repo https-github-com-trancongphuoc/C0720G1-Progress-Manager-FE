@@ -1,6 +1,6 @@
-<div>
+<div *ngIf="iReport?.length > 0 else noContent">
   <div *ngFor="let reports of iReport">
-    <div class="d-flex flex-row comment-row m-t-0" >
+    <div class="d-flex flex-row comment-row m-t-0">
       <div class="p-2"><img
         src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
         alt="user"
@@ -11,19 +11,18 @@
           <span class="badge bg-primary">Tiến độ {{reports.topicProcess.processNumber}}</span>
         </h6>
         <div>
-          <h6 class="font-medium">{{reports.content}}</h6>
+          <h6 class="font-medium">{{reports?.content}}</h6>
         </div>
-        <span class="m-b-15 d-block">
-      Báo cáo tiến độ
-      <a href="{{reports.url}}">
+        <span class="m-b-15 d-block">Báo cáo tiến độ<a href="{{reports?.url}}">
         <i class="bi bi-file-earmark-text" style="font-size: 200%"></i>
       </a>
     </span>
         <div class="comment-footer">
-          <span class="text-muted float-end">{{reports.date|date: 'h:mm:ss dd/MM/yyyy'}}</span>
+          <span class="text-muted float-end">{{reports?.date|date: 'h:mm:ss dd/MM/yyyy'}}</span>
         </div>
       </div>
     </div>
+    <hr>
   </div>
   <div class="row" style="text-align: center">
     <div class="col-sm">
@@ -34,4 +33,6 @@
     </div>
   </div>
 </div>
-
+<ng-template #noContent>
+  <h5 class="text-center mt-5 text-success">Không có báo cáo nào</h5>
+</ng-template>

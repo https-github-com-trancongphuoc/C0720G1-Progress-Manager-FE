@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="iComments?.length > 0 else noContent">
   <div *ngFor="let comments of iComments">
     <div class="d-flex flex-row comment-row">
       <div class="p-2">
@@ -90,7 +90,7 @@
       </form>
     </div>
     <hr>
-    <app-comment-post-reply-list [idReply]="comments"
+    <app-comment-post-reply-list [idReply]="comments" [idProcessReply]="idProcess"
                                  (onDeleteComment)="getIdCommentDelete($event)"></app-comment-post-reply-list>
   </div>
   <div class="row" style="text-align: center">
@@ -102,7 +102,9 @@
     </div>
   </div>
 </div>
-
+<ng-template #noContent>
+  <h5 class="text-center mt-5 text-success">Không có câu hỏi nào</h5>
+</ng-template>
 <div class="modal fade" id="modalDel" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

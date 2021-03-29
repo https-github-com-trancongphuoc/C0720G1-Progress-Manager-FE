@@ -8,78 +8,63 @@
   <!-- ======= Courses Section ======= -->
   <section id="courses" class="courses">
     <div class="container" data-aos="fade-up">
-      <a href="" class="get-started-btn mt-2 mb-4" style="float: left" [routerLink]="['/create-teacher']">Thêm mới giáo viên</a>
+      <div class="btn-group" role="group">
+        <a id="btnGroupDrop1"  type="button" class="get-started-btn mt-2 mb-4 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          Thêm mới giáo viên
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <li><a class="dropdown-item" [routerLink]="['/create-teacher']">Thêm mới một giáo viên</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/create-teacher-excel']">Thêm mới nhiều giáo viên</a></li>
+        </ul>
+      </div>
       <div>
         <div class="d-flex justify-content-end">
           <input (keydown.enter)="page = 0; getAllTeacher()" [(ngModel)]="find" class="form-control" type="text" value="" placeholder="Tìm kiếm sinh viên"
                  style="border-radius: 30px; border: 1px solid #d6c9bb; height: 37px; width: 300px">
           <button (click)="page = 0; getAllTeacher()" type="button" class="get-started-btn" style="border: 0">Tìm kiếm</button>
         </div>
-        <div class="row" data-aos="zoom-in" data-aos-delay="100" style="clear: both">
-          <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch mt-4 mb-3 mt-md-0"
-               *ngFor="let teacher of listTeacher">
-            <div class="course-item" style="background-color: #f5f5f5; height: 600px">
-
-              <img [src]="teacher.avatar" class="img-fluid img-thumbnail w-100 h-50" alt="">
-
-
-              <div class="course-content">
-                <div class="d-flex justify-content-center align-items-center mb-1">
-                  <h3><a href="">{{teacher.name}}</a></h3>
-                </div>
-                <ul class="list-group list-group-flush ">
-                  <li class="list-group-item email " style="background-color: #f5f5f5">
-                    <i class="bi bi-file-earmark-code-fill"></i><span
-                    class="lop"> Mã Giáo Viên: </span>MGV-{{teacher.id}}
-                  </li>
-                  <li class="list-group-item phone " style="background-color: #f5f5f5">
-                    <i class="fa fa-university"></i> <span class="lop"> Khoa: </span> {{teacher.faculty.name}}
-                  </li>
-                  <li class="list-group-item email" style="background-color: #f5f5f5">
-                    <i class="fa fa-envelope"></i> <span class="lop"> Email: </span>{{teacher.email}}
-                  </li>
-                  <li class="list-group-item phone" style="background-color: #f5f5f5">
-                    <i class="fa fa-phone "></i> <span class="lop"> Số điện thoại: </span> {{teacher.phone}}
-                  </li>
-
-                </ul>
-                <div class="trainer d-flex justify-content-between align-items-center">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-lg-5">
-                        <ul class="social-links list-inline mb-0 d-flex justify-content-between">
-                          <li class="list-inline-item"><a title="" data-placement="top"
-                                                          data-toggle="tooltip" class="tooltips" href=""
-                                                          data-original-title="Facebook"><i
-                            class="fa fa-facebook-f"></i></a></li>
-                          <li class="list-inline-item"><a title="" data-placement="top"
-                                                          data-toggle="tooltip" class="tooltips" href=""
-                                                          data-original-title="Twitter"><i
-                            class="fa fa-twitter"></i></a></li>
-                          <li class="list-inline-item"><a title="" data-placement="top"
-                                                          data-toggle="tooltip" class="tooltips" href=""
-                                                          data-original-title="Skype"><i
-                            class="fa fa-skype"></i></a></li>
-                        </ul>
+        <div id="trainers" class="trainers">
+          <div class="" data-aos="fade-up">
+            <div class="row" data-aos="zoom-in" data-aos-delay="100" style="clear: both">
+              <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch mb-3" *ngFor="let teacher of listTeacher">
+                <div class="member">
+                  <img [src]="teacher?.avatar != null ? teacher?.avatar : avatarNull" class="img-fluid img-thumbnail" alt="" style="height: 300px">
+                  <div class="member-content">
+                    <div style="text-align: left">
+                      <div class="d-flex justify-content-center align-items-stretch">
+                        <h5><a href="">{{teacher?.name}}</a></h5>
                       </div>
-                      <div class="col-lg-7" style="clear: both">
-                        <div class="d-flex justify-content-end">
-                          <button class="btn btn-primary" style="border-radius: 100%; margin-right: 3px" [routerLink]="['/edit-teacher/' + teacher.id]">
-                            <i class="fa fa-edit" data-toggle="tooltip" title="Sửa!"></i>
-                          </button>
-                          <button class="btn btn-secondary" style="border-radius: 100px"
-                                  data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-toggle="tooltip"
-                                  title="Xóa!" (click)="getTeacher(teacher)">
-                            <i class="fa fa-trash"></i>
-                          </button>
-                        </div>
-                      </div>
+                      <h6><i class="bi bi-journal-code"></i><b> Mã giảng viên: </b>MGV-{{teacher?.id}}</h6>
+                      <h6><i class="bi bi-envelope"></i><b> Email: </b>{{teacher?.email.length > 13 ? teacher.email.substring(0, 13) + "..." : teacher.email}}</h6>
+                      <h6><i class="bi bi-telephone "></i><b> Số điện thoại: </b>{{teacher?.phone}}</h6>
+                      <h6><i class="bi bi-signpost-2 "></i><b> Khoa:</b>{{teacher.faculty?.name}}</h6>
+                    </div>
+                    <div class="social">
+                      <a data-toggle="tooltip" class="tooltips" href=""
+                         data-original-title="Twitter"><i class="bi bi-twitter"></i></a>
+                      <a data-toggle="tooltip" class="tooltips" href=""
+                         data-original-title="Facebook"><i class="bi bi-facebook"></i></a>
+                      <a data-toggle="tooltip" class="tooltips" href=""
+                         data-original-title="Instagram"><i class="bi bi-instagram"></i></a>
+                      <a data-toggle="tooltip" class="tooltips" href=""
+                         data-original-title="Twitch"><i class="bi bi-twitch"></i></a>
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                      <button class="btn btn-primary" style="border-radius: 100%; margin-right: 3px"
+                              [routerLink]="['/edit-teacher/' + teacher.id]">
+                        <i class="bi bi-pencil-square" data-toggle="tooltip" title="Sửa!"></i>
+                      </button>
+                      <button class="btn btn-danger" style="border-radius: 100px"
+                              data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-toggle="tooltip"
+                              title="Xóa!" (click)="getTeacher(teacher)">
+                        <i class="bi bi-trash"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> <!-- End Course Item-->
             </div>
-          </div> <!-- End Course Item-->
+          </div>
         </div>
         <div class="container mt-4">
           <nav aria-label="Page navigation example center">

@@ -12,7 +12,7 @@ import {IReport} from '../../entity/IReport';
   providedIn: 'root'
 })
 export class StudentService {
-  public API: string = 'http://localhost:8081/api';
+  public API: string = 'http://localhost:8080/api';
   private url = 'http://localhost:8080/api/public/';
 
   httpOptions = {

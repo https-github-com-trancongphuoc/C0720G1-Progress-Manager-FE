@@ -30,6 +30,8 @@ export class RogressReportsComponent implements OnInit {
   fake: number;
   idInfoRegisterProcess: string;
 
+  checkSniper: boolean;
+
 
   nameTopic: any;
   private selectedImage: any = null;
@@ -94,6 +96,7 @@ export class RogressReportsComponent implements OnInit {
       topicProcessId: [this.progressReports.id]
     });
     if (this.selectedImage !== null) {
+      this.checkSniper = true;
       const name = this.selectedImage.name;
       const fileRef = this.storage.ref(name);
       this.storage.upload(name, this.selectedImage).snapshotChanges().pipe(

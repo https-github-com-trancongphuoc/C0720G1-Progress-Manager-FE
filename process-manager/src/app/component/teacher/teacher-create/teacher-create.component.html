@@ -101,7 +101,13 @@
               </div>
             </div>
             <div class="container d-flex justify-content-end mt-3">
-              <button [disabled]="formCreateTeacher.invalid" type="submit" class="btn get-started-btn">Lưu</button>
+              <button *ngIf="!flag" [disabled]="formCreateTeacher.invalid" type="submit" class="btn get-started-btn">Lưu</button>
+              <button *ngIf="flag" disabled style="border: 0; width: 100px"
+                      class="get-started-btn">
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
               <button type="button" class="btn get-started-btn" [routerLink]="['/list-teacher']"
                       style="background: #7e9486">Thoát
               </button>

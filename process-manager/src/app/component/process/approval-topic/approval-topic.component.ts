@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ProcessService} from "../process.service";
 import {StorageService} from "../../account/storage.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-approval-topic',
@@ -26,7 +27,8 @@ export class ApprovalTopicComponent implements OnInit {
 
 
   constructor(private processService: ProcessService,
-              private storageService: StorageService) { }
+              private storageService: StorageService,
+              private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getAccountPercent();
@@ -59,6 +61,7 @@ export class ApprovalTopicComponent implements OnInit {
   approval() {
     this.infoTopicWantApproval.teacher = this.accountPercent.teacher;
     this.processService.approval(this.infoTopicWantApproval).subscribe(data => {
+      this.toast.success('Phê duyệt thành công')
       this.ngOnInit();
     })
   }

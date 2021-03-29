@@ -14,6 +14,7 @@ export class AddNewStudentComponent implements OnInit {
   public iStudent: IStudent[];
   public quantityRecord = 0;
   public studentIndex: number;
+  public flagLoading = false;
 
   constructor(public addNewService: AddNewService,
               public router: Router,
@@ -24,6 +25,7 @@ export class AddNewStudentComponent implements OnInit {
   }
 
   onFileChange(evt: any) {
+    this.flagLoading = true;
     const target: DataTransfer = (evt.target) as DataTransfer;
     if (target.files.length !== 1) {
       throw new Error('Cannot use multiple files');
@@ -59,5 +61,9 @@ export class AddNewStudentComponent implements OnInit {
 
   reset() {
     this.router.navigateByUrl('/list-student');
+  }
+
+  load(){
+    window.location.reload();
   }
 }

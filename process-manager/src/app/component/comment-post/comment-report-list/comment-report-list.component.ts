@@ -11,6 +11,7 @@ export class CommentReportListComponent implements OnInit {
   page: number = 0;
   size: number = 1;
   iReport: IReport[];
+  flagComment = false;
 
   @Input() idProcessReport;
 
@@ -24,7 +25,12 @@ export class CommentReportListComponent implements OnInit {
    * */
   getAllListReportSizeInProcess() {
     this.commentPostService.getAllReportSize(this.idProcessReport, this.page, this.size).subscribe(data => {
-      this.iReport = data.content;
+      if (data == null){
+        this.flagComment = false
+      } else {
+        this.flagComment = true;
+        this.iReport = data.content;
+      }
     })
   }
 
