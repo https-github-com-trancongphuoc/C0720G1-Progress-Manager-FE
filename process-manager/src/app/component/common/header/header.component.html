@@ -1,6 +1,7 @@
 
-<header id="header" class="fixed-top">
+<header id="header" class="fixed-top" style="padding: 0">
   <div class="container d-flex align-items-center">
+
 
     <h1 class="logo me-auto"><a href="index.html">C0720G1</a></h1>
     <!-- Uncomment below if you prefer to use an image logo -->
@@ -14,7 +15,7 @@
         <!--        <li><a href="about.html">Đào tạo</a></li>-->
         <!--        <li><a href="progrees.html">Tiến độ</a></li>-->
 
-        <li *ngIf="accountPresent != null ? accountPresent.teacher != null : false" class="dropdown"><a href="#"><span>Giáo viên</span>
+        <li *ngIf="accountPercent != null ? accountPercent.teacher != null : false" class="dropdown"><a href="#"><span>Giáo viên</span>
           <i
             class="bi bi-chevron-down"></i></a>
           <ul>
@@ -26,35 +27,35 @@
             <li><a href="#">Tài liệu hướng dẫn</a></li>
           </ul>
         </li>
-        <li *ngIf="accountPresent != null" class="dropdown"><a href="#"><span>Nhóm</span> <i
+        <li *ngIf="accountPercent != null" class="dropdown"><a href="#"><span>Nhóm</span> <i
           class="bi bi-chevron-down"></i></a>
           <ul>
             <li><a routerLink='/register-group'
                    *ngIf="checkStudentExistGroup || check">Đăng ký
               nhóm</a></li>
-            <li><a routerLink='/list-group' *ngIf="accountPresent.student == null">Quản lý nhóm</a></li>
-            <li *ngIf="accountPresent.student != null && accountPresent.student.groupAccount != null" style="text-align: center">Bạn đã có nhóm !
+            <li><a routerLink='/list-group' *ngIf="accountPercent.student == null">Quản lý nhóm</a></li>
+            <li *ngIf="accountPercent.student != null && accountPercent.student.groupAccount != null" style="text-align: center">Bạn đã có nhóm !
             </li>
           </ul>
         </li>
         <!--        <li><a href="about.html"></a></li>-->
-        <li *ngIf="accountPresent != null" class="dropdown"><a href="#" class=""><i style="font-size: 30px"
+        <li *ngIf="accountPercent != null" class="dropdown"><a href="#" class=""><i style="font-size: 30px"
                                                                                     class="bi bi-person-circle"></i>
           <i class="bi bi-chevron-down"></i></a>
           <ul>
             <!--            <li *ngIf="processDetail != null"><a [routerLink]="'process-detail/'+ processDetail.id">Đề tài của tôi</a>-->
             <!--            </li>-->
-            <li *ngIf="accountPresent.student != null"><a *ngIf="accountPresent.student.groupAccount != null"
-                                                          [routerLink]="'/group/'+ accountPresent.student.groupAccount.id">Nhóm
+            <li *ngIf="accountPercent.student != null"><a *ngIf="accountPercent.student.groupAccount != null"
+                                                          [routerLink]="'/group/'+ accountPercent.student.groupAccount.id">Nhóm
               của tôi</a></li>
             <li><a routerLink="change-password">Đổi mật khẩu</a></li>
           </ul>
         </li>
 
         <li class="ml-4">
-          <div class="dropdown" *ngIf="accountPresent != null">
+          <div class="dropdown" *ngIf="accountPercent != null">
             <button class="btn mb-2" (click)="seen()">
-        <span *ngIf="accountPresent != null" id="dropdownMenuButton1" class=""
+        <span *ngIf="accountPercent != null" id="dropdownMenuButton1" class=""
               style="margin-right: 30px; margin-bottom: 5px; font-size: 25px">
           <i *ngIf="checkSeen" class="bi bi-envelope-fill text-danger"> </i>
           <i *ngIf="!checkSeen" class="bi bi-envelope-open-fill text-success"></i>
@@ -99,9 +100,19 @@
 
     </nav><!-- .navbar -->
 
-    <a *ngIf="accountPresent == null" href="/login" class="get-started-btn">Đăng nhập</a>
-    <a style="position: absolute; right: 50px" routerLink="" *ngIf="accountPresent != null" (click)="signOut()">Đăng xuất</a>
+    <a *ngIf="accountPercent == null" href="/login" class="get-started-btn">Đăng nhập</a>
+    <a style="position: absolute; right: 50px" routerLink="" *ngIf="accountPercent != null" (click)="signOut()">Đăng xuất</a>
 
+  </div>
+  <div *ngIf="accountPercent != null">
+  <div *ngIf="!accountPercent.student?.status_join && accountPercent.student?.groupAccount != null" class="alert alert-success"
+       style="text-align: center; margin: 0" role="alert">
+    Bạn có 1 lời mời vào nhóm <span style="color: red">{{accountPercent.student.groupAccount.name}}</span>!
+      <button style="margin-left: 20px" class="btn btn-success" (click)="JoinGroup()">Đồng ý</button>
+    <button style="margin-left: 20px" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Từ
+      chối
+    </button>
+  </div>
   </div>
 </header>
 <!-- End Header -->

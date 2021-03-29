@@ -11,11 +11,20 @@ export class AppComponent implements DoCheck{
 
   check = true;
 
+  accountPercent: any;
+
+  statusJoin = false;
+
   constructor(private storageService: StorageService) {
+    this.getAccountPercent();
   }
 
   ngDoCheck(): void {
     // this.check = this.storageService.getUser() != null;
+  }
+
+  getAccountPercent() {
+    this.accountPercent = this.storageService.getUser();
   }
 
 

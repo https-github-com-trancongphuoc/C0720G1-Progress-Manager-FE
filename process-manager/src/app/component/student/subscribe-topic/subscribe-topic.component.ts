@@ -7,6 +7,7 @@ import {ToastrService} from "ngx-toastr";
 import {UploadFireService} from "../../upload-fire-service/upload-fire-service";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
+import {AccountService} from "../../account/account.service";
 
 @Component({
   selector: 'app-subscribe-topic',
@@ -43,7 +44,8 @@ export class SubscribeTopicComponent implements OnInit {
               private router: Router,
               private toast: ToastrService,
               @Inject(UploadFireService) private uploadFireService : UploadFireService,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage) { }
+              @Inject(AngularFireStorage) private storage: AngularFireStorage,
+              private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.getAccountPercent();
@@ -105,6 +107,7 @@ export class SubscribeTopicComponent implements OnInit {
           if (this.selectedDescriptionURL == null) {
             this.processService.registerTopic(this.formInfoTopicRegister.value).subscribe(data => {
               this.toast.success('Đăng ký thành công');
+              this.resetAccountPercent();
               this.router.navigate(['/group',this.accountPercent.student.groupAccount.id])
             });
           } else {
@@ -130,6 +133,7 @@ export class SubscribeTopicComponent implements OnInit {
           this.formInfoTopicRegister.value.descriptionURL = url;
           this.processService.registerTopic(this.formInfoTopicRegister.value).subscribe(data => {
             this.toast.success('Đăng ký thành công');
+            this.resetAccountPercent();
             this.router.navigate(['/group',this.accountPercent.student.groupAccount.id])
           });
         })
@@ -146,8 +150,13 @@ export class SubscribeTopicComponent implements OnInit {
       this.getLinkFireBaseImage();
 
     }
+  }
 
-
+  resetAccountPercent() {
+    this.accountService.login(this.accountPercent).subscribe(data => {
+      this.storageService.saveUserLocal(data.account);
+      this.ngOnInit();
+    });
   }
 
 }
