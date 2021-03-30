@@ -17,6 +17,7 @@
         <th scope="col">STT</th>
         <th scope="col">Tên nhóm</th>
         <th scope="col">Tên đề tài</th>
+        <th scope="col">Mô tả</th>
         <th scope="col">Duyệt đề tài</th>
       </tr>
       </thead>
@@ -25,8 +26,9 @@
         <th scope="row">{{i + 1}}</th>
         <td>{{e.groupAccount.name}}</td>
         <td>
-          <a style="color: #0d6efd" href="list_topic_detail.html">{{e.topic.name}}</a>
+          <a style="color: #0d6efd" [routerLink]="['/topic-detail/',e.topic.id,'detail']">{{e.topic.name}}</a>
         </td>
+        <td><a *ngIf="e.descriptionURL != null" [href]="e.descriptionURL"><i style="font-size: 25px" class="bi bi-file-earmark-text-fill"></i></a></td>
         <td>
           <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalApproval" (click)="infoTopicWantApproval = e">Duyệt</button>
         </td>

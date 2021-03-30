@@ -20,7 +20,7 @@
           <div *ngFor="let student of listStudent;index as i"
                class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch mt-4 mt-md-0">
             <div class="course-item" style="background-color: #f5f5f5">
-              <img [src]="student.avatar" class="img-fluid" alt="">
+              <img [src]="student.avatar" style="width: 250px; height: 250px" class="img-fluid" alt="">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                   <h4>SV-{{student.id}}</h4>
