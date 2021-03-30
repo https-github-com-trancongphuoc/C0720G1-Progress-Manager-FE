@@ -60,6 +60,16 @@ export class ProcessDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    let stompClient = this.webSocketService.connect();
+    stompClient.connect({}, frame => {
+      console.log(frame);
+      stompClient.subscribe('/topic/notification', notifications => {
+        this.ngOnInit();
+      })
+    });
+
+
     this.checkLoading = false;
     this.toggleEditAppreciate = false;
     this.getAccountPresent();

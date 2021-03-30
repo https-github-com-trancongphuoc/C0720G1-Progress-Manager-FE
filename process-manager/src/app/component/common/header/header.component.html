@@ -31,7 +31,7 @@
           class="bi bi-chevron-down"></i></a>
           <ul>
             <li><a routerLink='/register-group'
-                   *ngIf="checkStudentExistGroup || check">Đăng ký
+                   *ngIf="accountPercent.student?.groupAccount == null">Đăng ký
               nhóm</a></li>
             <li><a routerLink='/list-group' *ngIf="accountPercent.student == null">Quản lý nhóm</a></li>
             <li *ngIf="accountPercent.student != null && accountPercent.student.groupAccount != null" style="text-align: center">Bạn đã có nhóm !
