@@ -19,12 +19,11 @@
           <i
             class="bi bi-chevron-down"></i></a>
           <ul>
-            <li><a href="#">Đăng thông báo</a></li>
             <li><a href="#" [routerLink]="['/list-teacher']">Quản lí giáo viên</a></li>
+            <li><a href="#" [routerLink]="['/list-student']">Quản lý sinh viên</a></li>
             <li><a routerLink="process-manager">Quản lí đề tài</a></li>
             <li><a href="#" routerLink="/approval-topic">Kiểm duyệt đề tài</a></li>
-            <li><a href="#" [routerLink]="['/list-student']">Quản lý sinh viên</a></li>
-            <li><a href="#">Tài liệu hướng dẫn</a></li>
+
           </ul>
         </li>
         <li *ngIf="accountPercent != null" class="dropdown"><a href="#"><span>Nhóm</span> <i

@@ -90,12 +90,13 @@ export class CommentPostListComponent implements OnInit {
    * TrungTQ: Lấy id bài đăng và form Edit
    * */
   getEdit(comments: IComment) {
+    this.editorValue = comments.content;
     this.flagEdit = true;
     this.idCommentEdit = comments.id;
     this.formGroup = this.formBuilder.group({
       id: [comments.id],
       title: [comments.title, [Validators.required, Validators.maxLength(200), Validators.minLength(5)]],
-      content: [comments.content, [Validators.required]]
+      content: [this.editorValue, [Validators.required]]
     })
   }
 

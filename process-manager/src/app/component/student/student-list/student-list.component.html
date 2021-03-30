@@ -38,7 +38,7 @@
                     <h6><i class="bi bi-journal-code"></i><b> Mã sinh viên: </b>MSV-{{student?.id}}</h6>
                     <h6><i class="bi bi-book-half"></i><b> Lớp: </b>{{student.grade?.name}}</h6>
                     <h6><i class="bi bi-envelope"></i><b> Email: </b>{{student?.email.length > 13 ? student.email.substring(0, 13) + "..." : student.email}}</h6>
-                    <h6><i class="bi bi-telephone "></i><b> Số điện thoại: </b>{{student?.phone != null ? student?.phone : "Không có"}}</h6>
+                    <h6><i class="bi bi-telephone "></i><b> ĐT: </b>{{student?.phone != null ? student?.phone : "Không có"}}</h6>
                     <h6><i class="bi bi-signpost-2 "></i><b> Khoa: </b>{{student.grade.faculty?.name}}</h6>
                   </div>
                   <div class="social">
