@@ -35,7 +35,7 @@
                   <h4>{{topic.faculty.name}}</h4>
                 </div>
                 <h3><a [routerLink]="['/topic-detail/', topic.id, 'detail']">{{topic.name}}</a></h3>
-                <h6>{{getShortName(topic.introduce, 200)}} <a [routerLink]="['/topic-detail/', topic.id, 'detail']">Xem
+                <h6>{{getShortName(topic.content, 200)}} <a [routerLink]="['/topic-detail/', topic.id, 'detail']">Xem
                   thêm </a></h6>
               </div>
             </div>
