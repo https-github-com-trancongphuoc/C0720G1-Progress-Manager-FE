@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div style="margin-top: 90px" class="container">
+<div *ngIf="checkLoading" style="margin-top: 90px" class="container">
   <div class="row" style="float: right">
     <input type="text" style="width: 300px;border-radius: 30px; border: 1px solid #d6c9bb"
            class="form-control" placeholder="Tên sinh viên hoặc MSSV" id="groups-search" [(ngModel)]="searchName"

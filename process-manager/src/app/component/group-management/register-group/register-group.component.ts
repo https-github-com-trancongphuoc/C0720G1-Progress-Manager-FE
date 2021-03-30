@@ -6,6 +6,7 @@ import {IStudent, Student} from '../../../entity/IStudent';
 import {StorageService} from "../../account/storage.service";
 import {finalize} from "rxjs/operators";
 import {IGroupAccount} from "../../../entity/IGroupAccount";
+import {AccountService} from "../../account/account.service";
 
 
 @Component({
@@ -25,11 +26,13 @@ export class RegisterGroupComponent implements OnInit {
   check = true;
   nameGroup: string;
   idGroup: number;
+  checkLoading = false;
 
   constructor(public groupService: GroupService,
               private router: Router,
               private toastrService: ToastrService,
-              private storage: StorageService) {
+              private storage: StorageService,
+              private accountService: AccountService) {
   }
 
   ngOnInit(): void {
@@ -40,6 +43,7 @@ export class RegisterGroupComponent implements OnInit {
     this.groupService.getListStudent(this.page).subscribe(data => {
       this.listStudent = data.content;
       this.pageable = data;
+      this.checkLoading = true;
     });
   }
 
