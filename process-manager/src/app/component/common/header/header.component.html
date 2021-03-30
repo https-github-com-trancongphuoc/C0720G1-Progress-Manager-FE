@@ -104,12 +104,12 @@
     <a style="position: absolute; right: 50px" routerLink="" *ngIf="accountPercent != null" (click)="signOut()">Đăng xuất</a>
 
   </div>
-  <div *ngIf="accountPercent != null">
+  <div *ngIf="accountPercent?.student?.groupAccount != null">
   <div *ngIf="!accountPercent.student?.status_join && accountPercent.student?.groupAccount != null" class="alert alert-success"
        style="text-align: center; margin: 0" role="alert">
     Bạn có 1 lời mời vào nhóm <span style="color: red">{{accountPercent.student.groupAccount.name}}</span>!
       <button style="margin-left: 20px" class="btn btn-success" (click)="JoinGroup()">Đồng ý</button>
-    <button style="margin-left: 20px" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Từ
+    <button style="margin-left: 20px" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModalHeader">Từ
       chối
     </button>
   </div>
@@ -117,9 +117,9 @@
 </header>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div *ngIf="accountPercent != null" class="modal fade" id="exampleModalHeader" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content" *ngIf="accountPercent != null">
+    <div class="modal-content" *ngIf="accountPercent.student?.groupAccount != null">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
