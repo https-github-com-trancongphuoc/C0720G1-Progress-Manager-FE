@@ -3,6 +3,9 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {ITopic} from "../../entity/ITopic";
+import {IInfoTopicRegister} from "../../entity/IInfoTopicRegister";
+import {IComment} from "../../entity/IComment";
+import {IGroupAccount} from "../../entity/IGroupAccount";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +34,19 @@ export class TopicService {
       .pipe(
         catchError(this.errorHandler)
       );
+  }
+
+  getDelete(comment): Observable<IInfoTopicRegister> {
+    return this.httpClient.post<IInfoTopicRegister>(this.apiTopicUrl + 'cancel-topic', comment, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
+  getDeadline(groupAccount):Observable<any>{
+    return this.httpClient.post<any>(this.apiTopicUrl + 'update-deadline', groupAccount, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
   }
 
   errorHandler(error) {

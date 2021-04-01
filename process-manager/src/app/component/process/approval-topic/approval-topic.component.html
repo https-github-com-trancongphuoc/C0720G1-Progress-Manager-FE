@@ -30,14 +30,18 @@
         </td>
         <td><a *ngIf="e.descriptionURL != null" [href]="e.descriptionURL"><i style="font-size: 25px" class="bi bi-file-earmark-text-fill"></i></a></td>
         <td>
-          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalApproval" (click)="infoTopicWantApproval = e">Duyệt</button>
+          <div>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalApproval"  (click)="infoTopicWantApproval = e">Duyệt</button>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-success" (click)="getValue(e)">Hủy</button>
         </td>
       </tr>
 
       </tbody>
     </table>
-
-    <nav *ngIf="!checkEmpty" class="d-flex justify-content-end" aria-label="Page navigation example">
+    <div  *ngIf="!checkEmpty" class="d-flex justify-content-end" aria-label="Page navigation example">
       <ul class="pagination">
         <li  (click)="page = page - 1; getListInfoTopicRegister()" *ngIf="!pageable.first" class="page-item">
           <button class="page-link text-dark" aria-label="Previous">
@@ -53,12 +57,35 @@
           </button>
         </li>
       </ul>
-    </nav>
-
+    </div>
+    <div>
+      <div *ngIf="flagHidden">
+        <form [formGroup]="formGroup" (ngSubmit)="ngSubmitForm()">
+          <div class="form-group">
+            <div class="col-sm">
+              <label for="contentTopic" class="form-label" style="text-align: center">Nội dung nguyên nhân hủy.</label>
+              <textarea class="form-control" type="text" id="contentTopic" formControlName="content" required></textarea>
+              <div class="error-place" *ngFor="let comment of validate_message.content">
+                <div><small class="text-danger"
+                            *ngIf="formGroup.get('content').hasError(comment.type) && (formGroup.get('content').touched )">
+                  {{comment.message}}</small></div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-secondary float-end mt-2 mx-2" type="button" (click)="exitReply()">Hủy</button>
+          <button *ngIf="!flagLoading" class="btn btn-primary float-end mt-2" type="submit" [disabled]="formGroup.invalid">Gửi</button>
+          <button *ngIf="flagLoading" disabled style="border: 0; width: 100px"
+                  class="get-started-btn float-end mt-2">
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
+
 </div>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalApproval" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -81,3 +108,26 @@
     </div>
   </div>
 </div>
+
+<!--<div class="modal fade" id="modalCancelTopic" tabindex="-1" aria-labelledby="modalCancelTopicLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="modalCancelTopicLabel">Duyệt đề tài</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <form [formGroup]="formGroup" (ngSubmit)="ngSubmitForm()">-->
+<!--          <div class="mb-3">-->
+<!--            <label for="contentTopic" class="form-label">Nội dung nguyên nhân hủy.</label>-->
+<!--            <input class="form-control" type="text" id="contentTopic" formControlName="content">-->
+<!--          </div>-->
+<!--          <button type="submit" class="btn btn-primary">Gửi</button>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
