@@ -8,4 +8,5 @@ export interface IInfoTopicRegister{
   topic: ITopic;
   teacher: ITeacher;
   group: IGroupAccount;
+  topicCancel: boolean;
 }

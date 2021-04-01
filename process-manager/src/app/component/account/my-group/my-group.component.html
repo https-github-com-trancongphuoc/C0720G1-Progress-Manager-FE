@@ -71,7 +71,7 @@
             <td>{{e.statusComplete ? 'Hoàn thành' : 'Chưa hoàn thành'}}</td>
 
             <td class="">
-              <button [disabled]="!e.status" [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button>
+              <button [disabled]="!e.status && !e.topicCancel" [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button>
             </td>
             <!--             <td class=""><button [disabled]="!e.status" [routerLink]="'/process-detail/'+ e.id" class="btn btn-success"><i class="bi bi-eye"></i></button></td> -->
 

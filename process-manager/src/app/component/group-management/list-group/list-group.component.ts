@@ -5,6 +5,8 @@ import {GroupService} from '../group.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {StorageService} from "../../account/storage.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TopicService} from "../../topic/topic.service";
 
 @Component({
   selector: 'app-list-group',
@@ -24,14 +26,28 @@ export class ListGroupComponent implements OnInit {
   nameStudent: string;
   listIdStudent: number[] = []
 
+  groupValue: any;
+  flagHidden = false;
+  flagLoading = false;
+  formGroup: FormGroup;
+
+  validate_message = {
+    'date': [
+      {type: 'required', message: 'Nội dung không được để trống!'},
+    ]
+  }
+
   constructor(public groupService: GroupService,
               private router: Router,
               private toastrService: ToastrService,
-              private storage : StorageService) {
+              private formBuilder: FormBuilder,
+              private topicService: TopicService,
+              private storage: StorageService) {
   }
 
   ngOnInit(): void {
     this.getListGroup();
+    this.createDeadline();
   }
 
   getListGroup() {
@@ -109,5 +125,30 @@ export class ListGroupComponent implements OnInit {
         });
       });
     }
+  }
+
+  getValue(group: IGroupAccount) {
+    this.groupValue = group;
+    this.flagHidden = true;
+  }
+
+  createDeadline() {
+    this.formGroup = this.formBuilder.group({
+      date: ['', [Validators.required]]
+    })
+  }
+
+  ngSubmitForm() {
+    this.formGroup.value.studentList = this.groupValue.studentList;
+    this.formGroup.value.id = this.groupValue.id;
+    this.topicService.getDeadline(this.formGroup.value).subscribe(data =>{
+      this.toastrService.success('Cập nhật thành công hạn chót nộp thông tin sơ lươc về dự án')
+      this.ngOnInit();
+      this.flagHidden = false;
+    })
+  }
+
+  exitDeadline() {
+    this.flagHidden = false;
   }
 }

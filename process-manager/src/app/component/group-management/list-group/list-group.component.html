@@ -3,70 +3,113 @@
     <h2>Quản lí nhóm</h2>
   </div>
 </div>
-<div id="main" class="container" style="height: 500px; margin-top: 50px">
-  <div class="row" style="float: right;margin-right: 10px;margin-bottom: 30px">
-    <input type="text" style="width: 200px;border-radius: 30px; border: 1px solid #d6c9bb"
-           class="form-control" placeholder="Tên nhóm" [(ngModel)]="searchName"
-           (keyup.enter)="searchGroup()">
-    <button class="get-started-btn" style="width: 100px;height: 38px;margin-left: 20px;border: 0"
-            (click)="searchGroup()">
-      Tìm kiếm
-    </button>
-  </div>
-  <div class="">
-    <table class="table table-hover">
-      <thead>
-      <tr class="">
-        <th>STT</th>
-        <th>Tên nhóm</th>
-        <th>Số sinh viên</th>
-        <th>Đã kiểm duyệt</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let group of listGroup;index as i">
-        <td>{{i + 1}}</td>
-        <td>{{group.name}}</td>
-        <td>{{group.quantity}}</td>
-        <td>
-          <button *ngIf="group.status" class="btn btn-success" disabled data-bs-toggle="modal"
-                  data-bs-target="#acceptGroup">Đã duyệt
-          </button>
-          <button *ngIf="!group.status" style="width: 90px" class="btn btn-success" data-bs-toggle="modal"
-                  data-bs-target="#acceptGroup" (click)="getNameGroup(group.name,group.id)">Duyệt
-          </button>
-        </td>
-        <td class="">
-          <button class="btn btn-secondary" data-bs-toggle="modal"
-                  data-bs-target="#deleteStudent" (click)="getNameGroup(group.name,group.id)">Xóa
-          </button>
-          <button style="margin-left: 20px" class="btn btn-info" data-bs-toggle="modal"
-                  data-bs-target="#showStudent" (click)="getListStudent(group.id)">Thành viên
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <nav class="d-flex justify-content-end" aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link text-dark" aria-label="Previous" [hidden]="page==0"
-             (click)="page =page - 1; getListGroup()">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
+<div id="main" class="container-fluid" style="height: 500px; margin-top: 50px">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+      <div class="row" style="float: right;margin-right: 10px;margin-bottom: 30px">
+        <input type="text" style="width: 200px;border-radius: 30px; border: 1px solid #d6c9bb"
+               class="form-control" placeholder="Tên nhóm" [(ngModel)]="searchName"
+               (keyup.enter)="searchGroup()">
+        <button class="get-started-btn" style="width: 100px;height: 38px;margin-left: 20px;border: 0"
+                (click)="searchGroup()">
+          Tìm kiếm
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-2">
+    </div>
+    <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+      <div class="">
+        <table class="table table-hover">
+          <thead>
+          <tr style="text-align: center">
+            <th>STT</th>
+            <th>Tên nhóm</th>
+            <th>Số sinh viên</th>
+            <th>Đã kiểm duyệt</th>
+            <th colspan="2">Chức năng</th>
+            <th>Gửi yêu cầu</th>
+          </tr>
+          </thead>
+          <tbody style="text-align: center">
+          <tr *ngFor="let group of listGroup;index as i">
+            <td>{{i + 1}}</td>
+            <td>{{group.name}}</td>
+            <td>{{group.quantity}}</td>
+            <td>
+              <button *ngIf="group.status" class="btn btn-success" disabled data-bs-toggle="modal"
+                      data-bs-target="#acceptGroup">Đã duyệt
+              </button>
+              <button *ngIf="!group.status" style="width: 90px" class="btn btn-success" data-bs-toggle="modal"
+                      data-bs-target="#acceptGroup" (click)="getNameGroup(group.name,group.id)">Duyệt
+              </button>
+            </td>
+            <td class="">
+              <button class="btn btn-secondary" data-bs-toggle="modal"
+                      data-bs-target="#deleteStudent" (click)="getNameGroup(group.name,group.id)">Xóa
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-info" data-bs-toggle="modal"
+                      data-bs-target="#showStudent" (click)="getListStudent(group.id)">Thành viên
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-secondary" (click)="getValue(group)">Hạn chót tạo dự án</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <nav class="d-flex justify-content-end" aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link text-dark" aria-label="Previous" [hidden]="page==0"
+                 (click)="page =page - 1; getListGroup()">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
 
-        <li class="page-item">
-          <a class="page-link text-dark" aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
-             (click)="page= page +1; getListGroup()">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+            <li class="page-item">
+              <a class="page-link text-dark" aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
+                 (click)="page= page +1; getListGroup()">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div *ngIf="flagHidden">
+        <form [formGroup]="formGroup" (ngSubmit)="ngSubmitForm()">
+          <div class="form-group">
+            <div class="col-sm">
+              <label for="deadline" class="form-label" style="text-align: center">Hạn chót ngày nộp thông tin sơ lược về dự án.</label>
+              <input class="form-control" type="date" id="deadline" formControlName="date" required>
+              <div class="error-place" *ngFor="let groupAccount of validate_message.date">
+                <div><small class="text-danger"
+                            *ngIf="formGroup.get('date').hasError(groupAccount.type) && (formGroup.get('date').touched )">
+                  {{groupAccount.message}}</small></div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-secondary float-end mt-2 mx-2" type="button" (click)="exitDeadline()">Hủy</button>
+          <button *ngIf="!flagLoading" class="btn btn-primary float-end mt-2" type="submit" [disabled]="formGroup.invalid">Gửi</button>
+          <button *ngIf="flagLoading" disabled style="border: 0; width: 100px"
+                  class="get-started-btn float-end mt-2">
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
+
 </div>
 
 <!-- Modal Group Delete -->
