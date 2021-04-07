@@ -50,6 +50,7 @@ export class RegisterGroupComponent implements OnInit {
   addStudent(student: IStudent, index: number) {
     this.student = student;
     for (const val of this.listStudentAdded) {
+      // tslint:disable-next-line:triple-equals
       if (JSON.stringify(val) === JSON.stringify(student)) {
         this.check = false;
       }
@@ -76,11 +77,13 @@ export class RegisterGroupComponent implements OnInit {
   }
 
   onSubmit() {
+    // tslint:disable-next-line:triple-equals
     if (this.searchName == '') {
       this.getListStudent();
     } else {
       this.groupService.searchStudent(this.searchName, this.page).subscribe(data => {
-        this.listStudent = data;
+        // @ts-ignore
+        this.listStudent = data.content;
         this.pageable = data;
       });
     }
@@ -95,29 +98,28 @@ export class RegisterGroupComponent implements OnInit {
   }
 
   createGroup(nameGroup: string) {
-    // if (this.storage.getUser().student == null) {
-    //   this.groupService.createGroup(nameGroup, this.listStudentAdded, this.storage.getUser().id).subscribe(data => {
-    //     this.groupService.getAll().subscribe(data1 => {
-    //       console.log(data1)
-    //       this.router.navigateByUrl('group/' + data1)
-    //       this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
-    //     })
-    //     setTimeout(function () {
-    //       window.location.reload()
-    //     }, 200)
-    //   })
-    // } else {
-    this.groupService.createGroupAndLeader(nameGroup, this.listStudentAdded, this.storage.getUser().id).subscribe(data => {
-      this.groupService.getAll().subscribe(data1 => {
-        console.log(data1)
-        this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
-        this.router.navigateByUrl('group/' + data1)
+    if (this.storage.getUser().student == null) {
+      this.groupService.createGroup(nameGroup, this.listStudentAdded,this.storage.getUser().id).subscribe(data => {
+        this.groupService.getAll().subscribe(data1 =>{
+          console.log(data1)
+          this.router.navigateByUrl('group/' + data1)
+          this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
+        })
+        setTimeout(function () {
+          window.location.reload()
+        }, 200)
       })
-      setTimeout(function () {
-        window.location.reload()
-      }, 200)
-    })
+    } else {
+      this.groupService.createGroupAndLeader(nameGroup, this.listStudentAdded, this.storage.getUser().id).subscribe(data => {
+        this.groupService.getAll().subscribe(data1 =>{
+          console.log(data1)
+          this.toastrService.success('Đăng ký nhóm thành công', 'Thành công');
+          this.router.navigateByUrl('group/' + data1)
+        })
+        setTimeout(function () {
+          window.location.reload()
+        }, 200)
+      })
+    }
   }
-
-  // }
 }

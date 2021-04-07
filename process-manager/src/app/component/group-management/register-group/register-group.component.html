@@ -23,12 +23,12 @@
               <img [src]="student.avatar" style="width: 250px; height: 250px" class="img-fluid" alt="">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-1">
-                  <h4>SV-{{student?.id}}</h4>
-                  <h3 style="font-weight: bold" class="full_name">{{student?.name}}</h3>
+                  <h4>SV-{{student.id}}</h4>
+                  <h3 style="font-weight: bold" class="full_name">{{student.name}}</h3>
                 </div>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item email" style="background-color: #f5f5f5"><i
-                    class="fa fa-birthday-cake"></i> Ngày sinh: {{student?.dateOfBirth | date: 'dd/MM/yyyy'}}
+                    class="fa fa-birthday-cake"></i> Ngày sinh: {{student.dateOfBirth | date: 'dd/MM/yyyy'}}
                   </li>
                 </ul>
                 <div class="trainer d-flex justify-content-between align-items-center">
