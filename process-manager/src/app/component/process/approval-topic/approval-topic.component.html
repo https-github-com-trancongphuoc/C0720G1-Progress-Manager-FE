@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Duyệt đề tài</h2>
     <label>Giảng viên duyệt dề tài dưới đây để các sinh tiến hành thực hiện và bảo vệ. </label>
-<!--    <label>Mỗi đồ án tốt nghiệp mới được duyệt phải không trùng với các đồ án đã tồn tại. </label>-->
+    <!--    <label>Mỗi đồ án tốt nghiệp mới được duyệt phải không trùng với các đồ án đã tồn tại. </label>-->
   </div>
 </div><!-- End Breadcrumbs -->
 
@@ -19,6 +19,7 @@
         <th scope="col">Tên đề tài</th>
         <th scope="col">Mô tả</th>
         <th scope="col">Duyệt đề tài</th>
+        <th scope="col">Hủy đề tài</th>
       </tr>
       </thead>
       <tbody>
@@ -28,30 +29,46 @@
         <td>
           <a style="color: #0d6efd" [routerLink]="['/topic-detail/',e.topic.id,'detail']">{{e.topic.name}}</a>
         </td>
-        <td><a *ngIf="e.descriptionURL != null" [href]="e.descriptionURL"><i style="font-size: 25px" class="bi bi-file-earmark-text-fill"></i></a></td>
+        <td><a *ngIf="e.descriptionURL != null" [href]="e.descriptionURL"><i style="font-size: 25px"
+                                                                             class="bi bi-file-earmark-text-fill"></i></a>
+        </td>
         <td>
           <div>
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalApproval"  (click)="infoTopicWantApproval = e">Duyệt</button>
+            <!--            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalApproval"  (click)="infoTopicWantApproval = e">Duyệt</button>-->
+            <button class="btn btn-success" (click)="getValueInfo(e)">Duyệt</button>
           </div>
         </td>
         <td>
-          <button class="btn btn-success" (click)="getValue(e)">Hủy</button>
+          <button class="btn btn-warning" (click)="getValue(e)">Hủy</button>
         </td>
       </tr>
 
       </tbody>
     </table>
-    <div  *ngIf="!checkEmpty" class="d-flex justify-content-end" aria-label="Page navigation example">
+    <div *ngIf="!checkEmpty" class="d-flex justify-content-end" aria-label="Page navigation example">
       <ul class="pagination">
-        <li  (click)="page = page - 1; getListInfoTopicRegister()" *ngIf="!pageable.first" class="page-item">
+        <li (click)="page = page - 1; getListInfoTopicRegister()" *ngIf="!pageable.first" class="page-item">
           <button class="page-link text-dark" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </button>
         </li>
-        <li [class.active]="pageable.first" class="page-item"><button [disabled]="pageable.first" class="page-link text-dark" [value]="pageable.first ? 1 : page" (click)="page = $event.target.value - 1; getListInfoTopicRegister()">{{pageable.first ? 1 : (pageable.last ? (pageable.totalPages == 2 ? page : page - 1) : page)}}</button></li>
-        <li *ngIf="pageable.totalPages > 1" [class.active]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)" class="page-item"><button [disabled]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)" class="page-link text-dark" [value]="pageable.first ? page + 1 : page - 1" (click)="page = $event.target.value; getListInfoTopicRegister()">{{pageable.first ? page + 2 : (pageable.last ? (pageable.totalPages == 2 ? page + 1 : page) : page + 1)}}</button></li>
-        <li *ngIf="pageable.totalPages > 2" [class.active]="pageable.last" class="page-item"><button [disabled]="pageable.last" class="page-link text-dark" [value]="pageable.first ? page + 3 : (pageable.last ? pageable.totalPages + 1 : page + 2)" (click)="page = parseInt($event.target.value) - 1; getListInfoTopicRegister()">{{pageable.first ? page + 3 : (pageable.last ? pageable.totalPages : page + 2)}}</button></li>
-        <li  *ngIf="!pageable.last"  (click)="page = page + 1; getListInfoTopicRegister()" class="page-item">
+        <li [class.active]="pageable.first" class="page-item">
+          <button [disabled]="pageable.first" class="page-link text-dark" [value]="pageable.first ? 1 : page"
+                  (click)="page = $event.target.value - 1; getListInfoTopicRegister()">{{pageable.first ? 1 : (pageable.last ? (pageable.totalPages == 2 ? page : page - 1) : page)}}</button>
+        </li>
+        <li *ngIf="pageable.totalPages > 1"
+            [class.active]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)"
+            class="page-item">
+          <button [disabled]="(!pageable.first && !pageable.last) || (pageable.last && pageable.totalPages == 2)"
+                  class="page-link text-dark" [value]="pageable.first ? page + 1 : page - 1"
+                  (click)="page = $event.target.value; getListInfoTopicRegister()">{{pageable.first ? page + 2 : (pageable.last ? (pageable.totalPages == 2 ? page + 1 : page) : page + 1)}}</button>
+        </li>
+        <li *ngIf="pageable.totalPages > 2" [class.active]="pageable.last" class="page-item">
+          <button [disabled]="pageable.last" class="page-link text-dark"
+                  [value]="pageable.first ? page + 3 : (pageable.last ? pageable.totalPages + 1 : page + 2)"
+                  (click)="page = parseInt($event.target.value) - 1; getListInfoTopicRegister()">{{pageable.first ? page + 3 : (pageable.last ? pageable.totalPages : page + 2)}}</button>
+        </li>
+        <li *ngIf="!pageable.last" (click)="page = page + 1; getListInfoTopicRegister()" class="page-item">
           <button class="page-link text-dark" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </button>
@@ -59,28 +76,83 @@
       </ul>
     </div>
     <div>
-      <div *ngIf="flagHidden">
-        <form [formGroup]="formGroup" (ngSubmit)="ngSubmitForm()">
-          <div class="form-group">
-            <div class="col-sm">
-              <label for="contentTopic" class="form-label" style="text-align: center">Nội dung nguyên nhân hủy.</label>
-              <textarea class="form-control" type="text" id="contentTopic" formControlName="content" required></textarea>
-              <div class="error-place" *ngFor="let comment of validate_message.content">
-                <div><small class="text-danger"
-                            *ngIf="formGroup.get('content').hasError(comment.type) && (formGroup.get('content').touched )">
-                  {{comment.message}}</small></div>
-              </div>
-            </div>
+      <div class="card" *ngIf="flagHiddenCancel">
+        <div class="row">
+          <div class="col-sm">
+            <label><b>Đề tài</b>: {{info.topic.name}}</label>
+            <br>
+            <label><b>Mô tả</b>: {{info.topic.content}}</label>
           </div>
-          <button class="btn btn-secondary float-end mt-2 mx-2" type="button" (click)="exitReply()">Hủy</button>
-          <button *ngIf="!flagLoading" class="btn btn-primary float-end mt-2" type="submit" [disabled]="formGroup.invalid">Gửi</button>
-          <button *ngIf="flagLoading" disabled style="border: 0; width: 100px"
-                  class="get-started-btn float-end mt-2">
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </button>
-        </form>
+          <div class="col-sm">
+            <form [formGroup]="formGroupCancel" (ngSubmit)="ngSubmitForm()">
+              <div class="form-group">
+                <div class="col-sm">
+                  <label for="contentTopic" class="form-label" style="text-align: center">Nội dung nguyên nhân
+                    hủy.</label>
+                  <textarea class="form-control" id="contentTopic" formControlName="messageCancel"
+                            required></textarea>
+                  <div class="error-place" *ngFor="let message of validate_message.messageCancel">
+                    <small class="text-danger"
+                           *ngIf="formGroupCancel.get('messageCancel').hasError(message.type) && (formGroupCancel.get('messageCancel').touched )">
+                      {{message.message}}</small>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-secondary float-end mt-2 mx-2" type="button" (click)="exitReply()">Hủy</button>
+              <button *ngIf="!flagLoading" class="btn btn-primary float-end mt-2" type="submit"
+                      [disabled]="formGroupCancel.invalid">Gửi
+              </button>
+              <button *ngIf="flagLoading" disabled style="border: 0; width: 100px"
+                      class="get-started-btn float-end mt-2">
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div>
+      <div class="card" *ngIf="flagHiddenApproval">
+        <div class="row">
+          <div class="col-sm">
+            <form [formGroup]="formGroup" (ngSubmit)="ngSubmitArray()">
+              <div formArrayName="topicProcessList"
+                   *ngFor="let item of formGroup.get('topicProcessList')['controls']; let i = index;">
+                <div [formGroupName]="i">
+                  <div class="row g-2" data-date-format="dd-mm-yyyy">
+                    <h5><b>Giai đoạn {{i + 1}}</b></h5>
+                    <div class="col-sm">
+                      <label for="start">Ngày bắt đầu</label>
+                      <input class="form-control" formControlName="dateStart" id="start" type="date" required>
+                    </div>
+                    <div class="col-sm">
+                      <label for="end">Ngày kết thúc</label>
+                      <input class="form-control" formControlName="dateEnd" id="end" type="date" required>
+                    </div>
+                    <hr>
+                  </div>
+                  <input formControlName="processNumber" [ngModel]="i+1" hidden>
+                  <input formControlName="infoTopicRegister" [ngModel]="idInfo" hidden>
+                </div>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="button" class="btn btn-secondary" (click)="addArray()">Thêm mới giai đoạn</button>
+                <button type="submit" class="btn btn-success" [disabled]="formGroup.invalid">Duyệt</button>
+                <button type="reset" class="btn btn-info" (click)="flagHiddenApproval = false">Hủy</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm" *ngIf="info != null">
+            <label><b>Đề tài</b>: {{info.topic.name}}</label>
+            <br>
+            <label><b>Mô tả</b>: {{info.topic.content}}</label>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -88,26 +160,26 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalApproval" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Duyệt đề tài</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div *ngIf="infoTopicWantApproval != null" class="modal-body">
-<!--        <label for="" class="text-danger">Đây là đề tài mới</label>-->
-        <label for=""><b>Đề tài</b>: {{infoTopicWantApproval.topic.name}}</label>
-        <br>
-        <label for=""><b>Mô tả</b>: {{infoTopicWantApproval.topic.content}}</label>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="approval()">Xác nhận</button>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<div class="modal fade" id="exampleModalApproval" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="exampleModalLabel">Duyệt đề tài</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div *ngIf="infoTopicWantApproval != null" class="modal-body">-->
+<!--        &lt;!&ndash;        <label for="" class="text-danger">Đây là đề tài mới</label>&ndash;&gt;-->
+<!--        <label for=""><b>Đề tài</b>: {{infoTopicWantApproval.topic.name}}</label>-->
+<!--        <br>-->
+<!--        <label for=""><b>Mô tả</b>: {{infoTopicWantApproval.topic.content}}</label>-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>-->
+<!--        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="approval()">Xác nhận</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 <!--<div class="modal fade" id="modalCancelTopic" tabindex="-1" aria-labelledby="modalCancelTopicLabel" aria-hidden="true">-->
 <!--  <div class="modal-dialog">-->

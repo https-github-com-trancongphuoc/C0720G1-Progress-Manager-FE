@@ -42,8 +42,16 @@ export class TopicService {
         catchError(this.errorHandler)
       )
   }
-  getDeadline(groupAccount):Observable<any>{
+
+  getDeadline(groupAccount): Observable<any> {
     return this.httpClient.post<any>(this.apiTopicUrl + 'update-deadline', groupAccount, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandler)
+      )
+  }
+
+  createTopicProcess(topicProcess) : Observable<any>{
+    return this.httpClient.post<any>(this.apiTopicUrl + 'create-process', topicProcess,this.httpOptions)
       .pipe(
         catchError(this.errorHandler)
       )

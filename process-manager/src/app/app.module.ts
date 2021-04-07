@@ -1,8 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {CommonsModule} from './component/common/common.module';
 import {AccountModule} from './component/account/account.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -22,7 +22,7 @@ import {ManagerAddNewModule} from "./component/manager-add-new/manager-add-new.m
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,10 +39,11 @@ import {ManagerAddNewModule} from "./component/manager-add-new/manager-add-new.m
     GroupModule,
     ProcessModule,
     TopicModule,
-	ManagerAddNewModule,
+    ManagerAddNewModule,
     AngularFireModule.initializeApp(imagePost.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

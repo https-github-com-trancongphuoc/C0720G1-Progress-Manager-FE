@@ -7,6 +7,8 @@ import {ToastrService} from 'ngx-toastr';
 import {StorageService} from "../../account/storage.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TopicService} from "../../topic/topic.service";
+import {WebSocketService} from "../../common/web-socket.service";
+import {DateValidator} from "../../process/validatorDate.validator";
 
 @Component({
   selector: 'app-list-group',
@@ -34,6 +36,7 @@ export class ListGroupComponent implements OnInit {
   validate_message = {
     'date': [
       {type: 'required', message: 'Nội dung không được để trống!'},
+      {type: 'dateValid', message: 'Ngày chọn không trước ngày hôm nay'}
     ]
   }
 
@@ -42,6 +45,7 @@ export class ListGroupComponent implements OnInit {
               private toastrService: ToastrService,
               private formBuilder: FormBuilder,
               private topicService: TopicService,
+              private webSocketService: WebSocketService,
               private storage: StorageService) {
   }
 
@@ -52,7 +56,6 @@ export class ListGroupComponent implements OnInit {
 
   getListGroup() {
     this.groupService.getListGroup(this.page).subscribe(data => {
-      // @ts-ignore
       this.listGroup = data.content;
       this.pageable = data;
       this.listGroup.forEach(value => {
@@ -112,12 +115,10 @@ export class ListGroupComponent implements OnInit {
   }
 
   searchGroup() {
-    // tslint:disable-next-line:triple-equals
     if (this.searchName == '') {
       this.getListGroup();
     } else {
       this.groupService.searchGroup(this.searchName, this.page).subscribe(data => {
-        // @ts-ignore
         this.listGroup = data.content;
         this.pageable = data;
         this.listGroup.forEach(value => {
@@ -134,15 +135,18 @@ export class ListGroupComponent implements OnInit {
 
   createDeadline() {
     this.formGroup = this.formBuilder.group({
-      date: ['', [Validators.required]]
+      date: ['', [Validators.required, DateValidator]]
     })
   }
 
   ngSubmitForm() {
+    this.flagLoading = true;
+    this.formGroup.value.teacherId = this.storage.getUser().id;
     this.formGroup.value.studentList = this.groupValue.studentList;
     this.formGroup.value.id = this.groupValue.id;
     this.topicService.getDeadline(this.formGroup.value).subscribe(data =>{
       this.toastrService.success('Cập nhật thành công hạn chót nộp thông tin sơ lươc về dự án')
+      this.webSocketService.callServer().subscribe();
       this.ngOnInit();
       this.flagHidden = false;
     })

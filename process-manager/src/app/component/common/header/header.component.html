@@ -60,29 +60,31 @@
           <i *ngIf="!checkSeen" class="bi bi-envelope-open-fill text-success"></i>
         </span>
             </button>
-            <ul style="position: absolute; left: 0; width: 320px!important;" class="dropdown-menu"
+            <ul style="position: absolute; left: 0; width: 400px!important;" class="dropdown-menu"
                 aria-labelledby="dropdownMenuButton1">
               <li class="text-center"><h4>Thông báo</h4></li>
               <li>
                 <hr>
               </li>
               <li class="notification mb-3" *ngFor="let e of notificationList">
-                <button class="btn" [routerLink]="e.url">
+                <a href="{{e.url}}" target="_blank"><button class="btn">
                 <div class="row px-0">
                   <div class="col-3 ml-2">
-                    <img width="70px" height="70px" class="rounded-circle mt-2"
-                         [src]="e.accountSendNotification.student != null ? e.accountSendNotification.student.avatar : e.accountSendNotification.teacher.avatar"
+                    <img *ngIf="e.accountSendNotification?.student != null " width="70px" height="70px" class="rounded-circle mt-2"
+                         [src]="e.accountSendNotification?.student != null ? e.accountSendNotification?.student?.avatar : e.accountSendNotification?.teacher?.avatar"
                          alt="">
+                    <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583336/AAA/4.jpg"
+                         width="70px" height="70px" class="rounded-circle mt-2" *ngIf="e.accountSendNotification?.student == null">
                   </div>
                   <div class="col-8 fon" [class]="e.status ? '' : 'font-weight-bold'">
-                    <label style="text-align: justify; font-size: 15px; line-height: 20px"
-                           class="ml-1 mr-1">{{e.title?.length > 50 ? e.title.substring(0, 50) + '...' : e.title}}</label>
-                    <label style="text-align: justify; font-size: 15px; line-height: 20px"
-                           class="ml-1 mr-1"> {{e.content?.length > 20 ? e.content.substring(0, 20) + '...' : e.content}}</label>
+                    <h6 *ngIf="e?.title != null" style="text-align: justify; font-size: 15px; line-height: 20px"
+                           class="ml-1 mr-1">{{e.title?.length > 40 ? e.title.substring(0, 40) + '...' : e.title}}</h6>
+                    <h6 *ngIf="e?.content != null" style="text-align: justify; font-size: 15px; line-height: 20px"
+                           class="ml-1 mr-1"> {{e.content?.length > 30 ? e.content.substring(0, 30) + '...' : e.content}}</h6>
                   </div>
                 </div>
                 <sup class=" mt-2" style="margin-left: 150px">{{e.timeNotification |date: 'hh:mm:ss dd/MM/yyyy'}}</sup>
-                </button>
+                </button></a>
               </li>
               <li *ngIf="notificationList != null" class="text-center text-success"><h2
                 *ngIf="notificationList.length == 0">Không có thông báo nào</h2></li>
