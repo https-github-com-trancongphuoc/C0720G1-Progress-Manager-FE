@@ -23,6 +23,7 @@ export class CommentPostReplyListComponent implements OnInit {
   formGroup: FormGroup;
   account: IAccount;
   flagComment: boolean = false;
+  flagLoading: boolean = false;
   commentNotification : any;
   accountSendId: number;
   processDetailId: number;
@@ -70,9 +71,9 @@ export class CommentPostReplyListComponent implements OnInit {
   getAllListReplySizeInComment() {
     this.commentPostService.getAllReplySize(this.idReply.id, this.page, this.size).subscribe(data => {
       if (data == null){
-        this.flagComment = false
+        this.flagLoading = false
       } else {
-        this.flagComment = true;
+        this.flagLoading = true;
         this.iComment = data.content;
       }
     });

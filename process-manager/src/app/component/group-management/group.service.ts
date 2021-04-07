@@ -25,11 +25,11 @@ export class GroupService {
     return this.http.get(this.API + 'list-student?page=' + page);
   }
 
-  searchStudent(searchName: any, page: number) {
+  searchStudent(searchName: any, page: number) : Observable<any> {
     return this.http.get(this.API + 'search-student/' + searchName + '?page=' + page);
   }
 
-  getListGroup(page: number) {
+  getListGroup(page: number): Observable<any> {
     return this.http.get(this.API + 'list-group?page=' + page);
   }
 
@@ -49,7 +49,7 @@ export class GroupService {
     return this.http.get(this.API + 'accept-group/' + id);
   }
 
-  searchGroup(searchName: string, page: number) {
+  searchGroup(searchName: string, page: number) : Observable<any> {
     return this.http.get(this.API + 'search-group/' + searchName + '?page=' + page);
   }
 

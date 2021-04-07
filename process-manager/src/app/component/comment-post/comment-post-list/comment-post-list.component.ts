@@ -23,6 +23,7 @@ export class CommentPostListComponent implements OnInit {
   formGroup: FormGroup;
   flagComment = false
   flagEdit = false
+  flagLoading = false;
   public idComment: number;
   idCommentEdit: number;
   commentNotification : any;
@@ -66,9 +67,9 @@ export class CommentPostListComponent implements OnInit {
   getAllListCommentSizeInProcess() {
     this.commentPostService.getAllCommentSize(this.idProcess, this.page, this.size).subscribe(data => {
       if (data == null){
-        this.flagComment = false
+        this.flagLoading = false
       } else {
-        this.flagComment = true;
+        this.flagLoading = true;
         this.iComments = data.content;
       }
     })
@@ -130,11 +131,10 @@ export class CommentPostListComponent implements OnInit {
           this.messageManager.showMessageCreateNotRole();
         } else {
           this.flagComment = false;
-          this.ngOnInit();
           this.messageManager.showMessageCreateCommentSuccess();
           this.webSocketService.callServer().subscribe();
+          this.ngOnInit();
         }
-
       })
     }
   }

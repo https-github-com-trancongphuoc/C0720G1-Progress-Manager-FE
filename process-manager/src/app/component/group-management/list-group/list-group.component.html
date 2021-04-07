@@ -20,98 +20,103 @@
     <div class="col-sm-2">
     </div>
     <div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-8">
-      <div class="">
-        <table class="table table-hover">
-          <thead>
-          <tr style="text-align: center">
-            <th>STT</th>
-            <th>Tên nhóm</th>
-            <th>Số sinh viên</th>
-            <th>Đã kiểm duyệt</th>
-            <th colspan="2">Chức năng</th>
-            <th>Gửi yêu cầu</th>
-          </tr>
-          </thead>
-          <tbody style="text-align: center">
-          <tr *ngFor="let group of listGroup;index as i">
-            <td>{{i + 1}}</td>
-            <td>{{group.name}}</td>
-            <td>{{group.quantity}}</td>
-            <td>
-              <button *ngIf="group.status" class="btn btn-success" disabled data-bs-toggle="modal"
-                      data-bs-target="#acceptGroup">Đã duyệt
-              </button>
-              <button *ngIf="!group.status" style="width: 90px" class="btn btn-success" data-bs-toggle="modal"
-                      data-bs-target="#acceptGroup" (click)="getNameGroup(group.name,group.id)">Duyệt
-              </button>
-            </td>
-            <td class="">
-              <button class="btn btn-secondary" data-bs-toggle="modal"
-                      data-bs-target="#deleteStudent" (click)="getNameGroup(group.name,group.id)">Xóa
-              </button>
-            </td>
-            <td>
-              <button class="btn btn-info" data-bs-toggle="modal"
-                      data-bs-target="#showStudent" (click)="getListStudent(group.id)">Thành viên
-              </button>
-            </td>
-            <td>
-              <button class="btn btn-secondary" (click)="getValue(group)">Hạn chót tạo dự án</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <nav class="d-flex justify-content-end" aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link text-dark" aria-label="Previous" [hidden]="page==0"
-                 (click)="page =page - 1; getListGroup()">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <div class="">
+          <table class="table table-hover">
+            <thead>
+            <tr style="text-align: center">
+              <th>STT</th>
+              <th>Tên nhóm</th>
+              <th>Số sinh viên</th>
+              <th>Thời hạn chót nộp đề tài</th>
+              <th>Đã kiểm duyệt</th>
+              <th colspan="2">Chức năng</th>
+              <th>Gửi yêu cầu</th>
+            </tr>
+            </thead>
+            <tbody style="text-align: center">
+            <tr *ngFor="let group of listGroup;index as i">
+              <td>{{i + 1}}</td>
+              <td>{{group.name}}</td>
+              <td>{{group.quantity}}</td>
+              <td>{{group.date}}</td>
+              <td>
+                <button *ngIf="group.status" class="btn btn-success" disabled data-bs-toggle="modal"
+                        data-bs-target="#acceptGroup">Đã duyệt
+                </button>
+                <button *ngIf="!group.status" style="width: 90px" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#acceptGroup" (click)="getNameGroup(group.name,group.id)">Duyệt
+                </button>
+              </td>
+              <td class="">
+                <button class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#deleteStudent" (click)="getNameGroup(group.name,group.id)">Xóa
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-info" data-bs-toggle="modal"
+                        data-bs-target="#showStudent" (click)="getListStudent(group.id)">Thành viên
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-secondary" (click)="getValue(group)">Hạn chót tạo dự án</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <nav class="d-flex justify-content-end" aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link text-dark" aria-label="Previous" [hidden]="page==0"
+                   (click)="page =page - 1; getListGroup()">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
 
-            <li class="page-item">
-              <a class="page-link text-dark" aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
-                 (click)="page= page +1; getListGroup()">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+              <li class="page-item">
+                <a class="page-link text-dark" aria-label="Next" [hidden]="page >= pageable.totalPages - 1"
+                   (click)="page= page +1; getListGroup()">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-2">
-      <div *ngIf="flagHidden">
-        <form [formGroup]="formGroup" (ngSubmit)="ngSubmitForm()">
-          <div class="form-group">
-            <div class="col-sm">
-              <label for="deadline" class="form-label" style="text-align: center">Hạn chót ngày nộp thông tin sơ lược về dự án.</label>
-              <input class="form-control" type="date" id="deadline" formControlName="date" required>
-              <div class="error-place" *ngFor="let groupAccount of validate_message.date">
-                <div><small class="text-danger"
-                            *ngIf="formGroup.get('date').hasError(groupAccount.type) && (formGroup.get('date').touched )">
-                  {{groupAccount.message}}</small></div>
+      <div class="col-sm-2">
+        <div *ngIf="flagHidden">
+          <form [formGroup]="formGroup" (ngSubmit)="ngSubmitForm()">
+            <div class="form-group">
+              <div class="col-sm">
+                <label for="deadline" class="form-label" style="text-align: center">Hạn chót ngày nộp thông tin sơ lược
+                  về dự án.</label>
+                <input class="form-control" type="date" id="deadline" formControlName="date" required>
+                <div class="error-place" *ngFor="let groupAccount of validate_message.date">
+                  <div><small class="text-danger"
+                              *ngIf="formGroup.get('date').hasError(groupAccount.type) && (formGroup.get('date').touched )">
+                    {{groupAccount.message}}</small></div>
+                </div>
               </div>
             </div>
-          </div>
-          <button class="btn btn-secondary float-end mt-2 mx-2" type="button" (click)="exitDeadline()">Hủy</button>
-          <button *ngIf="!flagLoading" class="btn btn-primary float-end mt-2" type="submit" [disabled]="formGroup.invalid">Gửi</button>
-          <button *ngIf="flagLoading" disabled style="border: 0; width: 100px"
-                  class="get-started-btn float-end mt-2">
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </button>
-        </form>
+            <button class="btn btn-secondary float-end mt-2 mx-2" type="button" (click)="exitDeadline()">Hủy</button>
+            <button *ngIf="!flagLoading" class="btn btn-primary float-end mt-2" type="submit"
+                    [disabled]="formGroup.invalid">Gửi
+            </button>
+            <button *ngIf="flagLoading" disabled style="border: 0; width: 100px"
+                    class="get-started-btn float-end mt-2">
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
+
   </div>
-
 </div>
-
 <!-- Modal Group Delete -->
 <div class="modal fade" id="deleteStudent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -121,7 +126,8 @@
         <i>Hành động này không thể hoàn tác !</i>
       </div>
       <div style="margin: 0 30px 10px 300px">
-        <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
+        </button>
         <button style="margin-left: 7px" type="button" class="btn btn-danger" data-bs-dismiss="modal"
                 (click)="onSubmit(listStudent)">Xóa
         </button>
@@ -168,7 +174,8 @@
 </div>
 
 <!-- Modal Group Delete -->
-<div class="modal fade" data-bs-backdrop="static" id="deleteStudent1" (keydown.escape)="closeComponent()" tabindex="-1"
+<div class="modal fade" data-bs-backdrop="static" id="deleteStudent1" (keydown.escape)="closeComponent()"
+     tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
@@ -196,7 +203,8 @@
         Bạn có muốn duyệt nhóm <span style="color: greenyellow">{{nameGroup}}</span> không ?
       </div>
       <div style="margin: 0 30px 10px 300px">
-        <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button style="margin-right: 7px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
+        </button>
         <button style="margin-left: 7px" type="button" class="btn btn-success" data-bs-dismiss="modal"
                 (click)="acceptGroup(groupId)">Duyệt
         </button>
